@@ -1,0 +1,24 @@
+[0] Config.pm:311> INFO - This is Biber 2.16
+[1] Config.pm:314> INFO - Logfile is 'uncertainty_project.blg'
+[342] biber-MSWIN64:340> INFO - === 
+[464] Biber.pm:415> INFO - Reading 'uncertainty_project.bcf'
+[727] Biber.pm:952> INFO - Found 24 citekeys in bib section 0
+[755] Biber.pm:4340> INFO - Processing section 0
+[788] Biber.pm:4531> INFO - Looking for bibtex format file 'ref.bib' for section 0
+[880] bibtex.pm:1689> INFO - LaTeX decoding ...
+[953] bibtex.pm:1494> INFO - Found BibTeX data source 'ref.bib'
+[1082] Utils.pm:395> WARN - legacy month field 'July' in entry 'RePEc:cup:macdyn:v:20:y:2016:i:05:p:1219-124600' is not an integer - this will probably not sort properly.
+[1160] Utils.pm:395> WARN - BibTeX subsystem: C:\Users\horva\AppData\Local\Temp\biber_tmp_uoA2\e800e2552f53b910154f366d4c3730d7_12816.utf8, line 2, warning: 20 characters of junk seen at toplevel
+[1160] Utils.pm:395> WARN - BibTeX subsystem: C:\Users\horva\AppData\Local\Temp\biber_tmp_uoA2\e800e2552f53b910154f366d4c3730d7_12816.utf8, line 35, warning: 33 characters of junk seen at toplevel
+[1160] Utils.pm:395> WARN - BibTeX subsystem: C:\Users\horva\AppData\Local\Temp\biber_tmp_uoA2\e800e2552f53b910154f366d4c3730d7_12816.utf8, line 65, warning: 31 characters of junk seen at toplevel
+[1160] Utils.pm:395> WARN - BibTeX subsystem: C:\Users\horva\AppData\Local\Temp\biber_tmp_uoA2\e800e2552f53b910154f366d4c3730d7_12816.utf8, line 112, warning: 21 characters of junk seen at toplevel
+[1160] Utils.pm:395> WARN - BibTeX subsystem: C:\Users\horva\AppData\Local\Temp\biber_tmp_uoA2\e800e2552f53b910154f366d4c3730d7_12816.utf8, line 174, warning: 21 characters of junk seen at toplevel
+[1161] Utils.pm:395> WARN - BibTeX subsystem: C:\Users\horva\AppData\Local\Temp\biber_tmp_uoA2\e800e2552f53b910154f366d4c3730d7_12816.utf8, line 250, warning: 3 characters of junk seen at toplevel
+[1161] Utils.pm:395> WARN - BibTeX subsystem: C:\Users\horva\AppData\Local\Temp\biber_tmp_uoA2\e800e2552f53b910154f366d4c3730d7_12816.utf8, line 263, warning: 8 characters of junk seen at toplevel
+[1207] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1207] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1207] Biber.pm:4168> INFO - Sorting list 'ynt/global//global/global' of type 'entry' with template 'ynt' and locale 'en-US'
+[1207] Biber.pm:4174> INFO - No sort tailoring available for locale 'en-US'
+[1250] bbl.pm:654> INFO - Writing 'uncertainty_project.bbl' with encoding 'UTF-8'
+[1268] bbl.pm:757> INFO - Output to uncertainty_project.bbl
+[1268] Biber.pm:128> INFO - WARNINGS: 8

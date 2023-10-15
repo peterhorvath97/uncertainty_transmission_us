@@ -1,0 +1,73 @@
+\documentclass[12pt,a4paper]{article}
+%\DeclareMathSizes{12}{14}{10}{6}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[outer=25mm,inner=35mm,top=25mm,bottom=25mm]{geometry}
+
+\usepackage{indentfirst}
+\usepackage{colortbl}
+\usepackage{amsmath}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage[export]{adjustbox}
+\usepackage{listings}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{apacite}
+
+
+
+\frenchspacing
+\linespread{1.5}
+
+\begin{document}
+	\noindent {\Large Corvinus University of Budapest\\
+		Institute of Economics}\\
+	
+	\vspace{35mm}
+	
+	\begin{center}
+		{\huge The asymmetric effect of uncertainty on monetary transmission}\\
+	\end{center}
+	
+	\vspace{90mm}
+	
+	\begin{flushright}
+		{\Large Péter Horváth}\\
+		%{\Large Makrogazdasági- és piacelemző szakirány}\\
+		{\Large 2022}
+	\end{flushright}
+	
+	\vspace{10mm}
+	\begin{center}
+		{\Large Supervisor : István Kónya}
+	\end{center}
+	
+	\thispagestyle{empty}
+	
+	\pagebreak
+	\setcounter{tocdepth}{2}
+	%	\tableofcontents
+	%\listoftables
+	%\listoffigures
+	
+	\pagebreak
+	\begin{center} \section*{Abstract} \end{center}
+	
+Recently in macroeconomic research, the impact of uncertainty gained much traction as an important factor in studying the business cycle of economies. The pre-existing literature is already rich and diverse as papers cover among others how a country’s own uncertainty impacts its business cycle, how world (or US) level uncertainty spills over to smaller economies, and the topic of asymmetries is has been shown that uncertainty shocks in recession times hit harder and higher uncertainty leading to supply and demand shocks having a more severe impact on the economy. In this paper, I aim to contribute to this already rich base of literature by exploring the asymmetric relationship between monetary policy and uncertainty. More specifically, I will be studying how asymmetrical of an effect uncertainty has on the efficacy of the monetary transmission mechanism of the interest rate channel., i.e.: I am interested in how much an interest rate shock is able to dampen the inflation rate, and what is the cost of stopping inflation in terms of economic growth during times of high uncertainty. The notion is that the transmission mechanism should be less effective in achieving its goal when uncertainty is high, thus highlighting the importance of managing expectations in order to control economic uncertainty. 
+As the question of interest discussed above is of an empirical nature, I will be using the toolbox of vector autoregressive modelling. To get the highest frequency and quality data possible, I will rely on monthly US data from the FRED database using the FFR, the CPI and the Industrial Production Index (as a proxy of GDP growth).As the price puzzle is a challenging problem in the literature of monetary macroeconomics, I will rely on using the sign restriction identification scheme in a Bayesian VAR setting. To study the nonlinear relationship between uncertainty and monetary policy, I will first establish a baseline estimation, by running the model on the whole time series available, so that I have base for comparison on the transmission mechanism. Next, I will identify periods in the time series where uncertainty was at its peak and most volatile. Over these selected periods I will estimate models (using the same estimation methods) in 5 year (60 month) rolling windows. To compare results, I will plot the impulse responses of an interest rate shock from the baseline and high uncertainty models and compare them, in the latter case – as it is comprised of several model estimates – I will use median impulse responses. The results will show some asymmetries, as an interest rate shock will produce a considerably larger drop in economic growth, however there is no substantial change in the impact on inflation.\\
+
+\bigskip
+
+\noindent \textbf{Keywords:} Uncertainty, Monetary transmission, Asymmetry, Sign restriction, Bayesian VAR
+
+
+	\pagebreak
+	
+
+	
+	
+\end{document}

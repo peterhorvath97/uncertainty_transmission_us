@@ -1,0 +1,857 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{ynt/global//global/global}
+    \entry{RePEc:gro:rugsom:98c36}{report}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=8b0b3994bd2de7d9890d3b6a09077950}{%
+           family={Kakes},
+           familyi={K\bibinitperiod},
+           given={Jan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{2}{%
+        {U of Groningen, Research Institute SOM (Systems, Organisations}%
+        {Management)}%
+      }
+      \strng{namehash}{8b0b3994bd2de7d9890d3b6a09077950}
+      \strng{fullhash}{8b0b3994bd2de7d9890d3b6a09077950}
+      \strng{bibnamehash}{8b0b3994bd2de7d9890d3b6a09077950}
+      \strng{authorbibnamehash}{8b0b3994bd2de7d9890d3b6a09077950}
+      \strng{authornamehash}{8b0b3994bd2de7d9890d3b6a09077950}
+      \strng{authorfullhash}{8b0b3994bd2de7d9890d3b6a09077950}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{98C36}
+      \field{title}{{Monetary transmission and business cycle asymmetry}}
+      \field{type}{Research Report}
+      \field{year}{1998}
+    \endentry
+    \entry{RePEc:hhs:hastef:0414}{report}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=944f1440ca9ded138356f618f35810d5}{%
+           family={Giordani},
+           familyi={G\bibinitperiod},
+           given={Paolo},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {Stockholm School of Economics}%
+      }
+      \strng{namehash}{944f1440ca9ded138356f618f35810d5}
+      \strng{fullhash}{944f1440ca9ded138356f618f35810d5}
+      \strng{bibnamehash}{944f1440ca9ded138356f618f35810d5}
+      \strng{authorbibnamehash}{944f1440ca9ded138356f618f35810d5}
+      \strng{authornamehash}{944f1440ca9ded138356f618f35810d5}
+      \strng{authorfullhash}{944f1440ca9ded138356f618f35810d5}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{414}
+      \field{title}{{An alternative explanation of the price puzzle}}
+      \field{type}{SSE/EFI Working Paper Series in Economics and Finance}
+      \field{year}{2000}
+    \endentry
+    \entry{RePEc:jae:japmet:v:19:y:2004:i:5:p:551-565}{article}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=c59fbc503685a3597cf56630fe96b3c6}{%
+           family={Grier},
+           familyi={G\bibinitperiod},
+           given={Kevin\bibnamedelima B.},
+           giveni={K\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fe8235c76e4508a337e413b26691382b}{%
+           family={Henry},
+           familyi={H\bibinitperiod},
+           given={Ólan\bibnamedelima T.},
+           giveni={Ó\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=84477e00eadfd1ee6e0ee292e22b0d80}{%
+           family={Olekalns},
+           familyi={O\bibinitperiod},
+           given={Nilss},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=32f595d24b71bc96b12468dfda3369ff}{%
+           family={Shields},
+           familyi={S\bibinitperiod},
+           given={Kalvinder},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{773864fa9bb998908d4e37df878529cc}
+      \strng{fullhash}{c7549dc41e22546078d6363d4474b806}
+      \strng{bibnamehash}{773864fa9bb998908d4e37df878529cc}
+      \strng{authorbibnamehash}{773864fa9bb998908d4e37df878529cc}
+      \strng{authornamehash}{773864fa9bb998908d4e37df878529cc}
+      \strng{authorfullhash}{c7549dc41e22546078d6363d4474b806}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Applied Econometrics}
+      \field{number}{5}
+      \field{title}{{The asymmetric effects of uncertainty on inflation and output growth}}
+      \field{volume}{19}
+      \field{year}{2004}
+      \field{pages}{551\bibrangedash 565}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1002/jae.763
+      \endverb
+    \endentry
+    \entry{RePEc:eee:moneco:v:51:y:2004:i:7:p:1385-1413}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=5068717891999ecfee4375176299893b}{%
+           family={Hanson},
+           familyi={H\bibinitperiod},
+           given={Michael\bibnamedelima S.},
+           giveni={M\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{5068717891999ecfee4375176299893b}
+      \strng{fullhash}{5068717891999ecfee4375176299893b}
+      \strng{bibnamehash}{5068717891999ecfee4375176299893b}
+      \strng{authorbibnamehash}{5068717891999ecfee4375176299893b}
+      \strng{authornamehash}{5068717891999ecfee4375176299893b}
+      \strng{authorfullhash}{5068717891999ecfee4375176299893b}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Monetary Economics}
+      \field{number}{7}
+      \field{title}{{The \&quot;price puzzle\&quot; reconsidered}}
+      \field{volume}{51}
+      \field{year}{2004}
+      \field{pages}{1385\bibrangedash 1413}
+      \range{pages}{29}
+    \endentry
+    \entry{RePEc:aea:aecrev:v:94:y:2004:i:4:p:1055-1084}{article}{}
+      \name{author}{2}{}{%
+        {{un=1,uniquepart=given,hash=9647e38c0677f1047fd2d726ef323e55}{%
+           family={Romer},
+           familyi={R\bibinitperiod},
+           given={Christina\bibnamedelima D.},
+           giveni={C\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=c33e264a77812518e81754d198493aef}{%
+           family={Romer},
+           familyi={R\bibinitperiod},
+           given={David\bibnamedelima H.},
+           giveni={D\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=1}}%
+      }
+      \strng{namehash}{015867a7c8d14b89326cbfc24095f9f5}
+      \strng{fullhash}{015867a7c8d14b89326cbfc24095f9f5}
+      \strng{bibnamehash}{015867a7c8d14b89326cbfc24095f9f5}
+      \strng{authorbibnamehash}{015867a7c8d14b89326cbfc24095f9f5}
+      \strng{authornamehash}{015867a7c8d14b89326cbfc24095f9f5}
+      \strng{authorfullhash}{015867a7c8d14b89326cbfc24095f9f5}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Economic Review}
+      \field{number}{4}
+      \field{title}{{A New Measure of Monetary Shocks: Derivation and Implications}}
+      \field{volume}{94}
+      \field{year}{2004}
+      \field{pages}{1055\bibrangedash 1084}
+      \range{pages}{30}
+    \endentry
+    \entry{RePEc:eee:moneco:v:52:y:2005:i:2:p:381-419}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=23c65b2fd3969e3b79f89556ae2384b8}{%
+           family={Uhlig},
+           familyi={U\bibinitperiod},
+           given={Harald},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{23c65b2fd3969e3b79f89556ae2384b8}
+      \strng{fullhash}{23c65b2fd3969e3b79f89556ae2384b8}
+      \strng{bibnamehash}{23c65b2fd3969e3b79f89556ae2384b8}
+      \strng{authorbibnamehash}{23c65b2fd3969e3b79f89556ae2384b8}
+      \strng{authornamehash}{23c65b2fd3969e3b79f89556ae2384b8}
+      \strng{authorfullhash}{23c65b2fd3969e3b79f89556ae2384b8}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Monetary Economics}
+      \field{number}{2}
+      \field{title}{{What are the effects of monetary policy on output? Results from an agnostic identification procedure}}
+      \field{volume}{52}
+      \field{year}{2005}
+      \field{pages}{381\bibrangedash 419}
+      \range{pages}{39}
+    \endentry
+    \entry{CARRIERESWALLOW2013316}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=273e465dda9bb94cc7b41646324e34bd}{%
+           family={Carrière-Swallow},
+           familyi={C\bibinithyphendelim S\bibinitperiod},
+           given={Yan},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=db8785e426fc1571df2573dd763d1917}{%
+           family={Céspedes},
+           familyi={C\bibinitperiod},
+           given={Luis\bibnamedelima Felipe},
+           giveni={L\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{02ef7177d327b70f8baa84a3b77aee84}
+      \strng{fullhash}{02ef7177d327b70f8baa84a3b77aee84}
+      \strng{bibnamehash}{02ef7177d327b70f8baa84a3b77aee84}
+      \strng{authorbibnamehash}{02ef7177d327b70f8baa84a3b77aee84}
+      \strng{authornamehash}{02ef7177d327b70f8baa84a3b77aee84}
+      \strng{authorfullhash}{02ef7177d327b70f8baa84a3b77aee84}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0022-1996}
+      \field{journaltitle}{Journal of International Economics}
+      \field{number}{2}
+      \field{title}{The impact of uncertainty shocks in emerging economies}
+      \field{volume}{90}
+      \field{year}{2013}
+      \field{pages}{316\bibrangedash 325}
+      \range{pages}{10}
+      \verb{doi}
+      \verb https://doi.org/10.1016/j.jinteco.2013.03.003
+      \endverb
+    \endentry
+    \entry{COLOMBO201339}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=d6b2ca7d6bb74eb669d83fdfa47750a0}{%
+           family={Colombo},
+           familyi={C\bibinitperiod},
+           given={Valentina},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{d6b2ca7d6bb74eb669d83fdfa47750a0}
+      \strng{fullhash}{d6b2ca7d6bb74eb669d83fdfa47750a0}
+      \strng{bibnamehash}{d6b2ca7d6bb74eb669d83fdfa47750a0}
+      \strng{authorbibnamehash}{d6b2ca7d6bb74eb669d83fdfa47750a0}
+      \strng{authornamehash}{d6b2ca7d6bb74eb669d83fdfa47750a0}
+      \strng{authorfullhash}{d6b2ca7d6bb74eb669d83fdfa47750a0}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0165-1765}
+      \field{journaltitle}{Economics Letters}
+      \field{number}{1}
+      \field{title}{Economic policy uncertainty in the US: Does it matter for the Euro area?}
+      \field{volume}{121}
+      \field{year}{2013}
+      \field{pages}{39\bibrangedash 42}
+      \range{pages}{4}
+      \verb{doi}
+      \verb https://doi.org/10.1016/j.econlet.2013.06.024
+      \endverb
+    \endentry
+    \entry{RePEc:spr:empeco:v:46:y:2014:i:2:p:701-731}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=434ba75bdd7806bc6dbcf9854c1805c7}{%
+           family={Demiralp},
+           familyi={D\bibinitperiod},
+           given={Selva},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0117fa1f2080216b8143018fd9d6d3fe}{%
+           family={Hoover},
+           familyi={H\bibinitperiod},
+           given={Kevin},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=29fcf8e9500f1be6702585cc4ce306e2}{%
+           family={Perez},
+           familyi={P\bibinitperiod},
+           given={Stephen},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{ceda944a69f468946832891b6909b053}
+      \strng{fullhash}{259710e9cb880ff4bfac7d263bf103b2}
+      \strng{bibnamehash}{ceda944a69f468946832891b6909b053}
+      \strng{authorbibnamehash}{ceda944a69f468946832891b6909b053}
+      \strng{authornamehash}{ceda944a69f468946832891b6909b053}
+      \strng{authorfullhash}{259710e9cb880ff4bfac7d263bf103b2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Empirical Economics}
+      \field{number}{2}
+      \field{title}{{Still puzzling: evaluating the price puzzle in an empirically identified structural vector autoregression}}
+      \field{volume}{46}
+      \field{year}{2014}
+      \field{pages}{701\bibrangedash 731}
+      \range{pages}{31}
+      \verb{doi}
+      \verb 10.1007/s00181-013-0694-5
+      \endverb
+    \endentry
+    \entry{RePEc:fip:fedker:00016}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=2960373c67526827a107518ea4e82998}{%
+           family={Foerster},
+           familyi={F\bibinitperiod},
+           given={Andrew\bibnamedelima T.},
+           giveni={A\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2960373c67526827a107518ea4e82998}
+      \strng{fullhash}{2960373c67526827a107518ea4e82998}
+      \strng{bibnamehash}{2960373c67526827a107518ea4e82998}
+      \strng{authorbibnamehash}{2960373c67526827a107518ea4e82998}
+      \strng{authornamehash}{2960373c67526827a107518ea4e82998}
+      \strng{authorfullhash}{2960373c67526827a107518ea4e82998}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Economic Review}
+      \field{number}{Q III}
+      \field{title}{{The asymmetric effects of uncertainty}}
+      \field{year}{2014}
+      \field{pages}{5\bibrangedash 26}
+      \range{pages}{22}
+    \endentry
+    \entry{RePEc:knz:dpteco:1402}{report}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=8f5fca1e4c7efae130720ccc34e7be55}{%
+           family={Schüler},
+           familyi={S\bibinitperiod},
+           given={Yves\bibnamedelima S.},
+           giveni={Y\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {Department of Economics, U of Konstanz}%
+      }
+      \strng{namehash}{8f5fca1e4c7efae130720ccc34e7be55}
+      \strng{fullhash}{8f5fca1e4c7efae130720ccc34e7be55}
+      \strng{bibnamehash}{8f5fca1e4c7efae130720ccc34e7be55}
+      \strng{authorbibnamehash}{8f5fca1e4c7efae130720ccc34e7be55}
+      \strng{authornamehash}{8f5fca1e4c7efae130720ccc34e7be55}
+      \strng{authorfullhash}{8f5fca1e4c7efae130720ccc34e7be55}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{2014-02}
+      \field{title}{{Asymmetric Effects of Uncertainty over the Business Cycle: A Quantile Structural Vector Autoregressive Approach}}
+      \field{type}{Working Paper Series of the Department of Economics, University of Konstanz}
+      \field{year}{2014}
+    \endentry
+    \entry{Danne2015}{manual}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=acf0c5f525c8faeeceec31d527c14f99}{%
+           family={Danne},
+           familyi={D\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{acf0c5f525c8faeeceec31d527c14f99}
+      \strng{fullhash}{acf0c5f525c8faeeceec31d527c14f99}
+      \strng{bibnamehash}{acf0c5f525c8faeeceec31d527c14f99}
+      \strng{authorbibnamehash}{acf0c5f525c8faeeceec31d527c14f99}
+      \strng{authornamehash}{acf0c5f525c8faeeceec31d527c14f99}
+      \strng{authorfullhash}{acf0c5f525c8faeeceec31d527c14f99}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{R package version 0.1.2.}
+      \field{title}{{VARsignR}: Estimating VARs using sign restrictions.}
+      \field{year}{2015}
+    \endentry
+    \entry{baker2016measuring}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=44c1fb654911b2846ca5c9262f750497}{%
+           family={Baker},
+           familyi={B\bibinitperiod},
+           given={Scott\bibnamedelima R},
+           giveni={S\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1f9ed1162402cc5a63ec1d1f470ea527}{%
+           family={Bloom},
+           familyi={B\bibinitperiod},
+           given={Nicholas},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=436e25609a5e8f78d485f754f4af4176}{%
+           family={Davis},
+           familyi={D\bibinitperiod},
+           given={Steven\bibnamedelima J},
+           giveni={S\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford UP}%
+      }
+      \strng{namehash}{d8d72ca78173273239b3a45b739acce9}
+      \strng{fullhash}{06807450d490fd8ee92d0ce9beddc842}
+      \strng{bibnamehash}{d8d72ca78173273239b3a45b739acce9}
+      \strng{authorbibnamehash}{d8d72ca78173273239b3a45b739acce9}
+      \strng{authornamehash}{d8d72ca78173273239b3a45b739acce9}
+      \strng{authorfullhash}{06807450d490fd8ee92d0ce9beddc842}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The quarterly journal of economics}
+      \field{number}{4}
+      \field{title}{Measuring economic policy uncertainty}
+      \field{volume}{131}
+      \field{year}{2016}
+      \field{pages}{1593\bibrangedash 1636}
+      \range{pages}{44}
+    \endentry
+    \entry{CALDARA2016185}{article}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=5f270f9711a1f97bafde54495f318697}{%
+           family={Caldara},
+           familyi={C\bibinitperiod},
+           given={Dario},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7a11b48e7502afd9e796bef25de61147}{%
+           family={Fuentes-Albero},
+           familyi={F\bibinithyphendelim A\bibinitperiod},
+           given={Cristina},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8009fe0c9f21ec0c2305e0f4da1bd7b3}{%
+           family={Gilchrist},
+           familyi={G\bibinitperiod},
+           given={Simon},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1aee176d945f2ceda370d4fece4efb3e}{%
+           family={Zakrajšek},
+           familyi={Z\bibinitperiod},
+           given={Egon},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2cb81ea3340742603e1e3d2021a67097}
+      \strng{fullhash}{2f74825d71f70749d70dff9e467bc628}
+      \strng{bibnamehash}{2cb81ea3340742603e1e3d2021a67097}
+      \strng{authorbibnamehash}{2cb81ea3340742603e1e3d2021a67097}
+      \strng{authornamehash}{2cb81ea3340742603e1e3d2021a67097}
+      \strng{authorfullhash}{2f74825d71f70749d70dff9e467bc628}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0014-2921}
+      \field{journaltitle}{European Economic Review}
+      \field{note}{SI: The Post-Crisis Slump}
+      \field{title}{The macroeconomic impact of financial and uncertainty shocks}
+      \field{volume}{88}
+      \field{year}{2016}
+      \field{pages}{185\bibrangedash 207}
+      \range{pages}{23}
+      \verb{doi}
+      \verb https://doi.org/10.1016/j.euroecorev.2016.02.020
+      \endverb
+    \endentry
+    \entry{RePEc:aea:aejmac:v:8:y:2016:i:4:p:75-102}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=eccf464a4d441c3402cab37d7af93bd3}{%
+           family={Cloyne},
+           familyi={C\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=55eb472109d5618de1cba6143c8c9cbb}{%
+           family={Hürtgen},
+           familyi={H\bibinitperiod},
+           given={Patrick},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{fd808cdd47217324ded23a246a4c3138}
+      \strng{fullhash}{fd808cdd47217324ded23a246a4c3138}
+      \strng{bibnamehash}{fd808cdd47217324ded23a246a4c3138}
+      \strng{authorbibnamehash}{fd808cdd47217324ded23a246a4c3138}
+      \strng{authornamehash}{fd808cdd47217324ded23a246a4c3138}
+      \strng{authorfullhash}{fd808cdd47217324ded23a246a4c3138}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Economic Journal: Macroeconomics}
+      \field{number}{4}
+      \field{title}{{The Macroeconomic Effects of Monetary Policy: A New Measure for the United Kingdom}}
+      \field{volume}{8}
+      \field{year}{2016}
+      \field{pages}{75\bibrangedash 102}
+      \range{pages}{28}
+    \endentry
+    \entry{RePEc:cup:macdyn:v:20:y:2016:i:05:p:1219-124600}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=e3a8f20fdd600e089091d5102e2b7dd5}{%
+           family={Jones},
+           familyi={J\bibinitperiod},
+           given={Paul\bibnamedelima M.},
+           giveni={P\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bc17552e86456060317297d380a91882}{%
+           family={Enders},
+           familyi={E\bibinitperiod},
+           given={Walter},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{581c8cda2b8cc4f0ade1fca55379d1fd}
+      \strng{fullhash}{581c8cda2b8cc4f0ade1fca55379d1fd}
+      \strng{bibnamehash}{581c8cda2b8cc4f0ade1fca55379d1fd}
+      \strng{authorbibnamehash}{581c8cda2b8cc4f0ade1fca55379d1fd}
+      \strng{authornamehash}{581c8cda2b8cc4f0ade1fca55379d1fd}
+      \strng{authorfullhash}{581c8cda2b8cc4f0ade1fca55379d1fd}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Macroeconomic Dynamics}
+      \field{month}{7}
+      \field{number}{5}
+      \field{title}{{The Asymmetric Effects Of Uncertainty On Macroeconomic Activity}}
+      \field{volume}{20}
+      \field{year}{2016}
+      \field{pages}{1219\bibrangedash 1246}
+      \range{pages}{28}
+    \endentry
+    \entry{RePEc:rba:rbardp:rdp2017-02}{report}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=0d21cc075454bcf52efadd8eaffdd925}{%
+           family={Bishop},
+           familyi={B\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e7886dd8aa31655b2e2091696ecb3950}{%
+           family={Tulip},
+           familyi={T\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {Reserve Bank of Australia}%
+      }
+      \strng{namehash}{0f2bb98d1096e59d8fdace7b7952b0c9}
+      \strng{fullhash}{0f2bb98d1096e59d8fdace7b7952b0c9}
+      \strng{bibnamehash}{0f2bb98d1096e59d8fdace7b7952b0c9}
+      \strng{authorbibnamehash}{0f2bb98d1096e59d8fdace7b7952b0c9}
+      \strng{authornamehash}{0f2bb98d1096e59d8fdace7b7952b0c9}
+      \strng{authorfullhash}{0f2bb98d1096e59d8fdace7b7952b0c9}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{rdp2017-02}
+      \field{title}{{Anticipatory Monetary Policy and the 'Price Puzzle'}}
+      \field{type}{RBA Research Discussion Papers}
+      \field{year}{2017}
+    \endentry
+    \entry{CHENG2018305}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=eb29c015f56c952f6763f9c29e18279c}{%
+           family={Cheng},
+           familyi={C\bibinitperiod},
+           given={Chak\bibnamedelimb Hung\bibnamedelima Jack},
+           giveni={C\bibinitperiod\bibinitdelim H\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a0b6261e8281091fa5f54b3477dc68de}{%
+           family={Chiu},
+           familyi={C\bibinitperiod},
+           given={Ching-Wai\bibnamedelima (Jeremy)},
+           giveni={C\bibinithyphendelim W\bibinitperiod\bibinitdelim (\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{68fddacce126c4a461c74ee3cb4a5035}
+      \strng{fullhash}{68fddacce126c4a461c74ee3cb4a5035}
+      \strng{bibnamehash}{68fddacce126c4a461c74ee3cb4a5035}
+      \strng{authorbibnamehash}{68fddacce126c4a461c74ee3cb4a5035}
+      \strng{authornamehash}{68fddacce126c4a461c74ee3cb4a5035}
+      \strng{authorfullhash}{68fddacce126c4a461c74ee3cb4a5035}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2110-7017}
+      \field{journaltitle}{International Economics}
+      \field{title}{How important are global geopolitical risks to emerging countries?}
+      \field{volume}{156}
+      \field{year}{2018}
+      \field{pages}{305\bibrangedash 325}
+      \range{pages}{21}
+      \verb{doi}
+      \verb https://doi.org/10.1016/j.inteco.2018.05.002
+      \endverb
+    \endentry
+    \entry{doi:10.1080/1331677X.2018.1481445}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=b5d551404ee38a7486cb3efebca4c285}{%
+           family={Güney},
+           familyi={G\bibinitperiod},
+           given={Pelin\bibnamedelima Öge},
+           giveni={P\bibinitperiod\bibinitdelim Ö\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Routledge}%
+      }
+      \strng{namehash}{b5d551404ee38a7486cb3efebca4c285}
+      \strng{fullhash}{b5d551404ee38a7486cb3efebca4c285}
+      \strng{bibnamehash}{b5d551404ee38a7486cb3efebca4c285}
+      \strng{authorbibnamehash}{b5d551404ee38a7486cb3efebca4c285}
+      \strng{authornamehash}{b5d551404ee38a7486cb3efebca4c285}
+      \strng{authorfullhash}{b5d551404ee38a7486cb3efebca4c285}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Economic Research-Ekonomska Istraživanja}
+      \field{number}{1}
+      \field{title}{Asymmetries in monetary policy reaction function and the role of uncertainties: the case of Turkey}
+      \field{volume}{31}
+      \field{year}{2018}
+      \field{pages}{1367\bibrangedash 1381}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1080/1331677X.2018.1481445
+      \endverb
+    \endentry
+    \entry{BONCIANI2020102236}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=7db2c9b754053e04a8f96dc17919f39c}{%
+           family={Bonciani},
+           familyi={B\bibinitperiod},
+           given={Dario},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ca9f8d7be32fa383c778fd82b618b8f2}{%
+           family={Ricci},
+           familyi={R\bibinitperiod},
+           given={Martino},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{013badaed001cd487faf39b26479ee64}
+      \strng{fullhash}{013badaed001cd487faf39b26479ee64}
+      \strng{bibnamehash}{013badaed001cd487faf39b26479ee64}
+      \strng{authorbibnamehash}{013badaed001cd487faf39b26479ee64}
+      \strng{authornamehash}{013badaed001cd487faf39b26479ee64}
+      \strng{authorfullhash}{013badaed001cd487faf39b26479ee64}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0261-5606}
+      \field{journaltitle}{Journal of International Money and Finance}
+      \field{title}{The international effects of global financial uncertainty shocks}
+      \field{volume}{109}
+      \field{year}{2020}
+      \field{pages}{102236}
+      \range{pages}{1}
+      \verb{doi}
+      \verb https://doi.org/10.1016/j.jimonfin.2020.102236
+      \endverb
+    \endentry
+    \entry{RePEc:een:camaaa:2020-72}{report}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=d6b2ca7d6bb74eb669d83fdfa47750a0}{%
+           family={Colombo},
+           familyi={C\bibinitperiod},
+           given={Valentina},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f43ac8b315135430ef8f2f153f1c0dc2}{%
+           family={Paccagnini},
+           familyi={P\bibinitperiod},
+           given={Alessia},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {Centre for Applied Macroeconomic Analysis, Crawford School of Public Policy, The Australian National U}%
+      }
+      \strng{namehash}{f0fec9a4b13eca4416b0fb7c12a87edc}
+      \strng{fullhash}{f0fec9a4b13eca4416b0fb7c12a87edc}
+      \strng{bibnamehash}{f0fec9a4b13eca4416b0fb7c12a87edc}
+      \strng{authorbibnamehash}{f0fec9a4b13eca4416b0fb7c12a87edc}
+      \strng{authornamehash}{f0fec9a4b13eca4416b0fb7c12a87edc}
+      \strng{authorfullhash}{f0fec9a4b13eca4416b0fb7c12a87edc}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{2020-72}
+      \field{title}{{The asymmetric effects of uncertainty shocks}}
+      \field{type}{CAMA Working Papers}
+      \field{year}{2020}
+    \endentry
+    \entry{NILAVONGSE2020108765}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=c6d4382475f8488bdff3c1e80e646061}{%
+           family={Nilavongse},
+           familyi={N\bibinitperiod},
+           given={Rachatar},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=07fc0b36a523d66b712a9d4bf305caa0}{%
+           family={Michał},
+           familyi={M\bibinitperiod},
+           given={Rubaszek},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=98a21c15f0cd4009b4d66a30f62e4d55}{%
+           family={Uddin},
+           familyi={U\bibinitperiod},
+           given={Gazi\bibnamedelima Salah},
+           giveni={G\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{281cb7876dea3f7a382898125e88d5fb}
+      \strng{fullhash}{1323aa011106b9e9f126c4fd060478ed}
+      \strng{bibnamehash}{281cb7876dea3f7a382898125e88d5fb}
+      \strng{authorbibnamehash}{281cb7876dea3f7a382898125e88d5fb}
+      \strng{authornamehash}{281cb7876dea3f7a382898125e88d5fb}
+      \strng{authorfullhash}{1323aa011106b9e9f126c4fd060478ed}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0165-1765}
+      \field{journaltitle}{Economics Letters}
+      \field{title}{Economic policy uncertainty shocks, economic activity, and exchange rate adjustments}
+      \field{volume}{186}
+      \field{year}{2020}
+      \field{pages}{108765}
+      \range{pages}{1}
+      \verb{doi}
+      \verb https://doi.org/10.1016/j.econlet.2019.108765
+      \endverb
+    \endentry
+    \entry{Lin+2021+425+447}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=c98611957dd9a3d535de138e986d3bcc}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Tzu-Yu},
+           giveni={T\bibinithyphendelim Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{c98611957dd9a3d535de138e986d3bcc}
+      \strng{fullhash}{c98611957dd9a3d535de138e986d3bcc}
+      \strng{bibnamehash}{c98611957dd9a3d535de138e986d3bcc}
+      \strng{authorbibnamehash}{c98611957dd9a3d535de138e986d3bcc}
+      \strng{authornamehash}{c98611957dd9a3d535de138e986d3bcc}
+      \strng{authorfullhash}{c98611957dd9a3d535de138e986d3bcc}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The B.E. Journal of Macroeconomics}
+      \field{number}{2}
+      \field{title}{Asymmetric Effects of Monetary Policy}
+      \field{volume}{21}
+      \field{year}{2021}
+      \field{pages}{425\bibrangedash 447}
+      \range{pages}{23}
+      \verb{doi}
+      \verb doi:10.1515/bejm-2020-0084
+      \endverb
+    \endentry
+    \entry{RePEc:eee:jmacro:v:69:y:2021:i:c:s0164070421000379}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=02852b2b9c382022df03937ae1d41f5e}{%
+           family={Nalban},
+           familyi={N\bibinitperiod},
+           given={Valeriu},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6c274188b2c60a2f572e83e8d98b5888}{%
+           family={Smădu},
+           familyi={S\bibinitperiod},
+           given={Andra},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e5777564b6858e4404a89712aa9c98a4}
+      \strng{fullhash}{e5777564b6858e4404a89712aa9c98a4}
+      \strng{bibnamehash}{e5777564b6858e4404a89712aa9c98a4}
+      \strng{authorbibnamehash}{e5777564b6858e4404a89712aa9c98a4}
+      \strng{authornamehash}{e5777564b6858e4404a89712aa9c98a4}
+      \strng{authorfullhash}{e5777564b6858e4404a89712aa9c98a4}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \true{singletitle}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Macroeconomics}
+      \field{number}{C}
+      \field{title}{{Asymmetric effects of uncertainty shocks: Normal times and financial disruptions are different}}
+      \field{volume}{69}
+      \field{year}{2021}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

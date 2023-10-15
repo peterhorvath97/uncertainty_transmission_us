@@ -1,0 +1,376 @@
+---
+title: "Untitled"
+author: "Horváth Péter"
+date: '2022 05 26 '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, results='hide',fig.keep='all')
+```
+
+```{r}
+#loading packages
+#packages
+suppressPackageStartupMessages({
+  library(readxl)
+  library(tidyverse)
+  library(tseries)
+  library(forecast)
+  library(TSA)
+  library(fpp2)
+  library(lmtest)
+  library(vars)
+  library(mFilter)
+  library(ggplot2)
+  library(tsDyn)
+  library(fredr)
+  library(VARsignR)
+  library(lubridate)
+  library(cowplot)
+  library(gridExtra)
+  library(patchwork)
+  library(data.table)
+  library(tsibble)
+  library(mvnfast)
+})
+
+```
+# Setup és plotok
+
+
+A lenti kódsorokkal importálom az adatokat a FRED adatbázisból:
+
+```{r}
+#set api key
+fredr_set_key("cda47ae66b38ed7988c0a9c2ec80c94f")
+
+#download data
+params <- list(
+  series_id = c("USEPUINDXD", "DFF", "USACPIALLMINMEI", "INDPRO"),
+  frequency = "m",
+  observation_start = as.Date("1950-01-01")
+)
+
+
+import  <- pmap_dfr(
+  .l = params,
+  .f = ~ fredr(series_id = .x, frequency = .y)
+) %>%
+  dplyr::select(date, series_id, value) %>%
+  spread(key = series_id, value = value) %>%
+  drop_na() %>% as_tsibble() %>% rename(epu = USEPUINDXD,
+                                        ffr = DFF,
+                                        cpi = USACPIALLMINMEI,
+                                        indpro = INDPRO
+                                        ) 
+
+#select data range
+data <- import %>%
+  dplyr::select(date, epu, ffr, cpi, indpro) %>%
+  drop_na() %>% filter(date <= as.Date("2019-12-01"))
+```
+
+Ábra az FFR, CPI és industrial procuction adatsorokról:
+
+```{r}
+#plotting the data series
+data %>%
+  gather(key = "variable", value = "value", ffr, cpi, indpro) %>%
+  mutate(variable = case_when(variable == "ffr" ~ "Federal Funds Rate",
+                              variable == "cpi" ~ "Consumer Prices",
+                              variable == "indpro" ~ "Industrial Production Index"),
+         variable = factor(variable, levels = c("Federal Funds Rate", "Consumer Prices", "Industrial Production Index"))) %>%
+  ggplot(aes(x = date, y = value)) +
+  geom_line() +
+  facet_wrap(~variable, scales = "free", nrow = 3) + theme_minimal() +
+  labs(x = "",
+       y = "") 
+```
+
+
+Még egy kis adat set-up:
+
+```{r}
+#generate first differences / growth rates  
+data <- data %>%
+  mutate(cpi = cpi - lag(cpi),
+         indpro = indpro - lag(indpro)) %>% drop_na()
+
+#creating threshold values
+data <- data %>%
+  mutate(epu50 = median(epu),
+         epu75 = quantile(epu, probs = 0.75),
+         epu25 = quantile(epu, probs = 0.25))
+```
+
+Uncertainty index plot a medián és kvartilis értékekkel:
+
+```{r}
+#plot epu index with threshold values
+data %>% dplyr::select(date, epu, epu50, epu25, epu75) %>%
+  ggplot(aes(x = date, y = epu)) +
+  geom_line() +
+  geom_hline(aes(yintercept = epu50), color = "darkred") +
+  geom_hline(aes(yintercept = epu25), color = "darkgreen") +
+  geom_hline(aes(yintercept = epu75), color = "darkgreen") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11, hjust=0.5),
+        axis.title.y = element_text(size=11)) +
+  labs(x = "",
+       y = "",
+       title = "BBD economic policy uncertainty index")
+```
+
+Függvény amivel az irf értékeket számolom. Ez majd később fog kelleni, hogy a bayesi var szimulációiból legyen grafikonra tehető mediánom, illetve megadott konfidencia-szint melletti intervallum.
+
+```{r}
+#function to retrieve impulse responses
+get_irf <- function(dim, prob, irflength, irfdata){
+  prob <- prob
+  x <- irfdata[ , ,dim] %>% t() 
+  t <- matrix(nrow = nrow(x), ncol = 1) 
+  med <- matrix(nrow = nrow(x), ncol = 1)
+  up <- matrix(nrow = nrow(x), ncol = 1)
+  dn <- matrix(nrow = nrow(x), ncol = 1)
+  for(i in(1:irflength)){
+    t[i] <- i-1
+    med[i] <- median(x[i,])
+    up[i] <- quantile(x[i,], probs = (1-prob))
+    dn[i] <- quantile(x[i,], probs = prob)
+  }
+  irf <- bind_cols(t, med, up, dn) %>%
+    rename(t = ...1,
+           median = ...2,
+           upper = ...3,
+           lower = ...4)
+  irf
+}
+```
+
+Paraméterek a becsléshez: két késleltetés volt amivel még találtam az előjelmegkötésnek megfelelő impulzus válaszokat, kell egy szám a  "set.seed" parancsnak. 0.84-es konfidenciaintervallum. az irf adatpontjainak (20 helyett) 21-re állítása pedig csak technikai szépítgetés miatt kell az ábrákhoz.
+
+```{r}
+#some parameters for estimation and irfs
+nlag <- 2
+seed <- 2022
+prob <- 0.16
+irflength <- 21
+
+```
+
+# Két regime-es modell
+
+Ábra az adatsorokról a regime indicator alapján színezve. Ez alapján szerintem kellően eltér egy sima recession indicator-tól, hogy az eredményeknek legyen hozzáadott értéke. A két regime-es változatban a bizonytalansági index mediánja felett értem a felső, alatta pedig az alsó regime-et.
+
+```{r}
+#plot variables coloured by regime indicator
+data %>%
+  dplyr::select(date, ffr, cpi, indpro, epu, epu50) %>%
+  mutate(indicator = ifelse(epu > epu50, 1, 2),
+         indicator = case_when(indicator == 1 ~ "High uncertainty regime",
+                               indicator == 2 ~ "Low uncertainty regime")) %>%
+  gather(key = "variable", value = "value", ffr, cpi, indpro) %>%
+  mutate(variable = case_when(variable == "ffr" ~ "Federal Funds Rate",
+                              variable == "cpi" ~ "Consumer Prices",
+                              variable == "indpro" ~ "Industrial Production Index"),
+         variable = factor(variable, levels = c("Federal Funds Rate", "Consumer Prices", "Industrial Production Index"))) %>%
+  ggplot(aes(x = date, y = value, color = indicator, group = 1)) +
+  geom_line(size = 1) +
+  facet_wrap(~variable, scales = "free", nrow = 3) + theme_minimal() +
+  labs(x = "",
+       y = "") + 
+  theme(legend.title = element_blank()) 
+```
+
+Két regime-es modell. Először a felső regime sokkjait azonosítom, amely az első három adatsorom, ezért az első három változóra teszek megkötést. Alatta pedig az alsó regime-re megismétlem, itt a 4-6. változóta teszem a megkötést. Az elsőben az első, a másodikban pedig a 4. változó van sokkolva (mindkét esetben az FFR a megfelelő regime indicator-ral szorozva). 
+
+Az előjelmegkötés az sokk utáni 1.-6. periódusig tartja meg, amit a "KMIN" és "KMAX" argumentumok adnak meg. A függvény 200 posterior eloszlást szimulál és minden eloszlásra 200 impulzus választ (draws és subdraws), ideális esetben pedig 1000 szimulált impulzus választ tart meg (a rejection algoritmus jellemzően kevesebbet talál).
+
+```{r}
+# fit 2 regime model
+data_2regime <- data %>%
+  dplyr::select(date, ffr, cpi, indpro, epu, epu50) %>%
+  mutate(indicator = ifelse(epu > epu50, 1, 0),
+         indicator_inv = ifelse(indicator == 1, 0, 1),
+         ffr_up = ffr*indicator,
+         cpi_up = cpi*indicator,
+         indpro_up = indpro*indicator,
+         ffr_dn = ffr*indicator_inv,
+         cpi_dn = cpi*indicator_inv,
+         indpro_dn = indpro*indicator_inv) %>% as_tibble() %>%
+  dplyr::select(ffr_up, cpi_up, indpro_up, ffr_dn, cpi_dn, indpro_dn) %>% ts()
+
+
+set.seed(seed)
+constr_up <- c(+1, -2, -3)
+model_up <- uhlig.reject(Y=data_2regime, nlags=nlag, draws=200, subdraws=200, nkeep=1000, KMIN=1,
+                         KMAX=6, constrained=constr_up, constant=TRUE, steps=21)
+irfs1 <- model_up$IRFS
+
+set.seed(seed)
+constr_dn <- c(+4, -5, -6)
+model_dn <- uhlig.reject(Y=data_2regime, nlags=nlag, draws=200, subdraws=200, nkeep=1000, KMIN=1,
+                       KMAX=6, constrained=constr_dn, constant=TRUE, steps=21)
+irfs2 <- model_dn$IRFS
+```
+
+Kirajzolom az impulzus válasz függvényeket:
+
+```{r}
+ffr_up <- get_irf(1, prob, irflength, irfs1) %>% mutate(label = "FFR",
+                                                        regime = "High uncertainty")
+cpi_up <- get_irf(2, prob, irflength, irfs1) %>% mutate(label = "CPI",
+                                                        regime = "High uncertainty")
+indpro_up <- get_irf(3, prob, irflength, irfs1) %>% mutate(label = "INDPRO",
+                                                           regime = "High uncertainty")
+
+ffr_dn <- get_irf(4, prob, irflength, irfs2) %>% mutate(label = "FFR",
+                                                        regime = "Low uncertainty")
+cpi_dn <- get_irf(5, prob, irflength, irfs2) %>% mutate(label = "CPI",
+                                                        regime = "Low uncertainty")
+indpro_dn <- get_irf(6, prob, irflength, irfs2) %>% mutate(label = "INDPRO",
+                                                           regime = "Low uncertainty")
+
+bind_rows(ffr_up, cpi_up, indpro_up,
+          ffr_dn, cpi_dn, indpro_dn) %>%
+  mutate(label = factor(label, levels = c("FFR", "CPI", "INDPRO"))) %>%
+  ggplot(aes(x = t, y = median, ymin = lower, ymax = upper)) +
+  geom_line() +
+  geom_hline(yintercept = 0, color = "red") +
+  geom_ribbon(fill="grey", alpha=.2, color="grey50", linetype="dashed") + 
+  facet_wrap(regime~label, scales = "free")+
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11, hjust=0.5),
+        axis.title.y = element_text(size=11)) +
+  labs(x = "",
+       y ="")
+```
+
+High uncertaintyben valamivel magasabb értékről indul a kamatsokk, picivel jobban fogja vissza az inflációt, és érzhetően erősebb az output visszaesése is. 
+
+# Három regime-es modell
+
+Itt gyakorlatilag az előzőket ismétlem meg csak a regime meghatározás lesz más: High uncertainty a felső kvartilis felett, Low uncertainty az alsó kvartilis alatt, közte pedig Medium.
+
+
+```{r}
+#plot variables coloured by regime indicator
+data %>%
+  dplyr::select(date, ffr, cpi, indpro, epu, epu25, epu75) %>%
+  mutate(indicator_up = ifelse(epu > epu75, 1,0),
+         indicator_dn = ifelse(epu < epu25, 1, 0),
+         indicator_mid = ifelse(indicator_up == 0 & indicator_dn == 0, 1, 0),
+         indicator = case_when(indicator_up == 1 ~ "High uncertainty regime",
+                               indicator_mid == 1 ~ "Medium uncertainty regime",
+                               indicator_dn == 1 ~ "Low uncertainty regime"),
+         indicator = factor(indicator, levels = c("High uncertainty regime",
+                                                  "Medium uncertainty regime",
+                                                  "Low uncertainty regime"))) %>%
+  gather(key = "variable", value = "value", ffr, cpi, indpro) %>%
+  mutate(variable = case_when(variable == "ffr" ~ "Federal Funds Rate",
+                              variable == "cpi" ~ "Consumer Prices",
+                              variable == "indpro" ~ "Industrial Production Index"),
+         variable = factor(variable, levels = c("Federal Funds Rate", "Consumer Prices", "Industrial Production Index"))) %>%
+  ggplot(aes(x = date, y = value, color = indicator, group = 1)) +
+  geom_line(size = 1) +
+  facet_wrap(~variable, scales = "free", nrow = 3) + theme_minimal() +
+  labs(x = "",
+       y = "") + 
+  theme(legend.title = element_blank()) 
+
+#fit 3 regime model
+data_3regime <- data %>%
+  dplyr::select(date, ffr, cpi, indpro, epu, epu25, epu75) %>%
+  mutate(indicator_up = ifelse(epu > epu75, 1,0),
+         indicator_dn = ifelse(epu < epu25, 1, 0),
+         indicator_mid = ifelse(indicator_up == 0 & indicator_dn == 0, 1, 0),
+         ffr_up = ffr*indicator_up,
+         cpi_up = cpi*indicator_up,
+         indpro_up = indpro*indicator_up,
+         ffr_mid = ffr*indicator_mid,
+         cpi_mid = cpi*indicator_mid,
+         indpro_mid = indpro*indicator_mid,
+         ffr_dn = ffr*indicator_dn,
+         cpi_dn = cpi*indicator_dn,
+         indpro_dn = indpro*indicator_dn) %>% 
+  as_tibble() %>%
+  dplyr::select(ffr_up, cpi_up, indpro_up, ffr_mid, cpi_mid, indpro_mid, ffr_dn, cpi_dn, indpro_dn) %>% ts()
+
+
+set.seed(seed)
+constr_up <- c(+1, -2, -3)
+model_up <- uhlig.reject(Y=data_3regime, nlags=nlag, draws=200, subdraws=200, nkeep=1000, KMIN=1,
+                         KMAX=6, constrained=constr_up, constant=TRUE, steps=21)
+irfs1 <- model_up$IRFS
+
+set.seed(seed)
+constr_mid <- c(+4, -5, -6)
+model_mid <- uhlig.reject(Y=data_3regime, nlags=nlag, draws=200, subdraws=200, nkeep=1000, KMIN=1,
+                         KMAX=6, constrained=constr_mid, constant=TRUE, steps=21)
+irfs2 <- model_mid$IRFS
+
+set.seed(seed)
+constr_dn <- c(+7, -8, -9)
+model_dn <- uhlig.reject(Y=data_3regime, nlags=nlag, draws=200, subdraws=200, nkeep=1000, KMIN=1,
+                         KMAX=6, constrained=constr_dn, constant=TRUE, steps=21)
+irfs3 <- model_dn$IRFS
+
+
+prob <- 0.16
+irflength <- 21
+
+ffr_up <- get_irf(1, prob, irflength, irfs1) %>% mutate(label = "FFR",
+                                                        regime = "High uncertainty")
+cpi_up <- get_irf(2, prob, irflength, irfs1) %>% mutate(label = "CPI",
+                                                        regime = "High uncertainty")
+indpro_up <- get_irf(3, prob, irflength, irfs1) %>% mutate(label = "INDPRO",
+                                                           regime = "High uncertainty")
+
+ffr_mid <- get_irf(4, prob, irflength, irfs2) %>% mutate(label = "FFR",
+                                                        regime = "Medium uncertainty")
+cpi_mid <- get_irf(5, prob, irflength, irfs2) %>% mutate(label = "CPI",
+                                                        regime = "Medium uncertainty")
+indpro_mid <- get_irf(6, prob, irflength, irfs2) %>% mutate(label = "INDPRO",
+                                                           regime = "Medium uncertainty")
+
+ffr_dn <- get_irf(7, prob, irflength, irfs3) %>% mutate(label = "FFR",
+                                                        regime = "Low uncertainty")
+cpi_dn <- get_irf(8, prob, irflength, irfs3) %>% mutate(label = "CPI",
+                                                        regime = "Low uncertainty")
+indpro_dn <- get_irf(9, prob, irflength, irfs3) %>% mutate(label = "INDPRO",
+                                                           regime = "Low uncertainty")
+
+
+bind_rows(ffr_up, cpi_up, indpro_up,
+          ffr_mid, cpi_mid, indpro_mid,
+          ffr_dn, cpi_dn, indpro_dn) %>%
+  mutate(label = factor(label, levels = c("FFR", "CPI", "INDPRO")),
+         regime = factor(regime, levels = c("High uncertainty", "Medium uncertainty", "Low uncertainty"))) %>%
+  ggplot(aes(x = t, y = median, ymin = lower, ymax = upper)) +
+  geom_line() +
+  geom_hline(yintercept = 0, color = "red") +
+  geom_ribbon(fill="grey", alpha=.2, color="grey50", linetype="dashed") + 
+  facet_wrap(regime~label, scales = "free")+
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11, hjust=0.5),
+        axis.title.y = element_text(size=11)) +
+  labs(x = "",
+       y ="")
+```
+
+Nagyjából hasonló eredmény, high-ból a low felé haladva egyre kisebb a kamatsokk. A legalacsonyabb-ban még kicsit kevésbé perzisztens is. Az inflációt nagyjából hasonló mértékben fogja vissza a kamatemelés, a gazdasági visszaesés pedig a magas regime-ben érezhetően magasabb mint alatta.
+
+Pár apróság, ami még megemlítendő: 
+
+ - Mindegyik modellből csak a saját regime-jét sokkolom, de az a másik regime-ekre is kihat. Ez szerintem nem probléma, ha pl. high regime-ben vagyok, ott a többi idősor értéke a konstrukció alapján 0-val van megszorozva - tehát elméletileg ott nem lenne impact. Teljesen még nem győztem meg magam ezzel kapcsolatban, de szerintem ez nem problémás.
+ 
+ - Van még más algoritmus is a 'VarSignR' csomagban az Uhlig féle rejection és penalty-n kívül. Van még az Arias-Rubio-Wagoner féle rejection algoritmus (ők kritizálták egyébként az Uhlig féle penalty method hátrányait) - ezzel még értemes lehet kísérletezni - elvileg hatékonyabb, mint az Uhlig féle method. Illetve van még Fry-Pagan median targeting algoritmusa is - ezt még nem ismerem annyira.
+ 
+ - Az MCMC szimulációk viszonylag gyorsak, így akár növelhetek a szimulált posterior-ok / impulzus válaszok számán, illetve a megtartott impulzus válaszok on is (hátha van ahol komolyabb szimulációval talál mégtöbb IRF-et ami megfelel az előjel megkötéseknek).
+ 
+ - Lehet majd robustness check-et csinálni más indexekkel (VIX / TED spread / Financial stress indicator, stb), az akár itt, akár - ha értelmes eredmény jön ki - a local projection-ös módszerhez (amikor eljutok odáig) jó lehet.
+ 
+ 
+ 
+ 

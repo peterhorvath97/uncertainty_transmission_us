@@ -1,0 +1,643 @@
+---
+title: "The Impact of Uncertainty on Monetary Transmission"
+author: "Péter Horváth"
+output: 
+  pdf_document:
+    includes:
+      in_header: "preamble.tex"
+fontsize: 12pt
+bibliography: "ref.bib"
+csl: "custom-citations.csl"
+link-citations: true
+linkcolor: "blue"
+geometry: "a4paper,outer=25mm,inner=35mm,top=25mm,bottom=25mm"
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE,
+                      message = FALSE,
+                      results = FALSE)
+```
+
+## Abstract
+
+This paper discusses the nonlinear relationship between uncertainty on the monetary transmission mechanism. The notion is that high uncertainty dampens the transmission of the interest rate channel, thus implying the importance of using forward guidance alongside interest rate decisions. To study this nonlinear relationship, I use a threshold VAR approach to estimate sign restricted VAR models. The results show that at more extreme levels of uncertainty there are considerable differences in the transmission mechanism. Moreover, in such instances monetary policy is able to anchor inflation less effectively and is only able to do so with a larger drop in economic activity.
+
+\bigskip
+
+\noindent \textbf{Keywords:} Uncertainty, Monetary transmission, Non-linearity, Sign restriction, Vector-Autoregression
+
+\newpage
+
+## Introduction
+
+Over the recent years, uncertainty and asymmetries are two subjects that gained considerable traction in macroeconomics research. Both fields of research already have a rich literature, with there being a consensus on uncertainty shocks having an impact resembling that of a negative demand shock on economic activity (@CARRIERESWALLOW2013316, @COLOMBO201339, @CALDARA2016185, @CHENG2018305, @BONCIANI2020102236, @NILAVONGSE2020108765); and several papers have shown that macroeconomic shocks can have different impacts depending on the state of the economy.
+@RePEc:eee:jmacro:v:69:y:2021:i:c:s0164070421000379, @RePEc:fip:fedker:00016, @RePEc:cup:macdyn:v:20:y:2016:i:05:p:1219-124600 and @RePEc:jae:japmet:v:19:y:2004:i:5:p:551-565 all take slightly different approaches, however all papers find that macroeconomic shocks lead to a sharper decline when uncertainty is high. Similar processes can be observed when carrying out the analysis with respect to the economy's position in the business cycle. @RePEc:knz:dpteco:1402 and @RePEc:een:camaaa:2020-72 show that uncertainty shocks have larger impact during economic contractions, and @RePEc:gro:rugsom:98c36 finds that monetary transmission is amplified during recessionary periods in the US and Germany. Another field of research on asymmetric dynamics is finding asymmetry in monetary policy-making itself. @Lin+2021+425+447 finds that macroeconomic aggregates react asymmetrically to positive and negative monetary policy shocks. @doi:10.1080/1331677X.2018.1481445 links uncertainty and asymmetries in monetary policy by assuming a difference in the policy reaction function over the business cycle. 
+
+With this paper, I aim to contribute to the pre-existing literature, by linking the effect of uncertainty to the efficacy of monetary transmission. The results could have key implications for policy making, more specifically, it could highlight the importance of forward guidance measures, especially during times, when economic uncertainty is at its peak. 
+
+The rest of the paper will be outlined as follows: Section 2 gives a brief overview of the data used, Section 3 discusses the empirical strategy, in Section 4 I discuss the results, in Section 5 I check the results' robustness to alternate specifications and Section 6 concludes.
+
+
+## Data
+
+For the purposes of the analysis I will be estimating VAR models with three variables, the federal funds rate, consumer price index, and industrial production index. All data are monthly from ranging from January 1985 to December 2019 and all are retrieved from the federal reserve database.
+
+```{r}
+#loading packages
+#packages
+library(fredr)
+library(tidyverse)
+library(gridExtra)
+library(fredr)
+library(VARsignR)
+library(rlang)
+library(lubridate)
+
+#set api key
+fredr_set_key("cda47ae66b38ed7988c0a9c2ec80c94f")
+
+#download data
+params <- list(
+  series_id = c("USEPUINDXD", "DFF", "USACPIALLMINMEI", "INDPRO"),
+  frequency = "m",
+  observation_start = as.Date("1950-01-01")
+)
+
+
+import  <- pmap_dfr(
+  .l = params,
+  .f = ~ fredr(series_id = .x, frequency = .y)
+) %>%
+  select(date, series_id, value) %>%
+  spread(key = series_id, value = value) %>%
+  drop_na() %>% rename(epu = USEPUINDXD,
+                       ffr = DFF,
+                       cpi = USACPIALLMINMEI,
+                       indpro = INDPRO
+  ) 
+
+#select data range
+data <- import %>%
+  select(date, epu, ffr, cpi, indpro) %>%
+  drop_na() %>% filter(date <= as.Date("2019-12-01"))
+```
+
+```{r, fig.cap = "Time series plots of the Federal Funds Rate, Consumer Price Index and Industrial Production Index for the USA."}
+#plotting the data series
+data %>%
+  gather(key = "variable", value = "value", ffr, cpi, indpro) %>%
+  mutate(variable = case_when(variable == "ffr" ~ "Federal Funds Rate",
+                              variable == "cpi" ~ "Consumer Prices",
+                              variable == "indpro" ~ "Industrial Production Index"),
+         variable = factor(variable, levels = c("Federal Funds Rate", "Consumer Prices", "Industrial Production Index"))) %>%
+  ggplot(aes(x = date, y = value)) +
+  geom_line() +
+  facet_wrap(~variable, scales = "free", nrow = 3) + theme_minimal() +
+  labs(x = "",
+       y = "") 
+```
+
+As most macroeconomic variables, these data series are not stationary either, which is not desirable for the stability of the VAR models. For this reason I will be using the first difference of the industrial production index and the CPI. However, I will use the FFR at its level. This way I have better stability in my models and all variables have clear economic interpretation, as the two first-differenced data series can be considered as monthly growth rates of production and inflation respectively.
+
+Another key variable I will be using as a "quasi transition variable" is a measure of uncertainty. This however is not a trivial metric, as several data series can be interpreted as a measurement of economic turmoil. Commonly used indices to measure uncertainty are are the VIX index and the TED spread. 
+
+```{r, fig.cap = "Time series plots of the VIX index, TED spread and the Economic Policy Uncertainty index, log scales."}
+unc_measures <- bind_rows(
+  fredr(series_id = "USEPUINDXD",
+        frequency = "m") %>%
+    dplyr::select(date, value) %>%
+    mutate(id = "EPU index",
+           id = as.factor(id)),
+  fredr(series_id = "TEDRATE",
+        frequency = "m") %>%
+    dplyr::select(date, value)%>%
+    mutate(id = "TED spread",
+           id = as.factor(id)),
+  fredr(series_id = "VIXCLS",
+        frequency = "m") %>%
+    dplyr::select(date, value)%>%
+    mutate(id = "VIX index",
+           id = as.factor(id))
+) %>% filter(date <= as.Date("2019-12-01"))
+
+#Plot uncertainty measures
+unc_measures %>% 
+  ggplot(aes(x = date, y = value, group = id, color = factor(id))) +
+  geom_line() + 
+  geom_smooth(method = "gam", se = FALSE, linetype = "dashed") +
+  scale_y_log10() +
+  scale_color_viridis_d(begin = 0.05, end = 0.4, name = "Index", option = "turbo") +
+  theme_minimal() +
+  labs(x = "",
+       y = "")
+```
+
+The former derives from the market expectations on the price changes of the S&P500 index, while the latter is the difference between the 3 month London interbank rate and the 3 month US treasury bill. Both are widely used in measuring financial stress or uncertainty, however in recent years in the literature on uncertainty, news based indices have gained a lot of traction. One such is the Economic Policy Uncertainty index created by @baker2016measuring .
+
+```{r}
+#generate first differences / growth rates  
+data <- data %>%
+  mutate(cpi = cpi - lag(cpi),
+         indpro = indpro - lag(indpro)) %>% drop_na()
+
+
+#creating threshold values
+data <- data %>%
+  mutate(epu50 = median(epu),
+         epu75 = quantile(epu, probs = 0.75),
+         epu25 = quantile(epu, probs = 0.25))
+```
+
+```{r, fig.cap = "Time series plot of the Economic Policy Uncertainty Index. The red line indicates the median value, the blue lines indicate the upper and lower quartiles."}
+
+#plot epu index with threshold values
+data %>% 
+  select(date, starts_with("epu")) %>% 
+  gather(key = "variable", value = "value", starts_with("epu")) %>% 
+  mutate(variable = case_when(variable == "epu" ~ "EPU",
+                              variable == "epu50" ~ "Median",
+                              variable == "epu25" ~ "Lower quartile",
+                              variable == "epu75" ~ "Upper quartile")) %>% 
+  ggplot(aes(x = date, y = value, group = variable, size = variable, color = variable)) +
+  geom_line() +
+  scale_size_manual(breaks = c("EPU", "Median", "Lower quartile", "Upper quartile"),
+                    values = c(.5, 1, 1, 1)) +
+  scale_color_manual(breaks = c("EPU", "Median", "Lower quartile", "Upper quartile"),
+                     values = c("black", "#df2c14", "#0457ac", "#0457ac")) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  labs(x = "",
+       y = "")
+```
+
+\noindent The index is primarily news based, on uncertainty related keywords in influential newspapers in the US. The index also takes into account temporary tax measures reported by the Congressional Budget Office and the dispersion of individual forecasts from the Federal Reserve Bank of Philadelphia's Survey of Professional Forecasters in the consumer price index and government expenditure. The index is constructed by normalizing the sub-components by their respective standard deviation and then these values are averaged out. Out of the sub-components, the news based part has the highest weight of 0.5 in the index. 
+
+As this index 1) covers a broader spectrum of expectations than the financial market based uncertainty counterparts, and 2) is more specific to economic policy, I believe it should serve as the most adequate measurement of uncertainty for the purposes of this study.
+
+```{r}
+unc_measures <- unc_measures %>% 
+  mutate(id = case_when(id == "EPU index" ~ "epu",
+                        id == "TED spread" ~ "ted",
+                        id == "VIX index" ~ "vix")) %>% 
+  pivot_wider(names_from = id, values_from = value) %>% 
+  drop_na()
+
+cortab_create <- function(data, digits){
+  cortab <- data %>% select(-date) %>% drop_na() %>% cor()
+  cortab <- round(cortab, digits = digits)
+  cortab <- cortab*lower.tri(cortab)
+  diag(cortab) <- 1
+  for(i in 1:nrow(cortab)) {
+    for(j in 1:ncol(cortab)){
+      if(cortab[i,j] == 0) {
+        cortab[i,j] <- " "
+      }
+    }
+  }
+  cortab
+  rownames(cortab) <- c("EPU", "TED", "VIX")
+  colnames(cortab) <- c("EPU", "TED", "VIX")
+  cortab
+}
+```
+
+```{r}
+
+cortab <- cortab_create(unc_measures, 3) %>% 
+  stargazer::stargazer(style  = "aer", 
+                       title = "Correlation table of uncertainty measures",
+                       type = "latex") 
+```
+
+```{r, results='asis'}
+cortab[4:length(cortab)] %>% cat()
+```
+
+We can see from the correlation table, the EPU index has low to moderate correlation with the other indices. This raises the question whether the results would be robust to using one of the other indices in place of the EPU, which is addressed in the robustness check.  
+
+## Empirical Strategy
+
+An empirical challenge for this analysis was coercing the macroeconomic aggregates to behave the way it is written in all macroeconomics textbooks, i.e. to solve the price puzzle. 
+There have already been numerous papers on the topic of solving the price puzzle (e.g.: @RePEc:eee:moneco:v:51:y:2004:i:7:p:1385-1413, @RePEc:hhs:hastef:0414, @RePEc:spr:empeco:v:46:y:2014:i:2:p:701-731, @RePEc:rba:rbardp:rdp2017-02, @RePEc:aea:aejmac:v:8:y:2016:i:4:p:75-102, @RePEc:aea:aecrev:v:94:y:2004:i:4:p:1055-1084), however with the available data series the best empirical approach would be to apply sign restrictions in the model specification. One of the most frequently used methods is the @RePEc:eee:moneco:v:52:y:2005:i:2:p:381-419 penalty algorithm. This method however has some "hidden features" as pointed out by @arias2018inference. Most importantly in this paper, using the penalty function approach would artificially narrow confidence intervals for the estimates, thus giving us a false sense of robustness in the results. For this reason, I will be implementing the full bayesian rejection algorithm of @rubio2010structural. The computation is done by using the R package created by @Danne2015. 
+
+I will introduce non-linearity by using the EPU index to create an indicator function. Taking the interactions of the indicator with each variable, then estimating the sign restricted models will give us a set of impulse responses for each regime which can be compared. First, I will experiment with a two-regime model where the high uncertainty regime is considered when the uncertainty index is above its median. Next I will also estimate a three-regime version, where the threshold values will be the upper and lower quartile values of the index. Thus, a generalized mathematical representation of the model would be as follows:
+ \begin{equation}
+ 	Y_{t} = \sum\limits_{m=1}^{M}\sum\limits_{k=1}^{K}\Theta_{m}I(X_{t})Y_{t-k} + \epsilon_{t},
+ \end{equation}
+where $Y_{t}$ is the vector of endogenous variables, $\Theta_{m}$ is the matrix of coefficients in regime k, $X_{t}$ is the regime indicator function, and $\epsilon_{t}$ is the error term.
+The ordering of the variables will be
+\begin{equation}
+	Y_{t} = 
+	\begin{Bmatrix}
+		FFR_{t} \\
+		CPI_{t} \\
+		INDPRO_{t}
+	\end{Bmatrix}
+\end{equation}
+\noindent which is only important for syntactical purposes, as the R package is only able to carry out partial identifications,and in a vector of a given set of sign restrictions, the first one is considered as the shock. As for the identification scheme, I will use a full set of sign restrictions in each regime, and repeat the simulation of the shock for each regime. 
+
+With monthly data, ideally one would try to utilize as many lagged values in a VAR model as possible. However, due to the complexity of the task, the inclusion of numerous lags will have to be sacrificed. Through experimentation, I found that a lag length of $n = 3$ yields an adequate number of accepted IRF draws when a sufficiently large large simulation is run - meaning 20000 MCMC replications and 200 draws per replication. A minor caveat to mention here is that the results are somewhat sensitive to the lag length of choice. This issue is further discussed in the robustness check.   
+
+In order to compare and analyze results, I find the use of impulse responses to be the best tool. As the sign restriction algorithm gives us a set of impulse responses that satisfy the restrictions, I will be taking the median of the impulse responses and an 84% confidence interval in each case. I will normalize the shocks to a one percentage point interest rate rise, so that the IRF-s are more easily compared.
+
+
+```{r}
+#function to retrieve impulse responses
+get_irf <- function(dim, prob, irflength, irfdata){
+  prob <- prob
+  x <- irfdata[ , ,dim] %>% t() 
+  t <- matrix(nrow = nrow(x), ncol = 1) 
+  med <- matrix(nrow = nrow(x), ncol = 1)
+  up <- matrix(nrow = nrow(x), ncol = 1)
+  dn <- matrix(nrow = nrow(x), ncol = 1)
+  for(i in(1:irflength)){
+    t[i] <- i-1
+    med[i] <- median(x[i,])
+    up[i] <- quantile(x[i,], probs = (1-prob))
+    dn[i] <- quantile(x[i,], probs = prob)
+  }
+  irf <- bind_cols(t, med, up, dn) %>%
+    rename(t = ...1,
+           median = ...2,
+           upper = ...3,
+           lower = ...4)
+  irf
+}
+```
+
+## Results
+
+First let us take a look at the data series colored by the regime indicator. A question that could be raised is whether a regime indicator created from such an index is different enough from a recession indicator. However as we can see from Figures 4 and 5, neither the two or the three-regime variants can be considered interchangeable with a recession indicator.
+
+```{r, fig.cap = "Time series plots of the endogenous variables colored by the regime indicator (2 regimes)."}
+
+#variables by regime indicator
+#####
+#plot variables coloured by regime indicator - 2
+data %>%
+  select(date, ffr, cpi, indpro, epu, epu50) %>%
+  mutate(indicator = ifelse(epu > epu50, 1, 2),
+         indicator = case_when(indicator == 1 ~ "High uncertainty regime",
+                               indicator == 2 ~ "Low uncertainty regime")) %>%
+  gather(key = "variable", value = "value", ffr, cpi, indpro) %>%
+  mutate(variable = case_when(variable == "ffr" ~ "Federal Funds Rate",
+                              variable == "cpi" ~ "Consumer Prices",
+                              variable == "indpro" ~ "Industrial Production Index"),
+         variable = factor(variable, levels = c("Federal Funds Rate", "Consumer Prices", "Industrial Production Index"))) %>%
+  ggplot(aes(x = date, y = value, color = indicator, group = 1)) +
+  geom_line(size = .8) +
+  facet_wrap(~variable, scales = "free", nrow = 3) + theme_minimal() +
+  scale_color_manual(breaks = c("High uncertainty regime", "Low uncertainty regime"),
+                     values = c("#E9002D", "#00B000")) +
+  labs(x = "",
+       y = "",
+       caption = "Shaded areas indicate NBER recession preiods") + 
+  theme(legend.title = element_blank(),
+        legend.position = "bottom") +
+  geom_rect(data = fredr(series_id = "USREC",
+                         frequency = "m") %>% 
+              select(date, recession = value) %>% 
+              mutate(diff = recession - lag(recession)) %>% 
+              filter(!is.na(diff)) %>% 
+              mutate(recession_start = ifelse(diff == 1, as.character(date), NA),
+                     recession_end = ifelse(diff == -1, as.character(date), NA)) %>% 
+              filter(!is.na(recession_start) | !is.na(recession_end)) %>% 
+              mutate(recession_end = ifelse(!is.na(recession_start), lead(recession_end), NA)) %>%
+              filter(!is.na(recession_start)) %>% 
+              mutate(across(.cols = c(recession_start, recession_end), .fns = ~as.Date(.x))) %>% 
+              select(recession_start, recession_end) %>% 
+              filter(recession_start >= min(data$date),
+                     recession_start <= max(data$date)),
+            inherit.aes = F,
+            aes(xmin = recession_start, xmax = recession_end, ymin = -Inf, ymax = Inf), 
+            fill = "grey50", alpha = 0.5)
+
+```
+
+```{r, fig.cap = "Time series plots of the endogenous variables colored by the regime indicator (3 regimes)."}
+#plot variables coloured by regime indicator - 3
+data %>%
+  select(date, ffr, cpi, indpro, epu, epu25, epu75) %>%
+  mutate(indicator_up = ifelse(epu > epu75, 1,0),
+         indicator_dn = ifelse(epu < epu25, 1, 0),
+         indicator_mid = ifelse(indicator_up == 0 & indicator_dn == 0, 1, 0),
+         indicator = case_when(indicator_up == 1 ~ "High uncertainty regime",
+                               indicator_mid == 1 ~ "Medium uncertainty regime",
+                               indicator_dn == 1 ~ "Low uncertainty regime"),
+         indicator = factor(indicator, levels = c("High uncertainty regime",
+                                                  "Medium uncertainty regime",
+                                                  "Low uncertainty regime"))) %>%
+  gather(key = "variable", value = "value", ffr, cpi, indpro) %>%
+  mutate(variable = case_when(variable == "ffr" ~ "Federal Funds Rate",
+                              variable == "cpi" ~ "Consumer Prices",
+                              variable == "indpro" ~ "Industrial Production Index"),
+         variable = factor(variable, levels = c("Federal Funds Rate", "Consumer Prices", "Industrial Production Index"))) %>%
+  ggplot(aes(x = date, y = value, color = indicator, group = 1)) +
+  geom_line(size = .8) +
+  facet_wrap(~variable, scales = "free", nrow = 3) + theme_minimal() +
+  scale_color_manual(breaks = c("High uncertainty regime", "Medium uncertainty regime", "Low uncertainty regime"),
+                     values = c("#E9002D", "#9EC9E2" , "#00B000")) +
+  labs(x = "",
+       y = "",
+       caption = "Shaded areas indicate NBER recession preiods") + 
+  theme(legend.title = element_blank(),
+        legend.position = "bottom") +
+  geom_rect(data = fredr(series_id = "USREC",
+                         frequency = "m") %>% 
+              select(date, recession = value) %>% 
+              mutate(diff = recession - lag(recession)) %>% 
+              filter(!is.na(diff)) %>% 
+              mutate(recession_start = ifelse(diff == 1, as.character(date), NA),
+                     recession_end = ifelse(diff == -1, as.character(date), NA)) %>% 
+              filter(!is.na(recession_start) | !is.na(recession_end)) %>% 
+              mutate(recession_end = ifelse(!is.na(recession_start), lead(recession_end), NA)) %>%
+              filter(!is.na(recession_start)) %>% 
+              mutate(across(.cols = c(recession_start, recession_end), .fns = ~as.Date(.x))) %>% 
+              select(recession_start, recession_end) %>% 
+              filter(recession_start >= min(data$date),
+                     recession_start <= max(data$date)),
+            inherit.aes = F,
+            aes(xmin = recession_start, xmax = recession_end, ymin = -Inf, ymax = Inf), 
+            fill = "grey50", alpha = 0.5)
+```
+
+Next, taking a look at the impulse responses of the two-regime model in Figure 5, we see a lack of strong evidence for non-linearity. The simulated path of the FFR shock and the response of inflation is rather similar in both regimes. The only noticeable difference is in the response in economic activity, as in the low uncertainty case the drop in output is much less persistent compared to the high-regime. This could be explained by low uncertainty periods generally being characterized by stable GDP growth as seen in the previous graphs.
+
+```{r, fig.cap = "Impulse responses from two-regime model.",             fig.height = 4.5}
+#some parameters for estimation and irfs
+nlag <- 3
+seed <- 2022
+prob <- 0.16
+irflength <- 21
+draw <- 20000
+subdraw <- 200
+
+# fit 2 regime model
+data_2regime <- data %>%
+  select(date, ffr, cpi, indpro, epu, epu50) %>%
+  mutate(indicator = ifelse(epu > epu50, 1, 0),
+         indicator_inv = ifelse(indicator == 1, 0, 1),
+         ffr_up = ffr*indicator,
+         cpi_up = cpi*indicator,
+         indpro_up = indpro*indicator,
+         ffr_dn = ffr*indicator_inv,
+         cpi_dn = cpi*indicator_inv,
+         indpro_dn = indpro*indicator_inv) %>% as_tibble() %>%
+  select(ffr_up, cpi_up, indpro_up, ffr_dn, cpi_dn, indpro_dn) %>% ts()
+
+est_irfs_2regime <- function(data_2regime, nlag, draw, subdraw, irflength, prob, seed){
+set.seed(seed)
+constr_up <- c(+1, -2, -3)
+model_up <- rwz.reject(Y=data_2regime, nlags=nlag, draws=draw, subdraws=subdraw, nkeep=1000, KMIN=1,
+                       KMAX=6, constrained=constr_up, constant=TRUE, steps=21)
+irfs1 <- model_up$IRFS
+
+set.seed(seed)
+constr_dn <- c(+4, -5, -6)
+model_dn <- rwz.reject(Y=data_2regime, nlags=nlag, draws=draw, subdraws=subdraw, nkeep=1000, KMIN=1,
+                       KMAX=6, constrained=constr_dn, constant=TRUE, steps=21)
+irfs2 <- model_dn$IRFS
+
+
+
+ffr_up <- get_irf(1, prob, irflength, irfs1) %>% mutate(label = "FFR",
+                                                        regime = "High uncertainty")
+cpi_up <- get_irf(2, prob, irflength, irfs1) %>% mutate(label = "CPI",
+                                                        regime = "High uncertainty")
+indpro_up <- get_irf(3, prob, irflength, irfs1) %>% mutate(label = "INDPRO",
+                                                           regime = "High uncertainty")
+
+ffr_dn <- get_irf(4, prob, irflength, irfs2) %>% mutate(label = "FFR",
+                                                        regime = "Low uncertainty")
+cpi_dn <- get_irf(5, prob, irflength, irfs2) %>% mutate(label = "CPI",
+                                                        regime = "Low uncertainty")
+indpro_dn <- get_irf(6, prob, irflength, irfs2) %>% mutate(label = "INDPRO",
+                                                           regime = "Low uncertainty")
+
+
+bind_rows(ffr_up, cpi_up, indpro_up,
+          ffr_dn, cpi_dn, indpro_dn) %>%
+  mutate(label = factor(label, levels = c("FFR", "CPI", "INDPRO")),
+         regime = factor(regime, levels = c("High uncertainty", "Low uncertainty"))) %>% 
+  left_join(bind_rows(ffr_up, cpi_up, indpro_up,
+                      ffr_dn, cpi_dn, indpro_dn) %>%
+              mutate(label = factor(label, levels = c("FFR", "CPI", "INDPRO")),
+                     regime = factor(regime, levels = c("High uncertainty", "Low uncertainty"))) %>% 
+              filter(t == 0, label == "FFR") %>% 
+              mutate(mult = 1/median) %>% 
+              select(regime, mult), 
+            by = "regime") %>% 
+  mutate(median = median * mult,
+         upper = upper * mult, 
+         lower = lower * mult)
+}
+
+irfs_2regime <- est_irfs_2regime(data_2regime, nlag, draw, subdraw, irflength, prob, seed)
+
+irfs_2regime %>% 
+  ggplot(aes(x = t, y = median, ymin = lower, ymax = upper)) +
+  geom_line() +
+  geom_hline(yintercept = 0, color = "red") +
+  geom_ribbon(fill="grey", alpha=.2, color="grey50", linetype="dashed") + 
+  facet_wrap(regime~label, scales = "free")+
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11, hjust=0.5),
+        axis.title.y = element_text(size=11)) +
+  labs(x = "",
+       y ="")
+```
+
+With the results of the two-regime model in mind, I believe there is room for further developing the model to investigate the relationship between uncertainty and monetary policy. A problem of the two-regime model could be that the transmission is very similar when uncertainty is just above or just below the median - i.e. not being able to grasp the two extreme sides. Thus, a three-regime variant where the threshold points are at the upper and lower quartiles could yield us a clearer picture. The impulse responses of the three-regime model can be seen below: 
+
+```{r, fig.cap = "Impulse responses from three-regime model.",          fig.height = 6}
+#fit 3 regime model
+data_3regime <- data %>%
+  select(date, ffr, cpi, indpro, epu, epu25, epu75) %>%
+  mutate(indicator_up = ifelse(epu > epu75, 1,0),
+         indicator_dn = ifelse(epu < epu25, 1, 0),
+         indicator_mid = ifelse(indicator_up == 0 & indicator_dn == 0, 1, 0),
+         ffr_up = ffr*indicator_up,
+         cpi_up = cpi*indicator_up,
+         indpro_up = indpro*indicator_up,
+         ffr_mid = ffr*indicator_mid,
+         cpi_mid = cpi*indicator_mid,
+         indpro_mid = indpro*indicator_mid,
+         ffr_dn = ffr*indicator_dn,
+         cpi_dn = cpi*indicator_dn,
+         indpro_dn = indpro*indicator_dn) %>% 
+  as_tibble() %>%
+  select(ffr_up, cpi_up, indpro_up, ffr_mid, cpi_mid, indpro_mid, ffr_dn, cpi_dn, indpro_dn) %>% ts()
+
+est_irfs_3regime <- function(data_3regime, nlag, draw, subdraw, irflength, prob, seed){
+set.seed(seed)
+constr_up <- c(+1, -2, -3)
+model_up <- rwz.reject(Y=data_3regime, nlags=nlag, draws=draw, subdraws=subdraw, nkeep=1000, KMIN=1,
+                       KMAX=6, constrained=constr_up, constant=TRUE, steps=21)
+irfs1 <- model_up$IRFS
+
+set.seed(seed)
+constr_mid <- c(+4, -5, -6)
+model_mid <- rwz.reject(Y=data_3regime, nlags=nlag, draws=draw, subdraws=subdraw, nkeep=1000, KMIN=1,
+                        KMAX=6, constrained=constr_mid, constant=TRUE, steps=21)
+irfs2 <- model_mid$IRFS
+
+set.seed(seed)
+constr_dn <- c(+7, -8, -9)
+model_dn <- rwz.reject(Y=data_3regime, nlags=nlag, draws=draw, subdraws=subdraw, nkeep=1000, KMIN=1,
+                       KMAX=6, constrained=constr_dn, constant=TRUE, steps=21)
+irfs3 <- model_dn$IRFS
+
+
+prob <- 0.16
+irflength <- 21
+
+ffr_up <- get_irf(1, prob, irflength, irfs1) %>% mutate(label = "FFR",
+                                                        regime = "High uncertainty")
+cpi_up <- get_irf(2, prob, irflength, irfs1) %>% mutate(label = "CPI",
+                                                        regime = "High uncertainty")
+indpro_up <- get_irf(3, prob, irflength, irfs1) %>% mutate(label = "INDPRO",
+                                                           regime = "High uncertainty")
+
+ffr_mid <- get_irf(4, prob, irflength, irfs2) %>% mutate(label = "FFR",
+                                                         regime = "Medium uncertainty")
+cpi_mid <- get_irf(5, prob, irflength, irfs2) %>% mutate(label = "CPI",
+                                                         regime = "Medium uncertainty")
+indpro_mid <- get_irf(6, prob, irflength, irfs2) %>% mutate(label = "INDPRO",
+                                                            regime = "Medium uncertainty")
+
+ffr_dn <- get_irf(7, prob, irflength, irfs3) %>% mutate(label = "FFR",
+                                                        regime = "Low uncertainty")
+cpi_dn <- get_irf(8, prob, irflength, irfs3) %>% mutate(label = "CPI",
+                                                        regime = "Low uncertainty")
+indpro_dn <- get_irf(9, prob, irflength, irfs3) %>% mutate(label = "INDPRO",
+                                                           regime = "Low uncertainty")
+
+bind_rows(ffr_up, cpi_up, indpro_up,
+          ffr_mid, cpi_mid, indpro_mid,
+          ffr_dn, cpi_dn, indpro_dn) %>%
+  mutate(label = factor(label, levels = c("FFR", "CPI", "INDPRO")),
+         regime = factor(regime, levels = c("High uncertainty", "Medium uncertainty", "Low uncertainty"))) %>% 
+  left_join(bind_rows(ffr_up, cpi_up, indpro_up,
+                      ffr_mid, cpi_mid, indpro_mid,
+                      ffr_dn, cpi_dn, indpro_dn) %>%
+              mutate(label = factor(label, levels = c("FFR", "CPI", "INDPRO")),
+                     regime = factor(regime, levels = c("High uncertainty", "Medium uncertainty", "Low uncertainty"))) %>% 
+              filter(t == 0, label == "FFR") %>% 
+              mutate(mult = 1/median) %>% 
+              select(regime, mult), 
+            by = "regime") %>% 
+  mutate(median = median * mult,
+         upper = upper * mult, 
+         lower = lower * mult)
+
+}
+
+irfs_3regime <- est_irfs_3regime(data_3regime, nlag, draw, subdraw, irflength, prob, seed)
+
+irfs_3regime %>% 
+  ggplot(aes(x = t, y = median, ymin = lower, ymax = upper)) +
+  geom_line() +
+  geom_hline(yintercept = 0, color = "red") +
+  geom_ribbon(fill="grey", alpha=.2, color="grey50", linetype="dashed") + 
+  facet_wrap(regime~label, scales = "free")+
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11, hjust=0.5),
+        axis.title.y = element_text(size=11)) +
+  labs(x = "",
+       y ="")
+
+```
+
+As a contrast to the two-regime version, here we can see some sharper differences, hinting at the existence of the nonlinear relationship. In terms of the persistence of the FFR shock we see close to no differences, however differences in the responses of inflation and economic activity between the regimes is intriguing. The first thing we can notice is that the drop in inflation and especially output is considerably more persistent when uncertainty is high compared to the other two-regimes. Raising the interest rate is also considerably less effective at anchoring inflation as in the high uncertainty regime the impact nearly halves compared to the low uncertainty regime. The drop in output is similar in all cases, however in the high uncertainty regime it is mildly amplified - hinting at a moderately larger trade-off in output drop versus inflation anchoring capability. These results suggest that interest rate decisions alone might not be sufficient at effectively reducing inflation, thus implying the importance of utilizing additional measures such as forward guidance in order to moderate economic uncertainty. An important caveat here is that the EPU index by construction would likely be higher around the time of important policy actions such as interest rate rises. This could imply that the true impact of an interest rate decision is closer to what we see from the impulse responses of the high uncertainty regime as opposed to the other two set of impulse responses. This implication could be further reinforced by the fact that only a small proportion of observations from the high uncertainty regime fall into time periods characterized by the zero lower bound. Naturally, this raises a question about the credibility of the other two sets of impulse responses - especially the ones from the low uncertainty regime, as the numerous ZLB data points could introduce some bias to these results. In this respect, there is room for further exploring this relationship with a more complex model framework. 
+
+
+## Robustness Check
+
+In order to further solidify the validity of my results, I test the robustness of my results with alternative specifications. When it comes to a model such as the one I outlined in previous sections, there are three aspects of the specification which can serve as basis for a robustness check: 1) lag structure, 2) the choice of index as the measure of uncertainty, and 3) sign restrictions. Out of these three, I address the former two, as due to the price puzzle the results do not hold without the sign restrictions. As the evidence of non-linearity is found in the three-regime model, I am testing its validity to alternate specifications.
+
+As stated in the Empirical Strategy section, the results are slightly sensitive to the choice of lags included in the models. The median impulse responses with respect to the choice of lags included in the model can be seen in Figure 8.
+```{r, fig.cap= "Robustness check with respect to lag structure" ,             fig.height = 6}
+#Robcheck for nlags
+nlags_list <- NULL
+for(i in 1:3){
+  nlags_list[[i]] <- est_irfs_3regime(data_3regime, nlag = i, draw, subdraw, irflength, prob, seed) %>% 
+    mutate(lag = paste("Lags = ", i, sep = ""))
+}
+bind_rows(nlags_list) %>% 
+  ggplot(aes(x = t, y = median, color = lag, group = lag)) +
+  geom_line(size = .5) +
+  geom_hline(yintercept = 0, color = "red") +
+  facet_wrap(regime~label, scales = "free")+
+  scale_color_viridis_d(begin = 0.05, end = 0.8, name = "Index", option = "magma")+
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11, hjust=0.5),
+        axis.title.y = element_text(size=11)) +
+  labs(x = "",
+       y ="") +
+  theme(legend.title = element_blank())  
+
+```
+Naturally, with fewer lags, the impulse responses are smoother, thus it is not an issue in terms of robustness. With both one and two lags, we can have a similar conclusion on the drop in output and the persistence of output drop increasing with higher levels of uncertainty. However, the responses of inflation are more sensitive to the number of lags included. With just a single lag, the impact of an interest rate raise does not seem to change within the regimes, and with two lagged values, the inflation anchoring capability seems to increase. This can put the validity of the results into question, however I do not find it as troubling, as with more lags included, the model is better at capturing the underlying data generating processes. With regards to higher lags, I did not further explore the results' robustness, as due to a lack of accepted draws, those results would be less credible.
+
+The other aspect with respect to which robustness can be questioned is the choice of index from which the regime indicator function is created. As the TED spread is only available from 1986, and the VIX index from 1990, for the purposes of this robustness check the data range starts from January 1990 as opposed to the datasets of the previous simulations starting in 1985. Figure 9 shows the impulse responses with the regime indicators created from alternate uncertainty measures.
+
+```{r, fig.cap= "Robustness check with respect to uncertainty measurement" ,             fig.height = 6}
+#Robcheck for index
+data <- data %>% select(date, ffr, cpi, indpro) %>% 
+  inner_join(unc_measures, by = "date")
+
+data_list <- NULL
+indices <- c("epu", "ted", "vix")
+for(i in 1:length(indices)){
+  data_list[[i]] <- 
+    data %>% 
+    select(ffr, cpi, indpro, !!sym(indices[i])) %>% 
+    mutate(indicator_up = ifelse(!!sym(indices[i]) > quantile(!!sym(indices[i]), 0.75), 1, 0),
+           indicator_dn = ifelse(!!sym(indices[i]) < quantile(!!sym(indices[i]), 0.25), 1, 0),
+           indicator_mid = ifelse(indicator_up == 0 & indicator_dn == 0, 1, 0),
+           ffr_up = ffr*indicator_up,
+           cpi_up = cpi*indicator_up,
+           indpro_up = indpro*indicator_up,
+           ffr_mid = ffr*indicator_mid,
+           cpi_mid = cpi*indicator_mid,
+           indpro_mid = indpro*indicator_mid,
+           ffr_dn = ffr*indicator_dn,
+           cpi_dn = cpi*indicator_dn,
+           indpro_dn = indpro*indicator_dn) %>% 
+    as_tibble() %>%
+    select(ffr_up, cpi_up, indpro_up, ffr_mid, cpi_mid, indpro_mid, ffr_dn, cpi_dn, indpro_dn) %>% ts()
+}
+index_list <- NULL
+for(i in 1:length(indices)){
+  index_list[[i]] <- est_irfs_3regime(data_list[[i]], nlag, draw, subdraw, irflength, prob, seed) %>% 
+    mutate(index = str_to_upper(indices[i]))
+}
+bind_rows(index_list) %>% 
+  ggplot(aes(x = t, y = median, color = index, group = index)) +
+  geom_line(size = .5) +
+  geom_hline(yintercept = 0, color = "red") +
+  facet_wrap(regime~label, scales = "free")+
+  scale_color_viridis_d(begin = 0.05, end = 0.8, name = "Index", option = "viridis")+
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11, hjust=0.5),
+        axis.title.y = element_text(size=11)) +
+  labs(x = "",
+       y ="") +
+  theme(legend.title = element_blank())
+
+```
+
+With these sets of IRF-s we can see more differences, which was expected, as they are not strongly correlated. However, by comparing each set of IRF-s with each other, most of the results that were previously derived from the model which used the EPU as a basis for its regime indicator seem to be robust. Here with each index we can observe that the inflation anchoring power drops in higher uncertainty, with the magnitude of the initial impact dropping substantially in the high uncertainty regime compared to its low counterpart. However it is important to mention that the persistence of the inflation drop is also slightly elevated in the high uncertainty regime. With respect to the responses of output, we can observe some similarities, however some conflicting outcomes as well. While with the EPU index, the output impact of an interest rate raise seems to grow larger, it is not the case with the VIX index or the TED spread. However with all indices, the persistence of the output drop does increase with higher uncertainty.
+
+## Conclusion
+
+This paper attempts at quantifying the impact of uncertainty on the monetary transmission mechanism. To study this nonlinear relationship I fit a two and three-regime VAR model with sign restrictions using an indicator function created from the EPU index. While in the two-regime case there seems to be close to no evidence of non-linearity in the interest rate channel, in the more extreme sides of the uncertainty distribution we can observe that high levels of uncertainty above its upper quartile seems to dampen the inflation anchoring capability of interest rate shocks at a mildly larger output drop trade-off. This would imply two conclusions: 1) as the index measuring uncertainty tracks news coverage - taking higher values around important policy decisions - it is likely the true impact of the interest rate channel is quantitatively more similar to the impact observed in high uncertainty times; and 2) interest rate decisions alone are less effective at anchoring inflation - pointing to the necessity of combining it with alternative measures like forward guidance. Quantifying the impact of such measures is however beyond the scopes of this paper.
+
+
+
+
+## References
+<div id="ref"></div>

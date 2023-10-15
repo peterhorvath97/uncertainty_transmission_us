@@ -1,0 +1,752 @@
+---
+title: "The Impact of Uncertainty on Monetary Transmission"
+subtitle: "Evidence from the US"
+author: "Péter Horváth" 
+#date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  pdf_document:
+    #toc: true
+    #toc_depth: 3
+    includes:
+      in_header: "preamble.tex"
+      before_body: "before_body.tex"
+    number_sections: true
+abstract: "This paper investigates the nonlinear interaction of the monetary transmission mechanism and economic uncertainty in the United States. I employ a Threshold VAR model with two states dependent on the level of uncertainty, and identify regime specific shocks using sign-restrictions. Results suggest that \\textcolor{red}{FILL IN THE BLANK}. Using a number of alternative specifications as robustness checks \\textcolor{red}{FILL IN THIS BLANK TOO}. Implications for policymakers are \\textcolor{red}{BLANK NUMBER THREE TO BE FILLED}."
+fontsize: 12pt
+bibliography: "ref.bib"
+csl: "custom-citations.csl"
+link-citations: true
+linkcolor: "blue"
+geometry: "a4paper,outer=25mm,inner=25mm,top=25mm,bottom=25mm"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE,
+                      message = FALSE,
+                      results = FALSE)
+
+library(tidyverse)
+library(readr)
+library(lubridate)
+library(stringr)
+library(rebus)
+
+lw = .5
+
+source('codes/data2.R')
+
+quarterly_format <- function(input_date){
+require(lubridate)
+
+# Your input date string
+input_date <- input_date
+
+# Convert the input date to a date object
+date_obj <- ymd(input_date)
+
+# Extract the year and quarter
+year <- year(date_obj)
+quarter <- quarter(date_obj)
+
+# Create the desired output format "YYYY-QN"
+output_format <- paste0(year, "-Q", quarter)
+
+output_format
+}
+
+estout_clean <- read_rds('data/estout_clean.Rds')
+
+irfs <- estout_clean[['irfs']]
+```
+
+# Introduction
+
+This paper serves as a natural followup to @horvathTBAuncertain. The paper establishes how the interest rate channel of the monetary transmission intertwined with economic uncertainty influences economies from across the globe. The results indicate that in times of high uncertainty, interest rate shocks lead to a larger contraction of macroeconomic demand, primarily reflecting in a larger and longer lasting slump in economic activity. 
+
+While the main implications are clear, there is still room for further investigation. As a result of using a wide variety of countries for the estimation, some factors - such as a more nuanced investigation into the source of economic uncertainty; checking to what extent the Zero Lower Bound influences the results; whether or not excess financial stress caused by uncertainty is reflected in macroeconomic aggregates; or whether uncertainty is endogenous to policy shocks - was not possible to incorporate. This paper intends to fill this knowledge gap, by changing from a birds-eye view to a more microscopic perspective focusing on implications solely from the United States.
+
+I adopt the same Threshold Vector-Autoregression (TVAR) model as well as sign-restriction approach to identify regime specific shocks. Following the previous paper, the core data behind the estimations are macroeconomic aggregates on a quarterly frequency, consisting of interest rates, inflation and GDP.
+
+However, given the wider range of data available for the US, there is room for a number of alternative specifications, such as using the @wu2016measuring shadow rate to measure implied interest rates at the ZLB, or incorporate the St. Louis Fed Financial Stress Index as a control variable in the model.
+
+As opposed to using the global versions of uncertainty indices, I switch to the US specific ones. For the main measure of uncertainty, I use the @baker2016measuring Economic Policy Uncertainty (EPU) index. As the EPU for the US has a number of supplementary Categorical indices (e.g.: indices specific to Monetary Policy, Financial Regulation, or Sovereign debt and currency crises) available, I also explore how different sources of uncertainty influence the transmission mechanism.
+
+The potential endogeneity issue between uncertainty and policy shocks is addressed using simple Granger-causality tests, as well as explicitly incorporating the uncertainty index into the TVAR model as a control variable.
+
+\textcolor{red}{WRITE SOMETHING ABOUT THE RESULTS HERE 1-2 PARAGRAPHS.}
+
+The rest of the paper is outlined as follows: Section 2 gives a brief overview of the related literature, Section 3 describes the data used in this paper, Section 4 discusses the methodology, Section 5 showcases the results and their implications and Section 6 concludes.
+
+# Related literature
+
+Following the seminal works such as @baker2016measuring or @caldara2022measuring, a vast body of literature has emerged in the field of empirical macroeconomics focusing on economic uncertainty and its implications for economies. The aforementioned papers establish the key implications on the economy. Uncertainty shocks cause a demand-side contraction, the primary channel being uncertainty disincentivizing investments. Moreover (specifically contractive) uncertainty shocks have a more pronounced impact in times of economic turmoil and financial stress.
+
+Following such works, @caldara2016macroeconomic show that financial and uncertainty shocks are pivotal drivers of business cycles, exemplified during events like the Great Recession. Likewise, @bonciani2020international show that global financial uncertainty shocks bear down on economies, particularly in open economies during downturns.
+
+The global importance of uncertainty shocks is further studied in works such as @colombo2013economic, @nilavongse2020economic or @biljanovska2021fear, showing that uncertainty shocks of large economies - most predominantly shocks in the US - have a considerable spillover effect on economies such as the UK, Euro Area economies, as well as countries of the Western Hemisphere.
+
+@cheng2018important show that geopolitical uncertainty is a significantly influential factor in driving business cycle fluctuations of emerging economies. Works such as @carriere2013impact, @ahir2019caution, @ahir2022world show that these economies suffer greater downturns as the impact of uncertainty shocks is magnified by credit constraints, albeit there is some dispute in these findings, as @das2018international argue the opposite.
+
+As demonstrated by a number of papers such as @ebeke2018trade, @wang2021trade, @chen2021tariff, and @william2022economic, shocks to uncertainty related to trade policy are shown to exert similar adverse effects on investment by reducing risk appetite; additionally increasing firm markups as well as deterring exports.
+
+On the methodological side of the literature, the use of nonlinear models - such as threshold or smooth-transition techniques - for modeling time series have been steadily rising. TVAR models - as a method of introducing state dependency into multivariate time series models - have seen a wide range of use cases in works such as @baum2011impact studying the state dependency of fiscal multipliers along the business cycle; @galvao2006structural using such models to predict recession timings; or @alessandri2019financial showing the state dependency of uncertainty shocks on financial conditions.
+
+Such techniques are used for research on monetary policy as well. @avdjiev2014credit show that policy shocks have a more pronounced impact during low-growth periods while monetary policy having a aggressive responses during booms; @schmidt2020risk find evidence for state-dependency on asset prices, with macro-risk and policy risk playing distinct roles for the transmission; while @li2010financial and later @fry2016effects highlight monetary policy efficacy in times of financial stress, emphasizing short-term trade-offs between output and inflation.
+
+The state-dependent nature of uncertainty shocks is further established using nonlinear time series techniques. @schuler2014asymmetric and @colombo2020asymmetric both find that uncertainty shocks have a more significant effect during recessions, also showing the vital role of monetary policy measures - especially balance sheet-based tools - in mitigating such shocks. @nalban2021asymmetric also shows that the impact of uncertainty varies with the economic state, amplifying during financial distress but rebounding faster due to monetary policy reactions.
+
+Works such as @aastveit2017economic and @aquino2022does investigate the state-dependency of monetary shocks conditional on economic uncertainty. While the methods differ slightly, their results suggest that economic uncertainty hinders the transmission completely, as the responses of both output and inflation are decreased in high uncertainty times compared to the responses in times of low uncertainty.
+
+@aastveit2017economic uses an interacted SVAR approach, where the uncertainty-based regime indicator is interacted with only the interest rate in the model, all else is kept in a linear form. The regimes are selected based on the very extreme sides of the distribution however, which is criticized by @aquino2022does. The latter introduces the threshold assumption into the interest rate equation of the SVAR model - implying a state dependent Taylor Rule - and additionally classify the high and low regimes using a grid-search algorithm[^1].
+
+[^1]: Results from this algorithm in the paper suggest the regime switches are at the 57th, 58th and 65th percentile of the historical distribution depending on the index. While it is true, that the correct specification of the threshold value is important for goodness-of-fit, the more ad-hoc definition of high uncertainty at the median and the 70th percentile is kept as in @horvathTBAuncertain for the sake of simplicity and comparability.
+
+While theoretical arguments are compelling, taking into account how the equations describing the evolution of inflation and economic activity change across regimes should be paramount in measuring how the transmission changes with the uncertainty regimes. Additionally, arguments can be made for i) high uncertainty inflating the variance of outcomes in periods affected and thus enlarging the impact of all shocks; ii) uncertainty influencing the future expectations of agents; iii) uncertainty can introduce excess financial stress and thus influencing the transmission through this channel; or iv) uncertainty could prove to be endogenous to policy shocks.
+
+Works that might support the results of this paper could be @gbohoui2021uncertainty where an increase in investment multipliers is shown in times of high uncertainty, implying larger and longer lasting effects; or @ying2022role finding that monetary policy uncertainty moderates the transmission of forward guidance shocks on long-term yields, but not the transmission of Federal Funds Rate or asset price shocks, furthermore, the moderation effect is shown to be a consequence of changes in the term-premium and not through the channel of short rates. 
+
+# Data
+
+## Macroeconomic aggregates
+
+In order to keep the estimation streamlined, I rely on quarterly macroeconomic aggregates from `r max(min(data2[['uncertainty']][['date']]), min(data2[['macro']][['date']])) %>% quarterly_format()` to `r min(max(data2[['uncertainty']][['date']]), max(data2[['macro']][['date']])) %>% quarterly_format()`[^2] as the core set of data behind the estimations. The three main aggregates are interest rates, quarterly inflation rates - measured as the first difference of the CPI - and quarterly real GDP growth rates - measured as the first difference of the chain volume index calculated from quarterly real GDP.
+
+[^2]: The range of data does change in some specifications, as the Shadow Rate or the St. Louis Fed Financial Stress Index are only available on a shorter period of time.
+
+Figure \ref{fig:interest} below shows the three measures of interest rates I consider in different specifications. In the first set of estimations, policy shocks are measured as innovations of the Federal Funds Rate (FFR). In order to add some further nuance to the estimations, two other series are also considered.
+
+```{=latex}
+\begin{figure}[!htbp]
+```
+```{r interest rates}
+full_join(
+  data2[["macro"]] %>% 
+    select(date, ffr = r),
+  data2[["macro_alt"]] %>% 
+    select(date, r1y, ffr_shadow),
+  by = 'date') %>% 
+  gather(variable, value, -date) %>% 
+  mutate(variable = case_when(variable == 'ffr' ~ 'Federal Funds Rate',
+                              variable == 'ffr_shadow' ~ 'Shadow rate',
+                              variable == 'r1y' ~ '1-Year Treasury Yield')) %>% 
+  ggplot(aes(x = date, y = value, color = variable)) +
+  geom_line(linewidth = lw) +
+  scale_color_manual(breaks = c('Federal Funds Rate',
+                                'Shadow rate',
+                                '1-Year Treasury Yield'),
+                     values = c('dodgerblue',
+                                'firebrick',
+                                'limegreen')) +
+  theme_minimal() +
+  theme(legend.title = element_blank(),
+        legend.position = 'bottom') +
+  labs(x = "",
+       y = "")  
+
+
+```
+```{=latex}
+\caption{Interest rates \label{fig:interest}}
+\end{figure}
+```
+
+In an alternative specifications the FFR is replaced with the 1-Year Treasury Yield. While the two show high co-movement, the latter may carry some additional information such as market expectations or yield curve dynamics, that might have an impact on the results.
+
+A further specification is considered where interest rates are measured by the @wu2016measuring shadow rate. While through the majority of the sample, the FFR and its shadow rate are highly correlated, the latter contains information about the implied rate of interest in the time period between 2008 and 2015 or 2020 and 2021 where the interest rates were close to the Zero Lower Bound. Estimating with the shadow rate is important as sign-restriction algorithms could lead to biased outcomes as a result of the ZLB periods.
+
+As shown by @li2010financial and @fry2016effects, in times of high financial stress, monetary policy can potentially become more effective. As elevated levels of uncertainty are likely associated with higher financial stress, it might be necessary to control for it as well. For this reason, additional to the standard macroeconomic aggregates, the St. Louis Fed Financial Stress Index is considered as a control variable.
+
+## Measuring uncertainty
+
+In the models outlined, my primary measure of uncertainty is the @baker2016measuring EPU index. This measure of uncertainty is constructed from textual data retrieved from articles of influential newspapers in the US. Using the articles, automated text queries are conducted in order to find articles containing terms related to "uncertainty" and either "economic" or "policy". [^3]
+
+[^3]: The data series of uncertainty measures along with more detailed descriptions of each can be retrieved from [policyuncertainty.com](https://www.policyuncertainty.com/).
+
+Why use measures constructed from textual data? A benefit of using the EPU over more standard measures such as the VIX is that it is more tailored to "economic" or "economic policy" related uncertainty, and thus should be more influential on the impact of policy shocks. Additionally, as opposed to being constructed from financial market data, the news articles might be a more suitable source of information to capture expectations of agents in the economy.
+
+In order to define what "high uncertainty" is, I consider two alternatives based on position in the historical distribution of the EPU. In the first case, high uncertainty is defined as values of the EPU above its median, while in the second case, above its 70th percentile. While these are more ad-hoc definitions, for the sake of better conveying the implications of the results, I prefer using such pre-defined levels over an endogenously defined one from a Threshold AR model. The EPU along with the two threshold values can be seen in Figure \ref{fig:epu}.
+
+```{=latex}
+\begin{figure}[!htbp]
+```
+```{r epu}
+
+full_join(
+  data2[['uncertainty']],
+  data2[['forrob']],
+  by = 'date') %>%
+  select(date, epu) %>% 
+  mutate(med = quantile(epu, prob = .5),
+         pc70 = quantile(epu, prob = .7)) %>% 
+  ggplot(aes(x = date, y = epu)) + 
+  geom_line(linewidth = .7) +
+  geom_line(aes(x = date, y = med), color = '#0074D9', linetype = 'dashed', linewidth = .7) + 
+  geom_line(aes(x = date, y = pc70), color = '#FF4136', linetype = 'dashed', linewidth = .7) +
+  theme_minimal() +
+  labs(x = "",
+       y = "")
+
+
+
+```
+
+```{=latex}
+\caption{Economic Policy Uncertainty index \label{fig:epu}}
+\bigskip
+\footnotesize
+\textit{Notes}: The blue and red lines indicate the median and 70th percentile of the historical distribution respectively.
+\end{figure}
+```
+
+In @baker2016measuring, along with the main EPU index, several EPU Categorical indices are also constructed. These indices are more specific to a certain topic within "economic" or "economic policy" such as monetary policy, fiscal policy, or sovereign debt crises. In order to pinpoint the source of uncertainty that might be most influential for the transmission of monetary policy shocks, I repeat the estimations with the EPU Categorical indices in place of the main EPU index. The EPU categorical indices can be seen in Figure \ref{fig:epucat} of the Appendix.
+
+It is important to mention that there are a number of alternative^[These measures can be seen in Figure \ref{fig:unces} of the Appendix.] measurements of uncertainty in the literature. These indices are for example the Equity Market-related Economic Uncertainty Index of @baker2016measuring; the Geopolitical Risk Index and the Trade Policy Uncertainty Index of @caldara2022measuring and @caldara2020economic; the World Uncertainty Index of @ahir2022world; as well as the VIX Index and the TED spread. In this paper, only the EPU and its Categorical indices are considered as measures of uncertainty.
+
+# Methodology
+
+## Threshold VAR model
+
+As discussed in the Introduction and Literature sections, TVAR models are suitable for modeling non-linearity problems, such as the one discussed in this paper. For the sake of comparability, I adopt the same baseline setup as in @horvathTBAuncertain, however, in alternative specifications, some other factors are considered. Thus the baseline model can bet written as: 
+\begin{equation} \label{eq:1}
+  Y_{t} = \sum\limits_{k=1}^{4}\Theta_{high}I(X_{t} \ge \mu)Y_{t-k} + \sum\limits_{k=1}^{4}\Theta_{low}I(X_{t} < \mu)Y_{t-k} + \epsilon_{t}
+ \end{equation} where $Y_{t}$ is the vector of endogenous variables, $\Theta_{low}$ and $\Theta_{high}$ are the respective coefficient matrices for each regime, $I(.)$ is the regime indicator function, $X_{t}$ is threshold variable, $\mu$ is the threshold value and $\epsilon_{t}$ is the error term.
+ 
+In this main specification, $Y_{t}$ consists of the FFR, quarterly CPI inflation and quarterly GDP growth and $X_{t}$ is the EPU index. To investigate how different sources of economic uncertainty impact the transmission mechanism, the estimation is repeated by replacing plugging in each EPU categorical index into $X_{t}$ in place of the main EPU index. Two different values of $\mu$ are considered, the median value as well as the 70th percentile of $X_{t}$ in each estimation. This allows to check i) how policy shocks affect the economy conditional on the level of economic uncertainty experienced in the same period, ii) to some extent, how much the level of uncertainty matters for the transmission mechanism, and iii) which source of uncertainty is the most influential in altering the transmission channel. 
+
+To address some potential issues, a number of robustness checks are conducted. Firstly, I replace the FFR in $Y_ {t}$ with the 1-Year Treasury Yield and the FFR shadow rate. Secondly, I check if the results hold if I change the construction of the regime indicator from $X_{t}$ to $X_{t-1}$, making it pre-determined, and thereby eliminating the potential of estimating the impact of two contemporaneous shocks. Thirdly, I incorporate the uncertainty index in its levels as well as a financial stress indicator in order to void their effects from the aggregates during the estimation^[Please refer to the [Alternative model specifications] of the Appendix for further details on how Equation \ref{eq:1} above changes]. 
+
+## Identification
+
+The identification of shocks is done using sign-restrictions, as with a relatively compact set of variables, this is the most straight-forward method. As standard macroeconomic theory dictates, I assume that an increase in interest rates should be a negative demand-type shock, and thus lead to a contraction of output and prices. In other terms, a positive sign-restriction is imposed on the interest rates, and a negative on inflation rates as well as GDP growth. Following @uhlig2005effects, the restriction is imposed on the contemporaneous effects, as well as up to 6 quarters ahead after the shock. 
+
+The algorithms proposed in @uhlig2005effects has some shortcomings that should be addressed. As pointed out by @arias2018inference, using the penalty algorithm has some adverse consequences. Firstly, this algorithm can introduce some unintentional sign restrictions on unrestricted variables, thereby leading to biased results. For the main round of estimations, this is no issue, as I work with a full set of sign restrictions. However more notably, the penalty algorithm accepts a larger number of posterior draws, thus narrowing confidence bands. Opposing to this, the rejection algorithm only accepts posterior draws where the impulse responses that exactly fit the imposed sign-restrictions. Additionally, @rubio2010structural proposed a more efficient rejection algorithm, and thus their improved algorithm is implemented in this paper.  
+
+In all cases, the models are estimated using Bayesian methods with a non-informative Wishart prior. The estimations yield a set of impulse response draws, which are aggregated into posterior-median impulse responses along with an 84% confidence interval. All computations are done in the R programming language relying on the work of @Danne2015 for the implementation of the sign-restriction algorithms. 
+
+\textcolor{red}{I SHOULD WRITE SOMETHING ABOUT ENDOGENEITY CONCERNS AND HOW THEY ARE ADDRESSED.}
+
+# Results
+
+## Replicating the baseline specification
+
+In the baseline specification, the three equation TVAR is estimated on interest rates, CPI inflation and GDP growth using a four-quarter lag structure. Monetary shocks are measured as innovations of the Federal Funds Rate, and the threshold value $\mu$ is calculated as the median of the EPU index. Figure \ref{fig:epumedirfs} shows the regime specific impulse responses of inflation and economic activity to a 1 percentage point rise in interest rates.
+
+```{=latex}
+\begin{figure}[!htbp]
+```
+```{r epumedirfs}
+
+irfs %>% 
+  select(-mult, -restr) %>% 
+  filter(label != 'R') %>% 
+  filter(spec == 'main',
+         control == 'none',
+         index == 'epu') %>% 
+  ggplot(aes(x = t, y = median, color = thresh, fill = thresh,
+             ymin = lower, ymax = upper
+  )) +
+  geom_line(linewidth = lw) +
+  geom_hline(yintercept = 0, color = "red") +
+  geom_ribbon(alpha=.1, linetype=0) + 
+  facet_wrap(regime~label, scales = "free")+
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11, hjust=0.5),
+        axis.title.y = element_text(size=11),
+        legend.position = 'none') +
+  scale_color_manual(breaks = c('0.5', '0.7'),
+                     values = c('#0074D9', '#FF4136')) +
+  scale_fill_manual(breaks = c('0.5', '0.7'),
+                    values = c('#0074D9', '#FF4136')) +
+  labs(x = "",
+       y ="")
+
+
+```
+
+```{=latex}
+\caption{Regime specific impulse responses, original specification. \label{fig:epumedirfs}}
+\bigskip
+\footnotesize
+\textit{Notes}: The blue solid line represents the posterior median obtaied with the threshold value $\mu$ set to the median, the red one with it set to the 70th percentile of the EPU. The shaded areas represent the 84\% confidence bands calculated from the posterior impulse response draws.
+\end{figure}
+```
+
+There are some noteworthy differences from these results compared to previous literature. As discussed in the Literature section of this paper, @aastveit2017economic and @aquino2022does show that the transmission efficacy is eroded by high economic uncertainty, while @horvathTBAuncertain find a considerably more prolonged period of contraction induced by monetary shocks in high uncertainty. 
+
+Results from this estimate suggest that the contemporaneous drop in output is slightly larger in low uncertainty, with the following quarters showing a similar level of contraction. Alongside this, disinflation caused by the monetary shock is significantly enhanced in the high uncertainty regime compared to the low uncertainty one.    
+
+Comparing the median and the 70th percentile as threshold levels for the regime switches, the responses of inflation in the lower regime and of output in the higher regime are not too dissimilar, however their opposite uncertainty regime counterparts show some key differences. Firstly, the output contraction in the low regime is elevated when switching to the higher uncertainty threshold. This is in line with the findings of @horvathTBAuncertain, as allocating a larger proportion of observations previously labelled as high uncertainty would support the notion of larger contraction of high uncertainty times. Secondly, we can observe that the response of inflation shifts upwards as we increase the threshold level - albeit retaining a similar shape. This lies closer to the findings of @aastveit2017economic and @aquino2022does as the implication from this suggest that more extreme levels of uncertainty would erode the transmission. 
+
+
+
+\textcolor{red}{EZT AMÚGY MAJD MÁSHOVA RAKNÁM.}^[To further clarify, global uncertainty measures are likely better at capturing one of the mechanisms, through which geoeconomic fragmentation impacts economies, as noted in @ilyna2023geo. While here and and in the cited previous literature, country-specific uncertainty measures carry a different implication, whereby policy uncertainty explicitly reduces the efficacy of the transmission of policy actions.] 
+
+
+
+## An updated specification
+
+Through conducting a number of robustness tests, controlling for the level of uncertainty, using a more traditional TVAR model where the indicator is constructed from $t-1$ values of the threshold variable, or using 1-Year rates instead of the FFR has no significant impact on the results. However, controlling for the Zero-Lower-Bound, as well as financial stress both change the results significantly. 
+
+
+```{=latex}
+\begin{figure}[!htbp]
+```
+```{r}
+irfs %>% 
+  select(-mult, -restr) %>% 
+  filter(label != 'R') %>% 
+  filter(spec == 'shadow',
+         control == 'financial_stress',
+         index == 'epu',
+         thresh == '0.7') %>% 
+  ggplot(aes(x = t, y = median)) +
+  geom_line(linewidth = lw) +
+  geom_hline(yintercept = 0, color = "red") +
+  facet_wrap(regime~label, scales = "free")+
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11, hjust=0.5),
+        axis.title.y = element_text(size=11),
+        legend.position = 'none') +
+  labs(x = "",
+       y ="")
+```
+```{=latex}
+\caption{Regime specific impulse responses, updated specification. \label{fig:epumedirfs}}
+\bigskip
+\footnotesize
+\textit{Notes}: Interest rates are measured by the Shadow Rate, the threshold value is set to the 70th percentile of the EPU index.
+\end{figure}
+```
+
+
+## Narrative of uncertainty
+
+First, the "narrative" of the uncertainty index could matter. In @baker2016measuring, additional to the EPU index, several categorical indices are constructed^[Please refer to Figure \ref{fig:epucat}.]. Replicating the simulations with each categorical index could provide insight into how such narratives can impact the transmission mechanism. Notably, uncertainty specifically related to monetary policy should be the most insightful. Below in Figure \ref{fig:narrative} 
+
+```{=latex}
+\begin{figure}[!htbp]
+```
+```{r narrative, fig.height=10}
+irfs %>% 
+  select(-mult, -restr) %>% 
+  filter(label != 'R',
+         spec == 'shadow',
+         index != 'epu',
+         control == 'financial_stress') %>% 
+  group_by(label, regime, spec, control, thresh, index) %>% 
+  mutate(median = purrr::accumulate(.x = median, 
+                                    .f = sum,
+                                    .dir = 'forward'),
+         upper = purrr::accumulate(.x = upper, 
+                                    .f = sum,
+                                    .dir = 'forward'),
+         lower = purrr::accumulate(.x = lower, 
+                                    .f = sum,
+                                    .dir = 'forward')) %>% 
+  filter(t == max(t)) %>% 
+  select(-t, -upper, -lower) %>% 
+  spread(label, median) %>% 
+  mutate(sac = Y/PI,
+         regime = str_remove_all(regime, ' uncertainty'),
+         thresh = case_when(thresh == '0.5' ~ 'Median',
+                            thresh == '0.7' ~ '70th Perc.'),
+         thresh = factor(thresh, levels = c('Median', '70th Perc.')),
+         index = case_when(index == 'epu' ~ 'EPU',
+                           index == 'epu_debt' ~ 'EPU: Debt, crises',
+                           index == 'epu_finreg' ~ 'EPU: Fin. Regulation',
+                           index == 'epu_fis' ~ 'EPU: Fiscal Policy',
+                           index == 'epu_mon' ~ 'EPU: Monetary Policy',
+                           index == 'epu_reg' ~ 'EPU: Regulation',
+                           index == 'epu_trade' ~ 'EPU: Trade Policy')) %>% 
+  ggplot(aes(x = regime, y = sac, fill = regime)) + 
+  geom_col( color = 'black', width = 0.3, position = position_dodge(width = 0.1)) +
+  facet_grid(index~thresh, scales = 'free') +
+  theme_minimal()+
+  theme(legend.position = 'none') +
+  labs(x = '',
+       y = '') + 
+  scale_fill_manual(breaks = c('High',
+                                'Low'),
+                     values = c('#8B0000',
+                                '#00008B'))
+
+
+
+
+```
+```{=latex}
+\caption{Sacrifice ratios. \label{fig:narrative}}
+\bigskip
+\footnotesize
+\textit{Notes}: The sacrifice ratios are calculated from the accumulated impact of the policy shocks over the 20 quarter horizon.  
+\end{figure}
+```
+
+
+
+
+
+
+
+
+## Endogeneity
+
+
+# Conclusion
+
+# References
+
+```{=tex}
+\bgroup
+\renewcommand{\baselinestretch}{1}\normalsize
+```
+::: {#refs}
+:::
+
+::: {#ref}
+:::
+
+```{=tex}
+\egroup
+\newpage
+```
+# Appendix
+
+## Alternative uncertainty indices
+
+```{=latex}
+\begin{figure}[!htbp]
+```
+```{r epucategorical}
+
+full_join(
+  data2[['uncertainty']],
+  data2[['forrob']],
+  by = 'date') %>% 
+  select(- epu) %>% 
+  gather(index, value, -date) %>% 
+  drop_na() %>%
+  group_by(index) %>% 
+  mutate(med = quantile(value, prob = .5),
+         pc70 = quantile(value, prob = .7)) %>% 
+  filter(index %in% c('epu_debt', 
+                      'epu_finreg', 
+                      'epu_fis', 
+                      'epu_mon',
+                      'epu_reg',
+                      'epu_trade')) %>% 
+  mutate(index = case_when(index == 'epu_debt' ~ 'EPU: Debt, crises',
+                           index == 'epu_finreg' ~ 'EPU: Fin. Regulation',
+                           index == 'epu_fis' ~ 'EPU: Fiscal Policy',
+                           index == 'epu_mon' ~ 'EPU: Monetary Policy',
+                           index == 'epu_reg' ~ 'EPU: Regulation',
+                           index == 'epu_trade' ~ 'EPU: Trade Policy')) %>% 
+  ggplot(aes(x = date, y = value)) +
+  geom_line(linewidth = lw)+
+  geom_line(aes(x = date, y = med), color = '#0074D9', linetype = 'dashed', linewidth = lw) + 
+  geom_line(aes(x = date, y = pc70), color = '#FF4136', linetype = 'dashed', linewidth = lw) +
+  facet_wrap(~index, scales = 'free') + 
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
+  labs(x = "",
+       y = "")
+
+
+
+```
+
+```{=latex}
+\caption{EPU Categorical uncertainty indices \label{fig:epucat}} 
+\bigskip
+\footnotesize
+\textit{Notes}: The blue and red lines indicate the median and 70th percentile of the historical distribution respectively.
+\end{figure}
+```
+
+```{=latex}
+\begin{figure}[!htbp]
+```
+```{r otherunc}
+
+full_join(
+  data2[['uncertainty']],
+  data2[['forrob']],
+  by = 'date') %>% 
+  select(- epu) %>% 
+  gather(index, value, -date) %>% 
+  drop_na() %>%
+  group_by(index) %>% 
+  mutate(med = quantile(value, prob = .5),
+         pc70 = quantile(value, prob = .7)) %>%   
+  filter(index %in% c('equnc', 
+                      'gpr',
+                      'ted',
+                      'tpu', 
+                      'vix',
+                      'wui')) %>% 
+  mutate(index = case_when(index == 'equnc' ~ 'Eq. Market Unc.',
+                           index == 'gpr' ~ 'GPR',
+                           index == 'ted' ~ 'TED spread',
+                           index == 'tpu' ~ 'TPU',
+                           index == 'vix' ~ 'VIX',
+                           index == 'wui' ~ 'WUI')) %>% 
+  ggplot(aes(x = date, y = value)) +
+  geom_line(linewidth = lw)+
+  geom_line(aes(x = date, y = med), color = '#0074D9', linetype = 'dashed', linewidth = lw) + 
+  geom_line(aes(x = date, y = pc70), color = '#FF4136', linetype = 'dashed', linewidth = lw) +
+  facet_wrap(~index, scales = 'free') + 
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
+  labs(x = "",
+       y = "")
+
+
+
+
+```
+
+```{=latex}
+\caption{Additional uncertainty measures \label{fig:unces}}
+\bigskip
+\footnotesize
+\textit{Notes}: The blue and red lines indicate the median and 70th percentile of the historical distribution respectively.
+\end{figure}
+```
+
+## Alternative model specifications
+
+To address robustness concerns, some further specifications are considered. As described in the Methodology section, the first round of robustness checks are done by swapping out the FFR for alternative interest rate aggregates. Additionally, a second check is done by constructing the regime indicator from the $t-1$ level of uncertainty as opposed to the $t$ period level. 
+
+In the thrird round of robustness checks, additional variables are considered as controls in the TVAR equation. In one specification, I control for the level of uncertainty explicitly in the model, in another specification the level of financial stress, and finally both. Respectively, the TVAR equation changed for each of these specifications in order are:
+
+\begin{equation} \label{eq:2}
+  Y_{t} = \sum\limits_{k=1}^{4}\Theta_{high}I(X_{t} \ge \mu)Y_{t-k} + \sum\limits_{k=1}^{4}\Theta_{low}I(X_{t} < \mu)Y_{t-k} + \sum\limits_{k=1}^{4}\beta X_{t-k} + \epsilon_{t}
+\end{equation}
+ 
+\begin{equation} \label{eq:3}
+  Y_{t} = \sum\limits_{k=1}^{4}\Theta_{high}I(X_{t} \ge \mu)Y_{t-k} + \sum\limits_{k=1}^{4}\Theta_{low}I(X_{t} < \mu)Y_{t-k} + \sum\limits_{k=1}^{4}\gamma Z_{t-k} + \epsilon_{t}
+\end{equation} 
+
+where $X_{t-k}$ represents the inclusion of four lags of the uncertainty indicator, and $Z_{t-k}$ represent the inclusion of four lags of the St. Louis Fed Financial Stress Index. 
+
+## Robustness checks 
+
+As noted in the the Methodology section, there could be two arguments against the specification used to obtain the results seen above. One of them being using time $t$ values of the EPU to specify the regimes, the other being that the variables should be voided of the share of variance explained by uncertainty. The former is achievable by changing Equation \ref{eq:1} to use $X_{t-1}$ instead of $X_{t}$ for specifying the regime indicator, while the latter is done as shown in \ref{eq:2}. Figure \ref{fig:contemp} shows that the outcomes obtained from such alternative specifications is largely similar. Two notable differences are i) when uncertainty is controlled for and the $t-1$ value of the index is used for constructing the indicator, the high uncertainty inflation response is slightly dampened; and ii) both inflation and output responses sharpen in high uncertainty when switching from a $t$ to a $t-1$ quarter-based indicator. These however do not cause robustness concerns and indicate that the four-quarter lag of each variable are sufficient controls, as the former of the two differences is relatively minor, while the latter is washed out of the results once the level of uncertainty is also controlled for - yielding results alike to the baseline specification of Equation \ref{eq:1}.  
+
+```{=latex}
+\begin{figure}[!htbp]
+```
+```{r contemp}
+cowplot::plot_grid(
+irfs %>% 
+  select(-mult, -restr) %>% 
+  filter(label != 'R',
+         index == 'epu',
+         thresh == '0.5',
+         spec == 'lag' & control == 'none' | spec == 'main' & control == 'uncertainty' | spec == 'main' & control == 'none' | spec == 'lag' & control == 'uncertainty') %>% 
+  mutate(specs = case_when(spec == 'lag' & control == 'none' ~ 'lag',
+                           spec == 'main' & control == 'uncertainty' ~ 'control',
+                           spec == 'main' & control == 'none' ~ 'base',
+                           spec == 'lag' & control == 'uncertainty' ~ 'both')) %>% 
+  ggplot(aes(x = t, y = median, color = specs
+  )) +
+  geom_line(linewidth = lw) +
+  geom_hline(yintercept = 0, color = "red") +
+  facet_wrap(regime~label, scales = "free")+
+  scale_color_manual(breaks = c('base', 'both', 'control', 'lag'),
+                     values = c('#000000', '#0072B2', '#FF0000', '#009E73')) +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11, hjust=0.5),
+        axis.title.y = element_text(size=11),
+        plot.caption = element_text(hjust=0.5, size=rel(1.2)),
+        legend.position = 'none') +
+  labs(x = "",
+       y ="",
+       caption ="μ = 0.5"),
+irfs %>% 
+  select(-mult, -restr) %>% 
+  filter(label != 'R',
+         index == 'epu',
+         thresh == '0.7',
+         spec == 'lag' & control == 'none' | spec == 'main' & control == 'uncertainty' | spec == 'main' & control == 'none' | spec == 'lag' & control == 'uncertainty') %>% 
+  mutate(specs = case_when(spec == 'lag' & control == 'none' ~ 'lag',
+                           spec == 'main' & control == 'uncertainty' ~ 'control',
+                           spec == 'main' & control == 'none' ~ 'base',
+                           spec == 'lag' & control == 'uncertainty' ~ 'both')) %>% 
+  ggplot(aes(x = t, y = median, color = specs
+  )) +
+  geom_line(linewidth = lw) +
+  geom_hline(yintercept = 0, color = "red") +
+  facet_wrap(regime~label, scales = "free")+
+  scale_color_manual(breaks = c('base', 'both', 'control', 'lag'),
+                     values = c('#000000', '#0072B2', '#FF0000', '#009E73')) +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11, hjust=0.5),
+        axis.title.y = element_text(size=11),
+        plot.caption = element_text(hjust=0.5, size=rel(1.2)),
+        legend.position = 'none') +
+  labs(x = "",
+       y ="",
+       caption ="μ = 0.7")
+)
+
+```
+```{=latex}
+\caption{Influence of uncertainty \label{fig:contemp}}
+\bigskip
+\footnotesize
+\textit{Notes}: The black line shows the base specification, the green, red and blue lines show results obtained with one-quarter lag uncertainty-based regime indicator, uncertainty added as a control variable, and the combination of these two specifications respectively.
+\end{figure}
+``` 
+
+As discussed in the Data section of this paper, there are alternative interest rate measures to calculate policy shocks from. Using the 1-Year Treasury Yield over the Federal Funds Rate has the benefit of - to some extent - carrying information about future expectations. The other alternative is the @wu2016measuring Shadow Rate, the added benefit of which is the additional information about implied rates of interest in times when the former two were close to the Zero-Lower-Bound. The data for the Shadow Rate is available in a shorter time span from `r min(drop_na(select(data2[['macro_alt']], date, ffr_shadow))$date) %>% quarterly_format()` to `r max(drop_na(select(data2[['macro_alt']], date, ffr_shadow))$date) %>% quarterly_format()`, however the exclusion of data from before the 1990s as well as 2022 should not cause concerns. 
+
+```{=latex}
+\begin{figure}[!htbp]
+```
+```{r shockmes}
+cowplot::plot_grid(
+irfs %>% 
+  select(-mult, -restr) %>% 
+  filter(label != 'R') %>% 
+  filter(spec!= 'lag',
+         control == 'none',
+         thresh == '0.5',
+         index == 'epu') %>% 
+  mutate(spec = case_when(spec == 'main' ~ 'FFR',
+                          spec == 'r1y' ~ 'Treasury',
+                          spec == 'shadow' ~ 'Shadow')) %>% 
+  ggplot(aes(x = t, y = median, color = spec
+  )) +
+  geom_line(linewidth = lw) +
+  geom_hline(yintercept = 0, color = "red") +
+  facet_wrap(regime~label, scales = "free")+
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11, hjust=0.5),
+        axis.title.y = element_text(size=11),
+        plot.caption = element_text(hjust=0.5, size=rel(1.2)),
+        legend.position = 'bottom',
+        legend.title = element_blank()) +
+  labs(x = "",
+       y ="",
+       caption = "μ = 0.5") + 
+  scale_color_manual(breaks = c('FFR',
+                                'Shadow',
+                                'Treasury'),
+                     values = c('dodgerblue',
+                                'firebrick',
+                                'limegreen')),
+irfs %>% 
+  select(-mult, -restr) %>% 
+  filter(label != 'R') %>% 
+  filter(spec!= 'lag',
+         control == 'none',
+         thresh == '0.7',
+         index == 'epu') %>% 
+  mutate(spec = case_when(spec == 'main' ~ 'FFR',
+                          spec == 'r1y' ~ 'Treasury',
+                          spec == 'shadow' ~ 'Shadow')) %>%  
+  ggplot(aes(x = t, y = median, color = spec
+  )) +
+  geom_line(linewidth = lw) +
+  geom_hline(yintercept = 0, color = "red") +
+  facet_wrap(regime~label, scales = "free")+
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11, hjust=0.5),
+        axis.title.y = element_text(size=11),
+        plot.caption = element_text(hjust=0.5, size=rel(1.2)),
+        legend.position = 'bottom',
+        legend.title = element_blank()) +
+  labs(x = "",
+       y ="",
+       caption = "μ = 0.7") + 
+  scale_color_manual(breaks = c('FFR',
+                                'Shadow',
+                                'Treasury'),
+                     values = c('dodgerblue',
+                                'firebrick',
+                                'limegreen'))
+)
+
+```
+```{=latex}
+\caption{Policy impact calculated with different rates \label{fig:shockmes}}
+\bigskip
+\footnotesize
+\end{figure}
+``` 
+
+As seen in Figure \ref{fig:shockmes}, the difference between responses obtained when the policy shock is calculated using the FFR and the 1-Year Treasury Yield show little difference, however accounting for implied rates via the Shadow Rate has considerable impact on the results. With the threshold level set to the median, both regimes responses shift downwards, and with the 70th percentile, this is only seen in high uncertainty responses. Such results do support the finding of shocks in high uncertainty times having a larger contractionary effect due to uncertainty causing an increase in volatility.
+
+Voiding the effects of financial stress is also a crucial determinant in shaping the results. As seen in Figure \ref{fig:finstress}, after including the financial stress indicator as a control variable, the responses shift downwards drastically, especially in the lower regime. Switching the threshold variable from the median to the 70th percentile, the low uncertainty responses turn almost unaffected, however high regime responses show a drastically increased drop.
+
+```{=latex}
+\begin{figure}[!htbp]
+```
+```{r finstress}
+cowplot::plot_grid(
+irfs %>% 
+  select(-mult, -restr) %>% 
+  filter(label != 'R') %>% 
+  filter(spec == 'shadow',
+         thresh == '0.5',
+         index == 'epu',
+         control %in% c('none', 'financial_stress')) %>% 
+  mutate(control = case_when(control == 'none' ~ 'No Controls',
+                             control == 'financial_stress' ~ 'Fin. Stress')) %>% 
+  ggplot(aes(x = t, y = median, color = control
+  )) +
+  geom_line(linewidth = lw) +
+  geom_hline(yintercept = 0, color = "red") +
+  facet_wrap(regime~label, scales = "free")+
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11, hjust=0.5),
+        axis.title.y = element_text(size=11),
+        plot.caption = element_text(hjust=0.5, size=rel(1.2)),
+        legend.position = 'bottom',
+        legend.title = element_blank()) +
+  scale_color_manual(breaks = c('No Controls',
+                                'Fin. Stress'),
+                     values = RColorBrewer::brewer.pal(3, 'Set1')[1:2]) +
+  labs(x = "",
+       y ="",
+       caption = "μ = 0.5"),
+irfs %>% 
+  select(-mult, -restr) %>% 
+  filter(label != 'R') %>% 
+  filter(spec == 'shadow',
+         thresh == '0.7',
+         index == 'epu',
+         control %in% c('none', 'financial_stress')) %>% 
+  mutate(control = case_when(control == 'none' ~ 'No Controls',
+                             control == 'financial_stress' ~ 'Fin. Stress')) %>% 
+  ggplot(aes(x = t, y = median, color = control
+  )) +
+  geom_line(linewidth = lw) +
+  geom_hline(yintercept = 0, color = "red") +
+  facet_wrap(regime~label, scales = "free")+
+  theme_minimal() +
+  theme(plot.title = element_text(size = 11, hjust=0.5),
+        axis.title.y = element_text(size=11),
+        plot.caption = element_text(hjust=0.5, size=rel(1.2)),
+        legend.position = 'bottom',
+        legend.title = element_blank()) +
+  scale_color_manual(breaks = c('No Controls',
+                                'Fin. Stress'),
+                     values = RColorBrewer::brewer.pal(3, 'Set1')[1:2]) +
+  labs(x = "",
+       y ="",
+       caption = "μ = 0.7")
+)
+
+```
+```{=latex}
+\caption{Financial stress versus no controls \label{fig:finstress}}
+\bigskip
+\footnotesize
+\textit{Notes}: In both the No Controls and the Fin. Stress estimations, the Shadow Rate is used to estimate policy shocks.
+\end{figure}
+``` 
+
+
