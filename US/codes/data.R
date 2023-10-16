@@ -17,7 +17,8 @@ require(readxl)
            start = c(date %>% min %>% year, 
                      date %>% min %>% month)) %>% 
         seas() %>% 
-        seasadj(),
+        seasadj() %>% 
+        as.numeric(),
       error = function(error){value}
     )
   }
@@ -87,8 +88,7 @@ macro <- fred_query(
          y = GDPC1) %>% 
   select(date, r, pi, y) %>% 
   mutate(date = as_date(date)) %>% 
-  mutate(value = x13adj(pi, 4, date))
-
+  mutate(pi = x13adj(pi, 4, date))
 
 macro <- macro %>% 
   mutate(
@@ -125,7 +125,7 @@ macro_alt <- fred_query(
          pi_stick = CORESTICKM159SFRBATL,
          pi_pce = PCEPI) %>% 
   mutate(date = as_date(date)) %>% 
-  left_join(read_excel('US_only/data/shadowrate.xlsx') %>% 
+  left_join(read_excel('US/data/shadowrate.xlsx') %>% 
               drop_na() %>% 
               mutate(date = as_date(date),
                      year = year(date),
@@ -154,7 +154,7 @@ forrob <- fred_query(
          equnc = WLEMUINDXD,
          wui = WUIUSA) %>% 
   mutate(date = as_date(date)) %>% 
-  left_join(read_excel("US_only/data/data_gpr_export.xls", 
+  left_join(read_excel("US/data/data_gpr_export.xls", 
                        col_types = c("date", "numeric", "numeric", 
                                      "numeric", "numeric", "numeric", 
                                      "numeric", "numeric", "numeric", 
@@ -204,7 +204,7 @@ forrob <- fred_query(
               ungroup() %>%
               distinct(year, quarter, .keep_all = T) %>% 
               select(date, gpr)) %>% 
-  left_join(    read_excel("US_only/data/tpu_web_latest.xlsx", 
+  left_join(    read_excel("US/data/tpu_web_latest.xlsx", 
                            sheet = "TPU_MONTHLY") %>% 
                   mutate(date = as_date(DATE),
                          year = year(date),

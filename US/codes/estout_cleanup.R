@@ -2,7 +2,7 @@ library(tidyverse)
 library(rlang)
 library(lubridate)
 
-estout <- read_rds('US_only/data/estout.Rds')
+estout <- read_rds('US/data/estout.Rds')
 
 catch <- 'start'
 for(m in 1:length(restrs)){
@@ -123,4 +123,4 @@ estout_clean <- list(irfs = irf_out,
                      innovs = res_out,
                      invalids = catch)
 
-saveRDS(estout_clean, 'US_only/data/estout_clean.Rds')
+saveRDS(estout_clean, 'US/data/estout_clean.Rds')

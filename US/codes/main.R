@@ -6,8 +6,8 @@ library(foreach)
 library(doParallel)
 library(doSNOW)
 
-source('US_only/codes/dataprep.R')
-source('US_only/codes/functions.R')
+source('US/codes/dataprep.R')
+source('US/codes/functions.R')
 clean <- function(estdata){
   estdata$data <- estdata$data %>% 
     drop_na()
@@ -59,7 +59,6 @@ clean <- function(estdata){
   estdata
 }
 
-data2
 
 #Sign restrictions - just follow Uhlig paper with 1-6
 restr <- list(full = list(KMIN = 1,
@@ -162,6 +161,6 @@ estout[[m]] <- outs3
 names(estout) <- restrs
 stopCluster(cl)
 
-saveRDS(estout, 'US_only/data/estout.Rds')
+saveRDS(estout, 'US/data/estout.Rds')
 
-source('US_only/codes/estout_cleanup.R')
+source('US/codes/estout_cleanup.R')

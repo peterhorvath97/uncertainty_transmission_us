@@ -3,8 +3,8 @@ library(fredr)
 library(tidyverse)
 library(rlang)
 library(lubridate)
-source('US_only/codes/data.R')
-source('US_only/codes/functions.R')
+source('US/codes/data.R')
+source('US/codes/functions.R')
 
 data[['macro']] <- data[['macro']] %>% 
   mutate(pi = pi - lag(pi),

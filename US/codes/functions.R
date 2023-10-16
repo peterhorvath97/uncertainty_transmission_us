@@ -31,7 +31,7 @@ sign_tvar_2regime <- function(data, indicator, constr_mat, seed,
                               nlags, draws, subdraws, nkeep, KMIN, KMAX, constant, steps){
   
   require(dplyr)
-  paste('US_only/codes/varsignr/', list.files('US_only/codes/varsignr') , sep = '') %>% lapply(source)
+  paste('US/codes/varsignr/', list.files('US/codes/varsignr') , sep = '') %>% lapply(source)
   
   
   indicator_inv <- indicator %>% mutate(indicator = ifelse(indicator == 1, 0, 1)) %>% as.matrix()
@@ -67,7 +67,7 @@ sign_tvar_2regime_controls <- function(data, indicator, controls = NA, constr_ma
                               nlags, draws, subdraws, nkeep, KMIN, KMAX, constant, steps){
   
   require(dplyr)
-  paste('US_only/codes/varsignr/', list.files('US_only/codes/varsignr') , sep = '') %>% lapply(source)
+  paste('US/codes/varsignr/', list.files('US/codes/varsignr') , sep = '') %>% lapply(source)
   
   
   indicator_inv <- indicator %>% mutate(indicator = ifelse(indicator == 1, 0, 1)) %>% as.matrix()
@@ -109,7 +109,7 @@ sign_tvar_3regime <- function(data, indicator, constr_mat, seed,
                               nlags, draws, subdraws, nkeep, KMIN, KMAX, constant, steps){
   
   require(dplyr)
-  paste('IMF paper/codes/varsignr/', list.files('IMF paper/codes/varsignr') , sep = '') %>% lapply(source)
+  paste('US/codes/varsignr/', list.files('US/codes/varsignr') , sep = '') %>% lapply(source)
   
   
   indicator_up <- indicator[,1] %>% as.matrix()
