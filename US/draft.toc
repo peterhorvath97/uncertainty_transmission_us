@@ -1,0 +1,20 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}Introduction}{5}{section.1}%
+\contentsline {section}{\numberline {2}Related literature}{6}{section.2}%
+\contentsline {section}{\numberline {3}Data}{9}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Macroeconomic aggregates}{9}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Measuring uncertainty}{10}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Methodology}{12}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Threshold VAR model}{12}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Identification}{13}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Results}{14}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Replicating the baseline specification}{14}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Endogeneity}{15}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}An updated specification}{17}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Narrative of uncertainty}{18}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Conclusion}{18}{section.6}%
+\contentsline {section}{\numberline {7}References}{18}{section.7}%
+\contentsline {section}{\numberline {8}Appendix}{22}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Alternative uncertainty indices}{22}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Alternative model specifications}{22}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Robustness checks}{24}{subsection.8.3}%

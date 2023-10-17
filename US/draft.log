@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.10.6)  17 OCT 2023 11:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.10.17)  17 OCT 2023 17:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **draft.tex
 (./draft.tex
 LaTeX2e <2023-06-01> patch level 1
-L3 programming layer <2023-08-29>
+L3 programming layer <2023-10-10>
 (c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2023/05/17 v1.4n Standard LaTeX document class
 (c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/size12.clo
@@ -459,14 +459,10 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 )
    defining Unicode char U+0301 (decimal 769)
 (c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-File: l3backend-pdftex.def 2023-04-19 L3 backend support: PDF output (pdfTeX)
+File: l3backend-pdftex.def 2023-10-10 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count305
 \l__pdf_internal_box=\box61
-) (./draft.aux
-
-LaTeX Warning: Label `fig:epumedirfs' multiply defined.
-
-)
+) (./draft.aux)
 \openout1 = `draft.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 129.
@@ -594,89 +590,145 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 \tf@lof=\write5
 \openout5 = `draft.lof'.
 
-[4] [5] [6]
+[4] [5] [6] [7]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 361.
-[7] [8]
+(Font)              <5> on input line 363.
+[8]
 <draft_files/figure-latex/interest rates-1.pdf, id=276, 469.755pt x 325.215pt>
 File: draft_files/figure-latex/interest rates-1.pdf Graphic file (type pdf)
 <use draft_files/figure-latex/interest rates-1.pdf>
-Package pdftex.def Info: draft_files/figure-latex/interest rates-1.pdf  used on input line 411.
+Package pdftex.def Info: draft_files/figure-latex/interest rates-1.pdf  used on input line 413.
 (pdftex.def)             Requested size: 455.24608pt x 315.17035pt.
 [9 <./draft_files/figure-latex/interest rates-1.pdf>] [10]
 <draft_files/figure-latex/epu-1.pdf, id=307, 469.755pt x 325.215pt>
 File: draft_files/figure-latex/epu-1.pdf Graphic file (type pdf)
 <use draft_files/figure-latex/epu-1.pdf>
-Package pdftex.def Info: draft_files/figure-latex/epu-1.pdf  used on input line 476.
+Package pdftex.def Info: draft_files/figure-latex/epu-1.pdf  used on input line 478.
 (pdftex.def)             Requested size: 455.24608pt x 315.17035pt.
 [11 <./draft_files/figure-latex/epu-1.pdf>] [12{c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}] [13]
 <draft_files/figure-latex/epumedirfs-1.pdf, id=375, 469.755pt x 325.215pt>
 File: draft_files/figure-latex/epumedirfs-1.pdf Graphic file (type pdf)
 <use draft_files/figure-latex/epumedirfs-1.pdf>
-Package pdftex.def Info: draft_files/figure-latex/epumedirfs-1.pdf  used on input line 622.
+Package pdftex.def Info: draft_files/figure-latex/epumedirfs-1.pdf  used on input line 624.
 (pdftex.def)             Requested size: 455.24608pt x 315.17035pt.
-[14 <./draft_files/figure-latex/epumedirfs-1.pdf>]
-<draft_files/figure-latex/unnamed-chunk-1-1.pdf, id=406, 469.755pt x 325.215pt>
+[14 <./draft_files/figure-latex/epumedirfs-1.pdf>] [15]
+Underfull \hbox (badness 1354) in paragraph at lines 711--711
+[]|\T1/lmr/m/n/12 H0: Shock
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 711--711
+\T1/lmr/m/n/12 does not
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 711--711
+\T1/lmr/m/n/12 cause un-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 711--712
+\T1/lmr/m/n/12 not cause
+ []
+
+
+Overfull \hbox (3.02954pt too wide) in paragraph at lines 713--713
+[]|\T1/lmr/m/n/12 1| 
+ []
+
+
+Overfull \hbox (3.02954pt too wide) in paragraph at lines 714--714
+[]|\T1/lmr/m/n/12 2| 
+ []
+
+
+Overfull \hbox (3.02954pt too wide) in paragraph at lines 715--715
+[]|\T1/lmr/m/n/12 3| 
+ []
+
+
+Overfull \hbox (3.02954pt too wide) in paragraph at lines 716--716
+[]|\T1/lmr/m/n/12 4| 
+ []
+
+
+Overfull \hbox (3.02954pt too wide) in paragraph at lines 717--717
+[]|\T1/lmr/m/n/12 5| 
+ []
+
+
+Overfull \hbox (3.02954pt too wide) in paragraph at lines 718--718
+[]|\T1/lmr/m/n/12 6| 
+ []
+
+
+Overfull \hbox (3.02954pt too wide) in paragraph at lines 719--719
+[]|\T1/lmr/m/n/12 7| 
+ []
+
+[16]
+<draft_files/figure-latex/unnamed-chunk-1-1.pdf, id=433, 469.755pt x 325.215pt>
 File: draft_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (type pdf)
 <use draft_files/figure-latex/unnamed-chunk-1-1.pdf>
-Package pdftex.def Info: draft_files/figure-latex/unnamed-chunk-1-1.pdf  used on input line 689.
+Package pdftex.def Info: draft_files/figure-latex/unnamed-chunk-1-1.pdf  used on input line 757.
 (pdftex.def)             Requested size: 455.24608pt x 315.17035pt.
-[15] [16 <./draft_files/figure-latex/unnamed-chunk-1-1.pdf>]
-<draft_files/figure-latex/narrative-1.pdf, id=434, 469.755pt x 722.7pt>
+[17 <./draft_files/figure-latex/unnamed-chunk-1-1.pdf>]
+<draft_files/figure-latex/narrative-1.pdf, id=458, 469.755pt x 722.7pt>
 File: draft_files/figure-latex/narrative-1.pdf Graphic file (type pdf)
 <use draft_files/figure-latex/narrative-1.pdf>
-Package pdftex.def Info: draft_files/figure-latex/narrative-1.pdf  used on input line 712.
+Package pdftex.def Info: draft_files/figure-latex/narrative-1.pdf  used on input line 808.
 (pdftex.def)             Requested size: 455.24608pt x 700.37856pt.
 
-LaTeX Warning: Float too large for page by 55.68985pt on input line 718.
+LaTeX Warning: Float too large for page by 43.68985pt on input line 814.
 
-[17] [18 <./draft_files/figure-latex/narrative-1.pdf>] [19] [20]
-<draft_files/figure-latex/epucategorical-1.pdf, id=464, 469.755pt x 325.215pt>
+[18] [19 <./draft_files/figure-latex/narrative-1.pdf>] [20] [21]
+<draft_files/figure-latex/epucategorical-1.pdf, id=487, 469.755pt x 325.215pt>
 File: draft_files/figure-latex/epucategorical-1.pdf Graphic file (type pdf)
 <use draft_files/figure-latex/epucategorical-1.pdf>
-Package pdftex.def Info: draft_files/figure-latex/epucategorical-1.pdf  used on input line 937.
+Package pdftex.def Info: draft_files/figure-latex/epucategorical-1.pdf  used on input line 1032.
 (pdftex.def)             Requested size: 455.24608pt x 315.17035pt.
-<draft_files/figure-latex/otherunc-1.pdf, id=465, 469.755pt x 325.215pt>
+<draft_files/figure-latex/otherunc-1.pdf, id=488, 469.755pt x 325.215pt>
 File: draft_files/figure-latex/otherunc-1.pdf Graphic file (type pdf)
 <use draft_files/figure-latex/otherunc-1.pdf>
-Package pdftex.def Info: draft_files/figure-latex/otherunc-1.pdf  used on input line 947.
+Package pdftex.def Info: draft_files/figure-latex/otherunc-1.pdf  used on input line 1042.
 (pdftex.def)             Requested size: 455.24608pt x 315.17035pt.
-[21 <./draft_files/figure-latex/epucategorical-1.pdf>] [22 <./draft_files/figure-latex/otherunc-1.pdf>]
-<draft_files/figure-latex/contemp-1.pdf, id=490, 469.755pt x 325.215pt>
+[22 <./draft_files/figure-latex/epucategorical-1.pdf>] [23 <./draft_files/figure-latex/otherunc-1.pdf>]
+<draft_files/figure-latex/contemp-1.pdf, id=514, 469.755pt x 325.215pt>
 File: draft_files/figure-latex/contemp-1.pdf Graphic file (type pdf)
 <use draft_files/figure-latex/contemp-1.pdf>
-Package pdftex.def Info: draft_files/figure-latex/contemp-1.pdf  used on input line 1011.
+Package pdftex.def Info: draft_files/figure-latex/contemp-1.pdf  used on input line 1110.
 (pdftex.def)             Requested size: 455.24608pt x 315.17035pt.
-<draft_files/figure-latex/shockmes-1.pdf, id=493, 469.755pt x 325.215pt>
+[24] [25 <./draft_files/figure-latex/contemp-1.pdf>]
+<draft_files/figure-latex/shockmes-1.pdf, id=535, 469.755pt x 325.215pt>
 File: draft_files/figure-latex/shockmes-1.pdf Graphic file (type pdf)
 <use draft_files/figure-latex/shockmes-1.pdf>
-Package pdftex.def Info: draft_files/figure-latex/shockmes-1.pdf  used on input line 1033.
+Package pdftex.def Info: draft_files/figure-latex/shockmes-1.pdf  used on input line 1132.
 (pdftex.def)             Requested size: 455.24608pt x 315.17035pt.
-[23] [24 <./draft_files/figure-latex/contemp-1.pdf>]
-<draft_files/figure-latex/finstress-1.pdf, id=513, 469.755pt x 325.215pt>
+[26 <./draft_files/figure-latex/shockmes-1.pdf>]
+<draft_files/figure-latex/finstress-1.pdf, id=547, 469.755pt x 325.215pt>
 File: draft_files/figure-latex/finstress-1.pdf Graphic file (type pdf)
 <use draft_files/figure-latex/finstress-1.pdf>
-Package pdftex.def Info: draft_files/figure-latex/finstress-1.pdf  used on input line 1060.
+Package pdftex.def Info: draft_files/figure-latex/finstress-1.pdf  used on input line 1159.
 (pdftex.def)             Requested size: 455.24608pt x 315.17035pt.
-[25 <./draft_files/figure-latex/shockmes-1.pdf>] [26 <./draft_files/figure-latex/finstress-1.pdf>] (./draft.aux)
+[27 <./draft_files/figure-latex/finstress-1.pdf>] (./draft.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
-L3 programming layer <2023-08-29>
+L3 programming layer <2023-10-10>
  ***********
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package rerunfilecheck Info: File `draft.out' has not changed.
-(rerunfilecheck)             Checksum: AD4133C12D5F09EF83CCF91C5796A085;2707.
+(rerunfilecheck)             Checksum: 9A9F25F716F354061B365CC485EE545F;2707.
  ) 
 Here is how much of TeX's memory you used:
- 16548 strings out of 476893
- 268304 string characters out of 5807436
- 1928785 words of memory out of 5000000
- 37450 multiletter control sequences out of 15000+600000
+ 16560 strings out of 476469
+ 268491 string characters out of 5800599
+ 1935043 words of memory out of 5000000
+ 37882 multiletter control sequences out of 15000+600000
  631181 words of font info for 87 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 75i,8n,79p,751b,532s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,11n,79p,751b,534s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+pdfTeX warning (dest): name{Hfootnote.8} has been referenced but does not exist, replaced by a fixed one
+
 
 pdfTeX warning (dest): name{Hfootnote.7} has been referenced but does not exist, replaced by a fixed one
 
@@ -699,10 +751,10 @@ pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exist,
 pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist, replaced by a fixed one
 
 <c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi12.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi8.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy8.pfb>
-Output written on draft.pdf (26 pages, 398432 bytes).
+Output written on draft.pdf (27 pages, 403894 bytes).
 PDF statistics:
- 635 PDF objects out of 1000 (max. 8388607)
- 549 compressed objects within 6 object streams
- 127 named destinations out of 1000 (max. 500000)
+ 659 PDF objects out of 1000 (max. 8388607)
+ 572 compressed objects within 6 object streams
+ 131 named destinations out of 1000 (max. 500000)
  203 words of extra memory for PDF output out of 10000 (max. 10000000)
 
