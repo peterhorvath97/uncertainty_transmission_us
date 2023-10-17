@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.10.6)  16 OCT 2023 09:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.10.6)  17 OCT 2023 11:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -622,7 +622,7 @@ File: draft_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (type pdf)
 Package pdftex.def Info: draft_files/figure-latex/unnamed-chunk-1-1.pdf  used on input line 689.
 (pdftex.def)             Requested size: 455.24608pt x 315.17035pt.
 [15] [16 <./draft_files/figure-latex/unnamed-chunk-1-1.pdf>]
-<draft_files/figure-latex/narrative-1.pdf, id=430, 469.755pt x 722.7pt>
+<draft_files/figure-latex/narrative-1.pdf, id=434, 469.755pt x 722.7pt>
 File: draft_files/figure-latex/narrative-1.pdf Graphic file (type pdf)
 <use draft_files/figure-latex/narrative-1.pdf>
 Package pdftex.def Info: draft_files/figure-latex/narrative-1.pdf  used on input line 712.
@@ -631,29 +631,29 @@ Package pdftex.def Info: draft_files/figure-latex/narrative-1.pdf  used on input
 LaTeX Warning: Float too large for page by 55.68985pt on input line 718.
 
 [17] [18 <./draft_files/figure-latex/narrative-1.pdf>] [19] [20]
-<draft_files/figure-latex/epucategorical-1.pdf, id=461, 469.755pt x 325.215pt>
+<draft_files/figure-latex/epucategorical-1.pdf, id=464, 469.755pt x 325.215pt>
 File: draft_files/figure-latex/epucategorical-1.pdf Graphic file (type pdf)
 <use draft_files/figure-latex/epucategorical-1.pdf>
 Package pdftex.def Info: draft_files/figure-latex/epucategorical-1.pdf  used on input line 937.
 (pdftex.def)             Requested size: 455.24608pt x 315.17035pt.
-<draft_files/figure-latex/otherunc-1.pdf, id=462, 469.755pt x 325.215pt>
+<draft_files/figure-latex/otherunc-1.pdf, id=465, 469.755pt x 325.215pt>
 File: draft_files/figure-latex/otherunc-1.pdf Graphic file (type pdf)
 <use draft_files/figure-latex/otherunc-1.pdf>
 Package pdftex.def Info: draft_files/figure-latex/otherunc-1.pdf  used on input line 947.
 (pdftex.def)             Requested size: 455.24608pt x 315.17035pt.
 [21 <./draft_files/figure-latex/epucategorical-1.pdf>] [22 <./draft_files/figure-latex/otherunc-1.pdf>]
-<draft_files/figure-latex/contemp-1.pdf, id=487, 469.755pt x 325.215pt>
+<draft_files/figure-latex/contemp-1.pdf, id=490, 469.755pt x 325.215pt>
 File: draft_files/figure-latex/contemp-1.pdf Graphic file (type pdf)
 <use draft_files/figure-latex/contemp-1.pdf>
 Package pdftex.def Info: draft_files/figure-latex/contemp-1.pdf  used on input line 1011.
 (pdftex.def)             Requested size: 455.24608pt x 315.17035pt.
-<draft_files/figure-latex/shockmes-1.pdf, id=490, 469.755pt x 325.215pt>
+<draft_files/figure-latex/shockmes-1.pdf, id=493, 469.755pt x 325.215pt>
 File: draft_files/figure-latex/shockmes-1.pdf Graphic file (type pdf)
 <use draft_files/figure-latex/shockmes-1.pdf>
 Package pdftex.def Info: draft_files/figure-latex/shockmes-1.pdf  used on input line 1033.
 (pdftex.def)             Requested size: 455.24608pt x 315.17035pt.
 [23] [24 <./draft_files/figure-latex/contemp-1.pdf>]
-<draft_files/figure-latex/finstress-1.pdf, id=510, 469.755pt x 325.215pt>
+<draft_files/figure-latex/finstress-1.pdf, id=513, 469.755pt x 325.215pt>
 File: draft_files/figure-latex/finstress-1.pdf Graphic file (type pdf)
 <use draft_files/figure-latex/finstress-1.pdf>
 Package pdftex.def Info: draft_files/figure-latex/finstress-1.pdf  used on input line 1060.
@@ -699,10 +699,10 @@ pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exist,
 pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist, replaced by a fixed one
 
 <c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi12.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi8.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/dj3lp9/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy8.pfb>
-Output written on draft.pdf (26 pages, 397021 bytes).
+Output written on draft.pdf (26 pages, 398432 bytes).
 PDF statistics:
- 632 PDF objects out of 1000 (max. 8388607)
- 546 compressed objects within 6 object streams
+ 635 PDF objects out of 1000 (max. 8388607)
+ 549 compressed objects within 6 object streams
  127 named destinations out of 1000 (max. 500000)
  203 words of extra memory for PDF output out of 10000 (max. 10000000)
 

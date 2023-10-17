@@ -297,12 +297,13 @@ irfs %>%
   select(-mult, -restr) %>% 
   filter(label != 'R') %>% 
   filter(spec == 'shadow',
-         control == 'financial_stress',
+         control == 'both',
          index == 'epu',
          thresh == '0.7') %>% 
-  ggplot(aes(x = t, y = median)) +
+  ggplot(aes(x = t, y = median, ymin = lower, ymax = upper)) +
   geom_line(linewidth = lw) +
   geom_hline(yintercept = 0, color = "red") +
+  geom_ribbon(alpha = .2)+
   facet_wrap(regime~label, scales = "free")+
   theme_minimal() +
   theme(plot.title = element_text(size = 11, hjust=0.5),
@@ -333,7 +334,7 @@ irfs %>%
   filter(label != 'R',
          spec == 'shadow',
          index != 'epu',
-         control == 'financial_stress') %>% 
+         control == 'both') %>% 
   group_by(label, regime, spec, control, thresh, index) %>% 
   mutate(median = purrr::accumulate(.x = median, 
                                     .f = sum,
