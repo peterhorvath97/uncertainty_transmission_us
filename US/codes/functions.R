@@ -94,7 +94,7 @@ sign_tvar_2regime_controls <- function(data, indicator, controls = NA, constr_ma
   set.seed(seed)
   constr_up <- constr_mat[1,]
   model_up <- rwz.reject(Y=data_ts, nlags=nlags, draws=draws, subdraws=subdraws, nkeep=nkeep, KMIN=KMIN,
-                         KMAX=6, constrained=constr_up, constant=constant, steps=steps)
+                         KMAX=KMAX, constrained=constr_up, constant=constant, steps=steps)
   
   set.seed(seed)
   constr_dn <- constr_mat[2,]+ncol(constr_mat)*constr_mat[2,]/abs(constr_mat[2,])
