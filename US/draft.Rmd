@@ -11,7 +11,7 @@ output:
       in_header: "preamble.tex"
       before_body: "before_body.tex"
     number_sections: true
-abstract: "This paper investigates the nonlinear interaction of the monetary transmission mechanism and economic uncertainty in the United States. I employ a Threshold VAR model with two states dependent on the level of uncertainty, and identify regime specific shocks using sign-restrictions. Results suggest that \\textcolor{red}{FILL IN THE BLANK}. Using a number of alternative specifications as robustness checks \\textcolor{red}{FILL IN THIS BLANK TOO}. Implications for policymakers are \\textcolor{red}{BLANK NUMBER THREE TO BE FILLED}."
+abstract: "This paper investigates the nonlinear interaction of the monetary transmission mechanism and economic uncertainty in the United States. I employ a Threshold VAR model with two states dependent on the level of uncertainty, and identify regime specific shocks using sign-restrictions. Results suggest that the short run contraction induced by the policy shock is large on the short term, however dissipates more quickly. Comparatively in low uncertainty times, the contraction is smaller with policymakers having a smoother control over the path the economy takes. The short-run larger impact can be leveraged to reduce inflation in a more cost-effective way, however the uncerlying cause of uncertainty needs to be carefully considered. "
 fontsize: 12pt
 bibliography: "ref.bib"
 csl: "custom-citations.csl"
@@ -64,18 +64,27 @@ irfs <- estout_clean[['irfs']]
 
 This paper serves as a natural followup to @horvathTBAuncertain. The paper establishes how the interest rate channel of the monetary transmission intertwined with economic uncertainty influences economies from across the globe. The results indicate that in times of high uncertainty, interest rate shocks lead to a larger contraction of macroeconomic demand, primarily reflecting in a larger and longer lasting slump in economic activity.
 
-While the main implications are clear, there is still room for further investigation. As a result of using a wide variety of countries for the estimation, some factors - such as a more nuanced investigation into the source of economic uncertainty; checking to what extent the Zero Lower Bound influences the results; whether or not excess financial stress caused by uncertainty is reflected in macroeconomic aggregates; or whether uncertainty is endogenous to policy shocks - was not possible to incorporate. This paper intends to fill this knowledge gap, by changing from a birds-eye view to a more microscopic perspective focusing on implications solely from the United States.
+Works such as @aastveit2017economic and @aquino2022does, however, find opposing results, suggesting that uncertainty reduces transmission efficacy. The former use an interacted SVAR approach, where the regime indicator is interacted only with interest rates in the equations, and take the very far ends of the uncertainty distribution to define high and low uncertainty regimes. The latter criticizes this and argues for the use of a grid-search algorithm[^1] to find the optimal threshold level for the regime switches. Additionally their specification introduces the threshold assumption into the interest rate equation of the SVAR model - implying a state dependent Taylor Rule.
 
-I adopt the same Threshold Vector-Autoregression (TVAR) model as well as sign-restriction approach to identify regime specific shocks. Following the previous paper, the core data behind the estimations are macroeconomic aggregates on a quarterly frequency, consisting of interest rates, inflation and GDP.
+[^1]: Results from this algorithm in the paper suggest the regime switches are at the 57th, 58th and 65th percentile of the historical distribution depending on the index. While it is true, that the correct specification of the threshold value is important for goodness-of-fit, the more ad-hoc definition of high uncertainty at the median and the 70th percentile is kept as in @horvathTBAuncertain for the sake of simplicity and comparability.
 
-However, given the wider range of data available for the US, there is room for a number of alternative specifications, such as using the @wu2016measuring shadow rate to measure implied interest rates at the ZLB, or incorporate the St. Louis Fed Financial Stress Index as a control variable in the model.
+\textit{What might drive the key differences?}
 
-As opposed to using the global versions of uncertainty indices, I switch to the US specific ones. For the main measure of uncertainty, I use the @baker2016measuring Economic Policy Uncertainty (EPU) index. As the EPU for the US has a number of supplementary Categorical indices (e.g.: indices specific to Monetary Policy, Financial Regulation, or Sovereign debt and currency crises) available, I also explore how different sources of uncertainty influence the transmission mechanism.
+Firstly, the use of global versus country-specific uncertainty measures. While the two are not dissimilar concepts, they could carry different implications. As noted in @ilyna2023geo, heightened uncertainty is a channels of geoeconomic fragmentation, which is likely better grasped by the global measures, and thus carry different implications from times of elevated country-specific uncertainty.
 
-The potential endogeneity issue between uncertainty and policy shocks is addressed using simple Granger-causality tests, as well as explicitly incorporating the uncertainty index into the TVAR model as a control variable.
+Secondly, the application of the threshold assumption. @aastveit2017economic and @aquino2022does use partial threshold models, whereas in @horvathTBAuncertain we argue that for correctly measuring the transmission mechanism, it is important to take into account how the entire dynamic system describing the economy changes at the regime switches.
 
-Results from a TVAR model estimated with a full set of controls indicates that 
-\textcolor{red}{WRITE SOMETHING ABOUT THE RESULTS HERE 1-2 PARAGRAPHS.}
+And thirdly, the richness of the datasets used for the estimations. In the global context, more compact, trivariate models were estimated to allow for a wide range of countries to be incorporated. However, relying solely on US data allows for a more rigorous model with additional variables as seen in @aastveit2017economic and @aquino2022does.
+
+This paper intends to fill this knowledge gap, by changing from a birds-eye view to a more microscopic perspective focusing on implications implications the United States. I adopt the same Threshold Vector-Autoregression (TVAR) model as well as sign-restriction approach to identify regime specific shocks. Following the previous paper, the core data behind the estimations are macroeconomic aggregates on a quarterly frequency, consisting of interest rates, inflation and GDP.
+
+However, relying on US data opens up the possibility to extend the variables (e.g. adding financial stress[^2], or checking for the robustness of the results with the @wu2016measuring shadow rate). Additionally, switching from global uncertainty aggregates to the US specific Economic Policy Uncertainty (EPU) index of @baker2016measuring allows for a deeper investigation of how the underlying cause of uncertainty impacts the transmission mechanism, as the authors construct category-specific EPU indices (e.g.: indices specific to Monetary Policy, Financial Regulation, or Sovereign debt and currency crises).
+
+[^2]: As shown by @li2010financial and @fry2016effects, in times of high financial stress, monetary policy can potentially become more effective. As elevated levels of uncertainty are likely associated with higher financial stress, is necessary, as shown later. For this reason, additional to the standard macroeconomic aggregates, the St. Louis Fed Financial Stress Index is considered as a control variable.
+
+Switching from global uncertainty measures to the US-specific EPU might bring up endogeneity concerns, as it is not too far-fetched to assume policy shocks driving the policy aspect of the EPU. This is addressed using simple Granger-causality tests, as well as explicitly incorporating the uncertainty index into the model.
+
+Results from an extended TVAR model estimated with a full set of controls indicates that uncertainty inflates the variance of outcomes, exacerbating the impact of shocks in the short run, however in such times the impact of shocks is far less persistent. This can be leveraged by central banks, as the larger shock affects inflation disproportionately more, and as such, a lower short-run sacrifice ratio can be achieved. The source of uncertainty has to carefully be considered, however, as factors such as debt or trade policy concerns can greatly increase the cost of deterring inflation both on the short run, as well as over longer horizons.
 
 The rest of the paper is outlined as follows: Section 2 gives a brief overview of the related literature, Section 3 describes the data used in this paper, Section 4 discusses the methodology, Section 5 showcases the results and their implications and Section 6 concludes.
 
@@ -97,25 +106,17 @@ Such techniques are used for research on monetary policy as well. @avdjiev2014cr
 
 The state-dependent nature of uncertainty shocks is further established using nonlinear time series techniques. @schuler2014asymmetric and @colombo2020asymmetric both find that uncertainty shocks have a more significant effect during recessions, also showing the vital role of monetary policy measures - especially balance sheet-based tools - in mitigating such shocks. @nalban2021asymmetric also shows that the impact of uncertainty varies with the economic state, amplifying during financial distress but rebounding faster due to monetary policy reactions.
 
-Works such as @aastveit2017economic and @aquino2022does investigate the state-dependency of monetary shocks conditional on economic uncertainty. While the methods differ slightly, their results suggest that economic uncertainty hinders the transmission completely, as the responses of both output and inflation are decreased in high uncertainty times compared to the responses in times of low uncertainty.
-
-@aastveit2017economic uses an interacted SVAR approach, where the uncertainty-based regime indicator is interacted with only the interest rate in the model, all else is kept in a linear form. The regimes are selected based on the very extreme sides of the distribution however, which is criticized by @aquino2022does. The latter introduces the threshold assumption into the interest rate equation of the SVAR model - implying a state dependent Taylor Rule - and additionally classify the high and low regimes using a grid-search algorithm[^1].
-
-[^1]: Results from this algorithm in the paper suggest the regime switches are at the 57th, 58th and 65th percentile of the historical distribution depending on the index. While it is true, that the correct specification of the threshold value is important for goodness-of-fit, the more ad-hoc definition of high uncertainty at the median and the 70th percentile is kept as in @horvathTBAuncertain for the sake of simplicity and comparability.
-
-While theoretical arguments are compelling, taking into account how the equations describing the evolution of inflation and economic activity change across regimes should be paramount in measuring how the transmission changes with the uncertainty regimes. Additionally, arguments can be made for i) high uncertainty inflating the variance of outcomes in periods affected and thus enlarging the impact of all shocks; ii) uncertainty influencing the future expectations of agents; iii) uncertainty can introduce excess financial stress and thus influencing the transmission through this channel; or iv) uncertainty could prove to be endogenous to policy shocks.
-
-Works that might support the results of this paper could be @gbohoui2021uncertainty where an increase in investment multipliers is shown in times of high uncertainty, implying larger and longer lasting effects; or @ying2022role finding that monetary policy uncertainty moderates the transmission of forward guidance shocks on long-term yields, but not the transmission of Federal Funds Rate or asset price shocks, furthermore, the moderation effect is shown to be a consequence of changes in the term-premium and not through the channel of short rates.
+Some additional papers, results shown here are more in line with are @gbohoui2021uncertainty where an increase in investment multipliers is shown in times of high uncertainty, implying larger and longer lasting effects; or @ying2022role finding that monetary policy uncertainty moderates the transmission of forward guidance shocks on long-term yields, but not the transmission of Federal Funds Rate or asset price shocks, furthermore, the moderation effect is shown to be a consequence of changes in the term-premium and not through the channel of short rates.
 
 # Data
 
 ## Macroeconomic aggregates
 
-In order to keep the estimation streamlined, I rely on quarterly macroeconomic aggregates from `r max(min(data2[['uncertainty']][['date']]), min(data2[['macro']][['date']])) %>% quarterly_format()` to `r min(max(data2[['uncertainty']][['date']]), max(data2[['macro']][['date']])) %>% quarterly_format()`[^2] as the core set of data behind the estimations. The three main aggregates are interest rates, quarterly inflation rates - measured as the first difference of the CPI - and quarterly real GDP growth rates - measured as the first difference of the chain volume index calculated from quarterly real GDP.
+In order to keep the estimation streamlined, I rely on quarterly macroeconomic aggregates from `r max(min(data2[['uncertainty']][['date']]), min(data2[['macro']][['date']])) %>% quarterly_format()` to `r min(max(data2[['uncertainty']][['date']]), max(data2[['macro']][['date']])) %>% quarterly_format()`[^3] as the core set of data behind the estimations. The three main aggregates are interest rates, quarterly inflation rates - measured as the first difference of the CPI - and quarterly real GDP growth rates - measured as the first difference of the chain volume index calculated from quarterly real GDP.
 
-[^2]: The range of data does change in some specifications, as the Shadow Rate or the St. Louis Fed Financial Stress Index are only available on a shorter period of time.
+[^3]: The range of data does change in some specifications, as the Shadow Rate or the St. Louis Fed Financial Stress Index are only available on a shorter period of time.
 
-Figure \ref{fig:interest} below shows the three measures of interest rates I consider in different specifications. In the first set of estimations, policy shocks are measured as innovations of the Federal Funds Rate (FFR). In order to add some further nuance to the estimations, two other series are also considered.
+Figure \ref{fig:interest} below shows three measures of interest rates I consider in different specifications. Primarily, however, I rely on the Federal Funds Rate (FFR) as the policy instrument to estimate interest rate innovations.
 
 ```{=latex}
 \begin{figure}[!htbp]
@@ -152,17 +153,13 @@ full_join(
 \caption{Interest rates \label{fig:interest}}
 \end{figure}
 ```
-In an alternative specifications the FFR is replaced with the 1-Year Treasury Yield. While the two show high co-movement, the latter may carry some additional information such as market expectations or yield curve dynamics, that might have an impact on the results.
-
-A further specification is considered where interest rates are measured by the @wu2016measuring shadow rate. While through the majority of the sample, the FFR and its shadow rate are highly correlated, the latter contains information about the implied rate of interest in the time period between 2008 and 2015 or 2020 and 2021 where the interest rates were close to the Zero Lower Bound. Estimating with the shadow rate is important as sign-restriction algorithms could lead to biased outcomes as a result of the ZLB periods.
-
-As shown by @li2010financial and @fry2016effects, in times of high financial stress, monetary policy can potentially become more effective. As elevated levels of uncertainty are likely associated with higher financial stress, it might be necessary to control for it as well. For this reason, additional to the standard macroeconomic aggregates, the St. Louis Fed Financial Stress Index is considered as a control variable.
+In robustness specifications, the 1-Year Treasury Yield and the @wu2016measuring shadow rate are considered as replacements of the FFR in estimating the model. While these three measures show high co-movement, the former - to some extent - may carry some additional information such as market expectations or yield curve dynamics - while the latter shows the implied rate of interest, which significantly differs from headline rates close to the ZLB.
 
 ## Measuring uncertainty
 
-In the models outlined, my primary measure of uncertainty is the @baker2016measuring EPU index. This measure of uncertainty is constructed from textual data retrieved from articles of influential newspapers in the US. Using the articles, automated text queries are conducted in order to find articles containing terms related to "uncertainty" and either "economic" or "policy". [^3]
+In the models outlined, my primary measure of uncertainty is the @baker2016measuring EPU index. This measure of uncertainty is constructed from textual data retrieved from articles of influential newspapers in the US. Using the articles, automated text queries are conducted in order to find articles containing terms related to "uncertainty" and either "economic" or "policy". [^4]
 
-[^3]: The data series of uncertainty measures along with more detailed descriptions of each can be retrieved from [policyuncertainty.com](https://www.policyuncertainty.com/).
+[^4]: The data series of uncertainty measures along with more detailed descriptions of each can be retrieved from [policyuncertainty.com](https://www.policyuncertainty.com/).
 
 Why use measures constructed from textual data? A benefit of using the EPU over more standard measures such as the VIX is that it is more tailored to "economic" or "economic policy" related uncertainty, and thus should be more influential on the impact of policy shocks. Additionally, as opposed to being constructed from financial market data, the news articles might be a more suitable source of information to capture expectations of agents in the economy.
 
@@ -201,9 +198,9 @@ full_join(
 ```
 In @baker2016measuring, along with the main EPU index, several EPU Categorical indices are also constructed. These indices are more specific to a certain topic within "economic" or "economic policy" such as monetary policy, fiscal policy, or sovereign debt crises. In order to pinpoint the source of uncertainty that might be most influential for the transmission of monetary policy shocks, I repeat the estimations with the EPU Categorical indices in place of the main EPU index. The EPU categorical indices can be seen in Figure \ref{fig:epucat} of the Appendix.
 
-It is important to mention that there are a number of alternative[^4] measurements of uncertainty in the literature. These indices are for example the Equity Market-related Economic Uncertainty Index of @baker2016measuring; the Geopolitical Risk Index and the Trade Policy Uncertainty Index of @caldara2022measuring and @caldara2020economic; the World Uncertainty Index of @ahir2022world; as well as the VIX Index and the TED spread. In this paper, only the EPU and its Categorical indices are considered as measures of uncertainty.
+It is important to mention that there are a number of alternative[^5] measurements of uncertainty in the literature. These indices are for example the Equity Market-related Economic Uncertainty Index of @baker2016measuring; the Geopolitical Risk Index and the Trade Policy Uncertainty Index of @caldara2022measuring and @caldara2020economic; the World Uncertainty Index of @ahir2022world; as well as the VIX Index and the TED spread. In this paper, only the EPU and its Categorical indices are considered as measures of uncertainty.
 
-[^4]: These measures can be seen in Figure \ref{fig:unces} of the Appendix.
+[^5]: These measures can be seen in Figure \ref{fig:unces} of the Appendix.
 
 # Methodology
 
@@ -215,9 +212,7 @@ As discussed in the Introduction and Literature sections, TVAR models are suitab
 
 In this main specification, $Y_{t}$ consists of the FFR, quarterly CPI inflation and quarterly GDP growth and $X_{t}$ is the EPU index. To investigate how different sources of economic uncertainty impact the transmission mechanism, the estimation is repeated by replacing plugging in each EPU categorical index into $X_{t}$ in place of the main EPU index. Two different values of $\mu$ are considered, the median value as well as the 70th percentile of $X_{t}$ in each estimation. This allows to check i) how policy shocks affect the economy conditional on the level of economic uncertainty experienced in the same period, ii) to some extent, how much the level of uncertainty matters for the transmission mechanism, and iii) which source of uncertainty is the most influential in altering the transmission channel.
 
-To address some potential issues, a number of robustness checks are conducted. Firstly, I replace the FFR in $Y_ {t}$ with the 1-Year Treasury Yield and the FFR shadow rate. Secondly, I check if the results hold if I change the construction of the regime indicator from $X_{t}$ to $X_{t-1}$, making it pre-determined, and thereby eliminating the potential of estimating the impact of two contemporaneous shocks. Thirdly, I incorporate the uncertainty index in its levels as well as a financial stress indicator in order to void their effects from the aggregates during the estimation[^5].
-
-[^5]: Please refer to the [Alternative model specifications] of the Appendix for further details on how Equation \ref{eq:1} above changes
+To address some potential issues, a number of robustness checks are conducted. Firstly, I replace the FFR in $Y_ {t}$ with the 1-Year Treasury Yield and the FFR shadow rate. Secondly, I check if the results hold if I change the construction of the regime indicator from $X_{t}$ to $X_{t-1}$, making it pre-determined, and thereby eliminating the potential of estimating the impact of two contemporaneous shocks. Thirdly, I incorporate the uncertainty index in its levels as well as a financial stress indicator in order to void their effects from the aggregates during the estimation.
 
 ## Identification
 
@@ -226,8 +221,6 @@ The identification of shocks is done using sign-restrictions, as with a relative
 The algorithms proposed in @uhlig2005effects has some shortcomings that should be addressed. As pointed out by @arias2018inference, using the penalty algorithm has some adverse consequences. Firstly, this algorithm can introduce some unintentional sign restrictions on unrestricted variables, thereby leading to biased results. For the main round of estimations, this is no issue, as I work with a full set of sign restrictions. However more notably, the penalty algorithm accepts a larger number of posterior draws, thus narrowing confidence bands. Opposing to this, the rejection algorithm only accepts posterior draws where the impulse responses that exactly fit the imposed sign-restrictions. Additionally, @rubio2010structural proposed a more efficient rejection algorithm, and thus their improved algorithm is implemented in this paper.
 
 In all cases, the models are estimated using Bayesian methods with a non-informative Wishart prior. The estimations yield a set of impulse response draws, which are aggregated into posterior-median impulse responses along with an 84% confidence interval. All computations are done in the R programming language relying on the work of @Danne2015 for the implementation of the sign-restriction algorithms.
-
-\textcolor{red}{I SHOULD WRITE SOMETHING ABOUT ENDOGENEITY CONCERNS AND HOW THEY ARE ADDRESSED.}
 
 # Results
 
@@ -274,30 +267,31 @@ irfs %>%
 \textit{Notes}: The blue solid line represents the posterior median obtaied with the threshold value $\mu$ set to the median, the red one with it set to the 70th percentile of the EPU. The shaded areas represent the 84\% confidence bands calculated from the posterior impulse response draws.
 \end{figure}
 ```
-There are some noteworthy differences from these results compared to previous literature. As discussed in the Literature section of this paper, @aastveit2017economic and @aquino2022does show that the transmission efficacy is eroded by high economic uncertainty, while @horvathTBAuncertain find a considerably more prolonged period of contraction induced by monetary shocks in high uncertainty.
+Results from this estimate suggest that the contemporaneous drop in output is slightly larger in low uncertainty, with the following quarters showing a similar level of contraction. Alongside this, a prolongued disinflation caused by the monetary shock can be observed in the high uncertainty regime. Comparing the two threshold levels, the changes in the impulse responses are close to negligible aside from the change in contemporaneous effects seen in the low regime.
 
-Results from this estimate suggest that the contemporaneous drop in output is slightly larger in low uncertainty, with the following quarters showing a similar level of contraction. Alongside this, disinflation caused by the monetary shock is significantly enhanced in the high uncertainty regime compared to the low uncertainty one. Comparing the median and the 70th percentile as threshold levels for the regime switches, the responses of inflation in the lower regime and of output in the higher regime are not too dissimilar, however their opposite uncertainty regime counterparts show some key differences.
-
-Firstly, the output contraction in the low regime is elevated when switching to the higher uncertainty threshold. This is in line with the findings of @horvathTBAuncertain, as allocating a larger proportion of observations previously labelled as high uncertainty would support the notion of larger contraction of high uncertainty times. Secondly, we can observe that the response of inflation shifts upwards as we increase the threshold level - albeit retaining a similar shape. This lies closer to the findings of @aastveit2017economic and @aquino2022does as the implication from this suggest that more extreme levels of uncertainty would erode the transmission.
-
-Why might these results differ so drastically from previous works? Firstly, in @horvathTBAuncertain globally aggregated uncertainty measures are used. As noted in @ilyna2023geo, heightened uncertainty is a channels of geoeconomic fragmentation, and uncertainty measured on the global level is likely a better proxy of this, thereby having somewhat different implications. Additionally, @aastveit2017economic and @aquino2022does use a wider range of variables, which can help isolate how uncertainty interacts with the transmission mechanism.
+These results are highly counter-intuitive, as they neither show reduced transmission efficacy, nor a prolonged contraction induced by the interest rate shock in high uncertainty times. The following subsections further investigate factors that might be key in shaping the regime specific responses.
 
 ## Endogeneity
 
-Studying the relationship between policy shocks and (policy) uncertainty naturally raises the question of whether or not the uncertainty index is endogenous to policy innovations. Investigating the potential endogeneity can also guide in selecting the appropriate model specification. Testing for endogeneity is done by running Granger causality tests between the EPU index and the posterior median of the residuals obtained from alternative specifications considered. The results from a select number of these is shown here in Table \ref{tab:grang}^[The Linear model is added as a point of comparison for the TVAR models. It is estimated on the FFR, CPI inflation rate and GDP growth rate without further control variables. Full control TVAR represents models estimated with lagged values of the EPU index and the St. Louis FED Financial Stress Indicator added as controls.].   
- 
+Studying the relationship between policy shocks and (policy) uncertainty naturally raises the question of whether or not the uncertainty index is endogenous to policy innovations. Investigating the potential endogeneity can also guide in selecting the appropriate model specification. Testing for endogeneity is done by running Granger causality tests between the EPU index and the posterior median of the residuals obtained from alternative specifications considered. The results from a select number of these is shown here[^6] in Table \ref{tab:grang}.
+
+[^6]: The Linear model is added as a point of comparison for the TVAR models. It is estimated on the FFR, CPI inflation rate and GDP growth rate without further control variables. Full control TVAR represents models estimated with lagged values of the EPU index and the St. Louis FED Financial Stress Indicator added as controls.
+
 ```{=latex}
 \begin{center}
 `r xtable::xtable(read_rds('data/granger.rds'), type = "latex", digits = 3, align = c("p{0.1cm}", "p{9cm}", "p{2cm}", "p{2cm}"),label = 'tab:grang', caption = 'Granger causality tests with alternative model specifications',
 display = c('g', 'g', 'g', 'g'))`
 \end{center}
 ```
+The results of these tests suggests that in most cases we fail to reject the null, and thus policy shocks do not drive uncertainty, neither the other way around. Interpreting the p-values as the likelihood of $H0$ to be true, there are a handful of conclusions to draw. The likelihood of policy shocks driving uncertainty stay reasonably high irrespective of specification, however, for the reverse causality case, it varies substantially. Firstly, the likelihood of uncertainty being a driver of policy shocks considerably increases when switching from the median to the 70th percentile threshold. This is likely due to the low number of observations in the regime, and thus an increased likelihood of policy action being taken to mitigate the negative impact of uncertainty. Secondly, using the Shadow rate[^7] over the FFR also considerably reduces this likelihood. Given these, the superior specification should be a TVAR with a full set of controls estimated with the threshold level set to the median. The next subsection showcases the impulse responses estimated from this.
 
-The results of these tests suggests that in most cases we fail to reject the null, and thus policy shocks do not drive uncertainty, neither the other way around. Interpreting the p-values as the likelihood of $H0$ to be true, there are a handful of conclusions to draw. The likelihood of policy shocks driving uncertainty stay reasonably high irrespective of specification, however, for the reverse causality case, it varies substantially. Firstly, the likelihood of uncertainty being a driver of policy shocks considerably increases when switching from the median to the 70th percentile threshold. This is likely due to the low number of observations in the regime. Secondly, using the Shadow rate^[Why the Shadow rate might be a more desirable measure is further discussed in the Robustness checks of the Appendix.] over the FFR also considerably reduces this likelihood. Given these, the superior specification should be a TVAR with a full set of controls estimated with the threshold level set to the median. The next subsection showcases the impulse responses estimated from this.   
+[^7]: Why the Shadow rate might be a more desirable measure is further discussed in the Robustness checks of the Appendix.
 
-## An updated specification
+## Extended model
 
-Through conducting a number of robustness^[Discussed in further detail in the Appendix.] and endogeneity tests, we arrive at a model that should grasp best how uncertainty influences the transmission of policy shocks. Figure \ref{fig:updatedirfs} below shows the impulse responses obtained with the new specification after controlling for the level of uncertainty and financial stress.
+Through conducting a number of robustness[^8] and endogeneity tests, we arrive at a model that should grasp best how uncertainty influences the transmission of policy shocks. Figure \ref{fig:updatedirfs} below shows the impulse responses obtained with the new specification after controlling for the level of uncertainty and financial stress.
+
+[^8]: Discussed in further detail in the Appendix.
 
 ```{=latex}
 \begin{figure}[!htbp]
@@ -324,52 +318,51 @@ irfs %>%
 ```
 
 ```{=latex}
-\caption{Regime specific impulse responses, updated specification. \label{fig:updatedirfs}}
+\caption{Regime specific impulse responses, extended model. \label{fig:updatedirfs}}
 \bigskip
 \footnotesize
-\textit{Notes}: In the updated specification, interest rates are measured by the FFR, the threshold value is set to the median of the EPU index, lagged values of the EPU and the St. Louis FED Financial Stress Indicator are added as controls.
+\textit{Notes}: In the extended model, interest rates are measured by the FFR, the threshold value is set to the median of the EPU index, lagged values of the EPU and the St. Louis FED Financial Stress Indicator are added as controls.
 \end{figure}
 ```
-
-These results indicate that some of the findings from both @aastveit2017economic, @aquino2022does and @horvathTBAuncertain can be true at the same time. In high uncertainty times, the impact of the monetary shock is considerably elevated on impact, and the first few quarters after the shock. However, dissipates much more rapidly from the variables, even reverting from disinflation to inflation around 12-16 quarters after the shock. The larger impact around the time of the shock supports the idea, that inflates the variance of expectations, and thereby increasing the impact of shocks.
+Results from the extended model imply that to some extent findings from the previously cited literature on this question all have some truths to them. In high uncertainty times, the impact of the monetary shock is considerably elevated on impact, and the first few quarters after the shock. However, dissipates much more rapidly from the variables, even reverting from disinflation to inflation around 12-16 quarters after the shock. The larger impact around the time of the shock supports the idea, that uncertainty inflates the variance of expectations, and thereby increasing the impact of shocks.
 
 On the other hand, in times of low uncertainty, the impact is comparatively smaller, however the persistence of the impulse responses is greater, leading to the the adjustment of prices and output being slower, staying below 0 over the 20 quarter horizon. This indicates lower variance and more stability in the expectations of agents in the economy.
 
 ## Narrative of uncertainty
 
-In @baker2016measuring, additional to the EPU index, several categorical indices are constructed[^Please refer to Figure \ref{fig:epucat}.]. To investigate how the underlying cause behind uncertainty interacts with the transmission mechanism, I replicate the estimation with each of these categorical indices. For easier comparability, I calculate sacrifice ratios - foregone output as a fraction of deterred inflation - from the 20-quarter accumulated impulse responses.
+In @baker2016measuring, additional to the EPU index, several categorical indices are constructed[^9]. To investigate how the underlying cause behind uncertainty interacts with the transmission mechanism, I replicate the estimation with each of these categorical indices. To compare how much the narrative of uncertainty matters, I calculate sacrifice ratios - foregone output as a fraction of deterred inflation - from accumulated impulse responses over 4, 12 and 20 quarters for both high and low uncertainty regimes. To further aggregate, I calculate the sacrifice ratio of the high uncertainty regime relative to the low uncertainty regime. These can be seen below in Figure \ref{fig:narrative}.
 
-Replicating the simulations with each categorical index could provide insight into how such narratives can impact the transmission mechanism. Notably, uncertainty specifically related to monetary policy should be the most insightful. The sacrifice ratios can be seen in Figure \ref{fig:narrative} below.
-
+[^9]: Please refer to Figure \ref{fig:epucat}.
 
 ```{=latex}
 \begin{figure}[!htbp]
 ```
-```{r narrative, fig.height=10}
+```{r narrative, fig.width=10}
 irfs %>% 
   select(-mult, -restr) %>% 
   filter(label != 'R',
          spec == 'main',
-         index != 'epu',
-         control == 'both') %>% 
+         #index != 'epu',
+         control == 'both',
+         thresh == '0.5') %>% 
   group_by(label, regime, spec, control, thresh, index) %>% 
   mutate(median = purrr::accumulate(.x = median, 
                                     .f = sum,
                                     .dir = 'forward'),
          upper = purrr::accumulate(.x = upper, 
-                                    .f = sum,
-                                    .dir = 'forward'),
+                                   .f = sum,
+                                   .dir = 'forward'),
          lower = purrr::accumulate(.x = lower, 
-                                    .f = sum,
-                                    .dir = 'forward')) %>% 
-  filter(t == max(t)) %>% 
-  select(-t, -upper, -lower) %>% 
+                                   .f = sum,
+                                   .dir = 'forward')) %>% 
+  filter(t  %in% c(4, 12, 20)) %>%
+  mutate(t = case_when(t == 4 ~ '1-year',
+                       t == 12 ~ '3-year',
+                       t == 20 ~ '5-year')) %>% 
+  select(-upper, -lower) %>% 
   spread(label, median) %>% 
   mutate(sac = Y/PI,
          regime = str_remove_all(regime, ' uncertainty'),
-         thresh = case_when(thresh == '0.5' ~ 'Median',
-                            thresh == '0.7' ~ '70th Perc.'),
-         thresh = factor(thresh, levels = c('Median', '70th Perc.')),
          index = case_when(index == 'epu' ~ 'EPU',
                            index == 'epu_debt' ~ 'EPU: Debt, crises',
                            index == 'epu_finreg' ~ 'EPU: Fin. Regulation',
@@ -377,34 +370,38 @@ irfs %>%
                            index == 'epu_mon' ~ 'EPU: Monetary Policy',
                            index == 'epu_reg' ~ 'EPU: Regulation',
                            index == 'epu_trade' ~ 'EPU: Trade Policy')) %>% 
-  ggplot(aes(x = regime, y = sac, fill = regime)) + 
-  geom_col( color = 'black', width = 0.3, position = position_dodge(width = 0.1)) +
-  facet_grid(index~thresh, scales = 'free') +
+  select(-PI, -Y) %>% 
+  spread(regime, sac) %>% 
+  mutate(relsac = High/Low) %>% 
+  ggplot(aes(x = t, y = relsac, fill = t)) +
+  geom_col(color = 'black') +
+  facet_wrap(~index, nrow = 1) +
   theme_minimal()+
   theme(legend.position = 'none') +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
   labs(x = '',
-       y = '') + 
-  scale_fill_manual(breaks = c('High',
-                                'Low'),
-                     values = c('#8B0000',
-                                '#00008B'))
-
-
-
-
+       y = '') +
+  scale_fill_brewer('Set 1', direction = -1)
 ```
 
 ```{=latex}
 \caption{Sacrifice ratios. \label{fig:narrative}}
 \bigskip
 \footnotesize
-\textit{Notes}: The Full control TVAR model is used for estimating the data behind the sacrifice ratios.  
+\textit{Notes}: The ratios are calculated from impulse responses obtained using the extended model.  
 \end{figure}
 ```
+For most measures, the relative sacrifice ratio decreases over time, which is no surprise given the results seen in Figure \ref{fig:updatedirfs}. However, many of these relative sacrifice ratios show values below one, meaning the trade-off between reducing inflation and forgoing growth is smaller in high uncertainty. Calculated over the longer run, this is not necessarily counterintuitive, as responses in the low uncertainty regime stay more persistently below zero, however on the shorter run (1-year) this implies that policy authorities can leverage the higher variance the impact on prices is reflected disproportionately higher on prices than output - however taking into account the underlying cause matters significantly.
 
-\textcolor{red}{CALCULATE OVER DIFFERENT HORIZONS INSTEAD OF THE TWO MU-s YOU DUMMY! SHORT TERM GAINS OVER LONG TERM LOSSES}
+An exception in Figure \ref{fig:narrative} being uncertainty related to sovereign debt and currency crises. Here the high uncertainty sacrifice ratio is larger on the short run and increases over longer horizons. High uncertainty around debt can increase borrowing costs for the government - potentially necessitating austerity measures. An increased demand from governments for debt financing would likely crowd out private investments. A rate hike in such context would add further pressure on government debt schedules and thus enlarge the crowding out effect by either the issuance of new debt or tax increases, carrying over to future periods.
+
+Uncertainty related to trade policy also has a considerable impact on the cost of deterring inflation, albeit this slightly decreases over time. Trade policy uncertainty is directly connected to supply chain disruptions, reflecting in a reduced export demand and higher import costs. Rate hikes can further affect this through the exchange rate channel, as an appreciating exchange rate would further contract exports and mitigate the potential excess import fees.
+
+Uncertainty related to financial regulation also increases the cost of reducing inflation through disrupting financial markets in the short run, however the higher cost dissipates over longer horizons. Counter-intuitively, monetary policy uncertainty does not cause neither short-run, nor long-run excess cost in deterring inflation. However, it is likely an artifact of the high variance of the monetary policy uncertainty categorical index having a high variance over time, making the regime assignment almost random.
 
 # Conclusion
+
+This paper studies the relationship between uncertainty and the monetary transmission mechanism in the US. A TVAR model is estimated over quarterly interest rates, inflation, and growth, also controlling for the level of uncertainty and financial stress. The EPU and its categorical indices are as threshold variables, and regime specific shocks are identified using sign restrictions. In the short run, high uncertainty is found to inflate the variance of expectations, and enlarge the impact of the interest rate shock. In low uncertainty times policymakers are able to contract demand more moderately, however more smoothly and over a more prolonged period. The narrative behind uncertainty has significant implications. While policymakers might be able to leverage the larger short-run impact through lesser sacrifice ratios, uncertainty related to debt, trade, and financial regulations make it more costly to anchor inflation.
 
 # References
 
@@ -544,7 +541,6 @@ In the thrird round of robustness checks, additional variables are considered as
   Y_{t} = \sum\limits_{k=1}^{4}\Theta_{high}I(X_{t} \ge \mu)Y_{t-k} + \sum\limits_{k=1}^{4}\Theta_{low}I(X_{t} < \mu)Y_{t-k} + + \sum\limits_{k=1}^{4}\beta X_{t-k} + \sum\limits_{k=1}^{4}\gamma Z_{t-k} + \epsilon_{t}
 \end{equation}
 ```
-
 where $X_{t-k}$ represents the inclusion of four lags of the uncertainty indicator, and $Z_{t-k}$ represent the inclusion of four lags of the St. Louis Fed Financial Stress Index.
 
 ## Robustness checks
