@@ -281,9 +281,20 @@ Studying the relationship between policy shocks and (policy) uncertainty natural
 \begin{center}
 `r xtable::xtable(read_rds('data/granger.rds'), type = "latex", digits = 3, align = c("p{0.1cm}", "p{9cm}", "p{2cm}", "p{2cm}"),label = 'tab:grang', caption = 'Granger causality tests with alternative model specifications',
 display = c('g', 'g', 'g', 'g'))`
+
+\bgroup
+
+\renewcommand{\baselinestretch}{0.75}\normalsize
+\textit{Notes:} \linebreak
+Test 1: $H_{0}$: Shock does not cause uncertainty \linebreak
+Test 2: $H_{0}$: Uncertainty does not cause shock
+
+\egroup
+
 \end{center}
 ```
-The results of these tests suggests that in most cases we fail to reject the null, and thus policy shocks do not drive uncertainty, neither the other way around. Interpreting the p-values as the likelihood of $H0$ to be true, there are a handful of conclusions to draw. The likelihood of policy shocks driving uncertainty stay reasonably high irrespective of specification, however, for the reverse causality case, it varies substantially. Firstly, the likelihood of uncertainty being a driver of policy shocks considerably increases when switching from the median to the 70th percentile threshold. This is likely due to the low number of observations in the regime, and thus an increased likelihood of policy action being taken to mitigate the negative impact of uncertainty. Secondly, using the Shadow rate[^7] over the FFR also considerably reduces this likelihood. Given these, the superior specification should be a TVAR with a full set of controls estimated with the threshold level set to the median. The next subsection showcases the impulse responses estimated from this.
+
+The results of these tests suggests that in most cases we fail to reject the null, and thus policy shocks do not drive uncertainty, neither the other way around. Interpreting the p-values as the likelihood of $H_{0}$ to be true, there are a handful of conclusions to draw. The likelihood of policy shocks driving uncertainty stay reasonably high irrespective of specification, however, for the reverse causality case, it varies substantially. Firstly, the likelihood of uncertainty being a driver of policy shocks considerably increases when switching from the median to the 70th percentile threshold. This is likely due to the low number of observations in the regime, and thus an increased likelihood of policy action being taken to mitigate the negative impact of uncertainty. Secondly, using the Shadow rate[^7] over the FFR also considerably reduces this likelihood. Given these, the superior specification should be a TVAR with a full set of controls estimated with the threshold level set to the median. The next subsection showcases the impulse responses estimated from this.
 
 [^7]: Why the Shadow rate might be a more desirable measure is further discussed in the Robustness checks of the Appendix.
 
@@ -393,7 +404,7 @@ irfs %>%
 ```
 For most measures, the relative sacrifice ratio decreases over time, which is no surprise given the results seen in Figure \ref{fig:updatedirfs}. However, many of these relative sacrifice ratios show values below one, meaning the trade-off between reducing inflation and forgoing growth is smaller in high uncertainty. Calculated over the longer run, this is not necessarily counterintuitive, as responses in the low uncertainty regime stay more persistently below zero, however on the shorter run (1-year) this implies that policy authorities can leverage the higher variance the impact on prices is reflected disproportionately higher on prices than output - however taking into account the underlying cause matters significantly.
 
-An exception in Figure \ref{fig:narrative} being uncertainty related to sovereign debt and currency crises. Here the high uncertainty sacrifice ratio is larger on the short run and increases over longer horizons. High uncertainty around debt can increase borrowing costs for the government - potentially necessitating austerity measures. An increased demand from governments for debt financing would likely crowd out private investments. A rate hike in such context would add further pressure on government debt schedules and thus enlarge the crowding out effect by either the issuance of new debt or tax increases, carrying over to future periods.
+An exception in Figure \ref{fig:narrative} being uncertainty related to sovereign debt and currency crises. Here the high uncertainty sacrifice ratio is larger on the short run and increases over longer horizons. High uncertainty around debt can increase borrowing costs for the government - potentially necessitating austerity measures. An increased demand from governments for debt financing would likely crowd out private investments. A rate hike in such context would add further pressure on government debt schedules and thus enlarge the crowding out effect by either the issuance of new debt or tax increases, carrying over to future periods.
 
 Uncertainty related to trade policy also has a considerable impact on the cost of deterring inflation, albeit this slightly decreases over time. Trade policy uncertainty is directly connected to supply chain disruptions, reflecting in a reduced export demand and higher import costs. Rate hikes can further affect this through the exchange rate channel, as an appreciating exchange rate would further contract exports and mitigate the potential excess import fees.
 

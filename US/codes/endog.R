@@ -62,7 +62,7 @@ test_shocks <- test_shocks['Pr(>F)'] %>%
   as_tibble() %>% 
   drop_na() %>% 
   rename(p = `Pr(>F)`) %>% 
-  mutate(test = 'H0: Shock does not cause uncertainty')
+  mutate(test = 'Test 1')
 
 #Does uncertainty granger cause the shock
 test_unc <- lmtest::grangertest(unc,
@@ -72,7 +72,7 @@ test_unc<- test_unc['Pr(>F)'] %>%
   as_tibble() %>% 
   drop_na() %>% 
   rename(p = `Pr(>F)`) %>% 
-  mutate(test = 'H0: Uncertainty does not cause shock')
+  mutate(test = 'Test 2')
 
 out <- bind_rows(test_unc, test_shocks)
 
@@ -146,8 +146,8 @@ granger_clean(residuals = residuals %>%
   mutate(model = 'Full control TVAR with shadow rate, 70th perc.')
 ) %>% 
   select(Model = model,
-         `H0: Shock does not cause uncertainty`,
-         `H0: Uncertainty does not cause shock`) %>% 
+         `Test 1`,
+         `Test 2`) %>% 
   mutate(across(-Model, ~round(.x, digits = 3)))
 
 
