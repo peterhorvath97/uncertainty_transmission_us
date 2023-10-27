@@ -11,6 +11,7 @@ require(readxl)
     require(forecast)
     require(seasonal)
     require(tidyverse)
+    require(lubridate)
     tryCatch(
       value %>% 
         ts(frequency = freq,
